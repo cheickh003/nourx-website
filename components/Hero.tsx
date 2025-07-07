@@ -52,7 +52,7 @@ export default function Hero() {
       <div className="container">
         <div className="max-w-5xl mx-auto text-center">
           {/* Main Title with Typewriter Effect */}
-          <h1 className="heading-1 mb-6 animate-fade-in whitespace-nowrap">
+          <h1 className="text-4xl sm:heading-1 mb-6 animate-fade-in font-bold leading-tight">
             <span className="inline-block min-h-[1.2em]">
               {displayText}
               <span className="animate-blink">|</span>
@@ -95,24 +95,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          className="text-nourx-gray-400"
-        >
-          <path
-            d="M12 5V19M12 19L5 12M12 19L19 12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
 
       <style jsx>{`
         @keyframes blink {

@@ -23,11 +23,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { PhoneInput } from '@/components/ui/phone-input'
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react'
 
 const formSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
   email: z.string().email('Email invalide'),
+  phoneNumber: z.string()
+    .min(10, 'Le numéro de téléphone doit contenir au moins 10 chiffres')
+    .regex(/^(2[2-4][0-9]|23[0-8]|24[5])[0-9]+$/, 'Format de numéro invalide'),
   subject: z.string().min(1, 'Veuillez sélectionner un sujet'),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
 })
@@ -41,6 +45,7 @@ export default function ContactPage() {
     defaultValues: {
       name: '',
       email: '',
+      phoneNumber: '',
       subject: '',
       message: '',
     },
@@ -49,16 +54,55 @@ export default function ContactPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     
-    // Simuler l'envoi du formulaire
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    toast({
-      title: 'Message envoyé !',
-      description: 'Nous vous répondrons dans les 24 heures.',
-    })
-    
-    form.reset()
-    setIsSubmitting(false)
+    try {
+      // Send email
+      const emailResponse = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+
+      if (!emailResponse.ok) {
+        throw new Error('Erreur lors de l\'envoi de l\'email')
+      }
+
+      // Send SMS confirmation
+      const smsResponse = await fetch('/api/send-sms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phoneNumber: values.phoneNumber,
+          name: values.name,
+          email: values.email,
+          message: `Bonjour ${values.name},\n\nMerci pour votre message sur nourx.dev. Nous avons bien reçu votre demande concernant "${values.subject}" et nous vous répondrons dans les 24 heures.\n\nCordialement,\nL'équipe Nourx`
+        }),
+      })
+
+      if (!smsResponse.ok) {
+        console.error('Erreur SMS:', await smsResponse.text())
+        // Continue even if SMS fails
+      }
+
+      toast({
+        title: 'Message envoyé avec succès !',
+        description: 'Vous recevrez une confirmation par email et SMS.',
+      })
+      
+      form.reset()
+    } catch (error) {
+      console.error('Erreur:', error)
+      toast({
+        title: 'Erreur',
+        description: 'Une erreur est survenue. Veuillez réessayer.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const contactInfo = [
@@ -141,6 +185,25 @@ export default function ContactPage() {
                             placeholder="jean@entreprise.ci" 
                             {...field}
                             className="bg-white"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Téléphone</FormLabel>
+                        <FormControl>
+                          <PhoneInput 
+                            value={field.value}
+                            onChange={field.onChange}
+                            className="bg-white"
+                            defaultCountryCode="CI"
                           />
                         </FormControl>
                         <FormMessage />

@@ -2,24 +2,88 @@
 
 import { useState } from 'react'
 import { Send, MessageCircle, Phone, ArrowRight, Lock, Zap } from 'lucide-react'
+import { PhoneInput } from '@/components/ui/phone-input'
 
 export default function CallToAction() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phoneNumber: '',
     message: '',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    
+    try {
+      // Send email
+      const emailResponse = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          subject: 'Demande via formulaire rapide',
+        }),
+      })
+
+      if (!emailResponse.ok) {
+        throw new Error('Erreur lors de l\'envoi de l\'email')
+      }
+
+      // Send SMS confirmation if phone number provided
+      if (formData.phoneNumber) {
+        const smsResponse = await fetch('/api/send-sms', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            phoneNumber: formData.phoneNumber,
+            name: formData.name,
+            email: formData.email,
+            message: `Bonjour ${formData.name},\n\nMerci pour votre message sur nourx.dev. Nous avons bien reçu votre demande et nous vous répondrons dans les 24 heures.\n\nCordialement,\nL'équipe Nourx`
+          }),
+        })
+
+        if (!smsResponse.ok) {
+          console.error('Erreur SMS:', await smsResponse.text())
+          // Continue even if SMS fails
+        }
+      }
+
+      setSubmitStatus('success')
+      setFormData({
+        name: '',
+        email: '',
+        phoneNumber: '',
+        message: '',
+      })
+    } catch (error) {
+      console.error('Erreur:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
+    }))
+  }
+
+  const handlePhoneChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      phoneNumber: value
     }))
   }
 
@@ -125,6 +189,19 @@ export default function CallToAction() {
                 </div>
 
                 <div>
+                  <label htmlFor="phoneNumber" className="block text-sm font-medium text-nourx-gray-700 mb-2">
+                    Téléphone
+                  </label>
+                  <PhoneInput
+                    value={formData.phoneNumber}
+                    onChange={handlePhoneChange}
+                    defaultCountryCode="CI"
+                    className="w-full"
+                    required
+                  />
+                </div>
+
+                <div>
                   <label htmlFor="message" className="block text-sm font-medium text-nourx-gray-700 mb-2">
                     Votre projet
                   </label>
@@ -142,11 +219,30 @@ export default function CallToAction() {
 
                 <button
                   type="submit"
-                  className="w-full btn-accent flex items-center justify-center gap-2 group"
+                  disabled={isSubmitting}
+                  className="w-full btn-accent flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Envoyer le message
-                  <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  {isSubmitting ? (
+                    'Envoi en cours...'
+                  ) : (
+                    <>
+                      Envoyer le message
+                      <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </button>
+
+                {submitStatus === 'success' && (
+                  <div className="p-4 bg-green-50 text-green-700 rounded-lg text-sm">
+                    Message envoyé avec succès ! Vous recevrez une confirmation par email et SMS.
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm">
+                    Une erreur est survenue. Veuillez réessayer.
+                  </div>
+                )}
 
                 <p className="text-xs text-center text-nourx-gray-500">
                   En soumettant ce formulaire, vous acceptez notre politique de confidentialité

@@ -14,21 +14,21 @@ export default function Portfolio() {
           </p>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="p-6">
-              <Briefcase className="w-10 h-10 text-nourx-blue mx-auto mb-4" />
-              <h3 className="font-android text-3xl font-bold mb-2">80+</h3>
-              <p className="text-nourx-gray-600">Projets livrés</p>
+          <div className="grid grid-cols-3 gap-4 sm:gap-8 mb-12">
+            <div className="p-2 sm:p-6">
+              <Briefcase className="w-8 sm:w-10 h-8 sm:h-10 text-nourx-blue mx-auto mb-2 sm:mb-4" />
+              <h3 className="font-android text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">80+</h3>
+              <p className="text-xs sm:text-base text-nourx-gray-600">Projets livrés</p>
             </div>
-            <div className="p-6">
-              <Award className="w-10 h-10 text-nourx-blue mx-auto mb-4" />
-              <h3 className="font-android text-3xl font-bold mb-2">6</h3>
-              <p className="text-nourx-gray-600">Secteurs d'activité</p>
+            <div className="p-2 sm:p-6">
+              <Award className="w-8 sm:w-10 h-8 sm:h-10 text-nourx-blue mx-auto mb-2 sm:mb-4" />
+              <h3 className="font-android text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">6</h3>
+              <p className="text-xs sm:text-base text-nourx-gray-600">Secteurs d'activité</p>
             </div>
-            <div className="p-6">
-              <TrendingUp className="w-10 h-10 text-nourx-blue mx-auto mb-4" />
-              <h3 className="font-android text-3xl font-bold mb-2">150%</h3>
-              <p className="text-nourx-gray-600">ROI moyen</p>
+            <div className="p-2 sm:p-6">
+              <TrendingUp className="w-8 sm:w-10 h-8 sm:h-10 text-nourx-blue mx-auto mb-2 sm:mb-4" />
+              <h3 className="font-android text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">150%</h3>
+              <p className="text-xs sm:text-base text-nourx-gray-600">ROI moyen</p>
             </div>
           </div>
 

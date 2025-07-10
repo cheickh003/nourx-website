@@ -1,7 +1,5 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-
 const services = [
   {
     title: 'Conseil & Stratégie digitale',
@@ -96,34 +94,9 @@ const services = [
 ]
 
 export default function Services() {
-  const [visibleItems, setVisibleItems] = useState<number[]>([])
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            services.forEach((_, index) => {
-              setTimeout(() => {
-                setVisibleItems((prev) => [...prev, index])
-              }, index * 100)
-            })
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   return (
-    <section id="services" ref={sectionRef} className="section-padding bg-white">
+    <section id="services" className="section-padding bg-white">
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">Nos Services</h2>
@@ -136,9 +109,7 @@ export default function Services() {
           {services.map((service, index) => (
             <div
               key={service.title}
-              className={`group relative p-4 sm:p-6 bg-white border border-nourx-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${
-                visibleItems.includes(index) ? 'animate-slide-up' : 'opacity-0'
-              }`}
+              className="group relative p-4 sm:p-6 bg-white border border-nourx-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-transparent ${service.color} opacity-0 group-hover:opacity-5 rounded-lg transition-opacity" />
               

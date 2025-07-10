@@ -156,8 +156,8 @@ function generateEmailTemplate(data: {
         <strong>Nourx - Votre partenaire digital de A à Z</strong>
       </p>
       <p style="margin: 10px 0;">
-        Cocody-Riviera Golf, Abidjan, Côte d'Ivoire<br>
-        <a href="tel:+2250708887777" style="color: #666666;">+225 07 08 88 77 77</a> | 
+        Cocody Riviera Golf Cité Riviera Beach, Abidjan, Côte d'Ivoire<br>
+        <a href="tel:+2250720111108" style="color: #666666;">+225 07 20 11 11 08</a> | 
         <a href="mailto:contact@nourx.dev" style="color: #666666;">contact@nourx.dev</a>
       </p>
       
@@ -190,7 +190,7 @@ ${data.message}
 ---
 Nourx - Votre partenaire digital de A à Z
 Cocody-Riviera Golf, Abidjan, Côte d'Ivoire
-+225 07 08 88 77 77 | contact@nourx.dev
++225 07 20 11 11 08 | contact@nourx.dev
   `
 
   return { html: htmlTemplate, text: textTemplate }
@@ -574,7 +574,7 @@ export async function POST(request: NextRequest) {
             </div>
             <div class="contact-details">
               <div class="contact-label">Téléphone</div>
-              <a href="tel:+2250708887777" class="contact-value">+225 07 08 88 77 77</a>
+              <a href="tel:+2250720111108" class="contact-value">+225 07 20 11 11 08</a>
             </div>
           </div>
           
@@ -586,7 +586,7 @@ export async function POST(request: NextRequest) {
             </div>
             <div class="contact-details">
               <div class="contact-label">WhatsApp</div>
-              <a href="https://wa.me/2250708887777" class="contact-value">+225 07 08 88 77 77</a>
+              <a href="https://wa.me/2250720111108" class="contact-value">+225 07 20 11 11 08</a>
             </div>
           </div>
           
@@ -628,7 +628,7 @@ export async function POST(request: NextRequest) {
       </p>
       
       <p class="footer-text">
-        Cocody-Riviera Golf, Abidjan, Côte d'Ivoire
+        Cocody Riviera Golf Cité Riviera Beach, Abidjan, Côte d'Ivoire
       </p>
     </div>
   </div>

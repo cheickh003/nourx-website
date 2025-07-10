@@ -72,10 +72,10 @@ export default function Footer() {
               Votre partenaire pour la transformation digitale de A à Z.
             </p>
             <div className="space-y-1 text-xs sm:text-sm">
-              <p className="font-medium">Cocody-Riviera Golf, Abidjan</p>
+              <p className="font-medium">Cocody Riviera Golf Cité Riviera Beach, Abidjan</p>
               <p>
-                <a href="tel:+2250708887777" className="hover:text-nourx-blue transition-colors">
-                  +225 07 08 88 77 77
+                <a href="tel:+2250720111108" className="hover:text-nourx-blue transition-colors">
+                  +225 07 20 11 11 08
                 </a>
               </p>
               <p>

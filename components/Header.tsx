@@ -16,22 +16,35 @@ const navigation = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
+      const currentScrollY = window.scrollY
+      
+      setIsScrolled(currentScrollY > 10)
+      
+      // Hide header when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+      
+      setLastScrollY(currentScrollY)
     }
+    
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [lastScrollY])
 
   return (
+    <>
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-sm'
-          : 'bg-transparent'
+        'fixed inset-x-0 top-0 z-50 transition-all duration-300 bg-white shadow-sm',
+        isVisible ? 'translate-y-0' : '-translate-y-full'
       )}
     >
       <nav className="container flex items-center justify-between py-4">
@@ -68,7 +81,7 @@ export default function Header() {
         {/* Mobile Menu Button */}
         <button
           type="button"
-          className="md:hidden relative z-50 p-2"
+          className="md:hidden relative z-60 p-2"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <span className="sr-only">Menu</span>
@@ -94,14 +107,27 @@ export default function Header() {
           </div>
         </button>
       </nav>
+    </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Outside of header */}
       <div
         className={cn(
-          'md:hidden fixed inset-0 bg-white z-40 transition-transform duration-300',
+          'md:hidden fixed inset-0 bg-white z-[100] transition-transform duration-300',
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
+        {/* Close button */}
+        <button
+          type="button"
+          className="absolute top-4 right-4 p-2 z-[110]"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div className="w-6 h-6 relative">
+            <span className="block absolute h-0.5 w-full bg-nourx-black rotate-45 top-1/2 -translate-y-1/2" />
+            <span className="block absolute h-0.5 w-full bg-nourx-black -rotate-45 top-1/2 -translate-y-1/2" />
+          </div>
+        </button>
+        
         <div className="flex flex-col items-center justify-center h-full gap-8 p-8">
           {navigation.map((item) => (
             <Link
@@ -122,6 +148,6 @@ export default function Header() {
           </Link>
         </div>
       </div>
-    </header>
+    </>
   )
 }

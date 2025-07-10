@@ -108,17 +108,17 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: 'Adresse',
-      details: ['Cocody, Abidjan', 'Côte d&apos;Ivoire'],
+      details: ['Cocody Riviera Golf', 'Cité Riviera Beach', 'Abidjan, Côte d&apos;Ivoire'],
     },
     {
       icon: Phone,
       title: 'Téléphone',
-      details: ['+225 07 08 88 77 77', '+225 05 06 07 08 09'],
+      details: ['+225 07 20 11 11 08'],
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['contact@nourx.com', 'support@nourx.com'],
+      details: ['contact@nourx.dev'],
     },
     {
       icon: Clock,
@@ -296,14 +296,6 @@ export default function ContactPage() {
                 ))}
               </div>
 
-              {/* Map Placeholder */}
-              <div className="mt-12">
-                <div className="relative h-64 bg-nourx-gray-100 rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-nourx-gray-400">Carte Google Maps</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

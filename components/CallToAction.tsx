@@ -117,7 +117,7 @@ export default function CallToAction() {
               {/* Contact Options */}
               <div className="space-y-4 mb-8">
                 <a
-                  href="https://wa.me/2250708887777"
+                  href="https://wa.me/2250720111108"
                   className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group"
                 >
                   <div className="p-3 bg-green-100 rounded-full text-green-600">
@@ -131,14 +131,14 @@ export default function CallToAction() {
                 </a>
 
                 <a
-                  href="tel:+2250708887777"
+                  href="tel:+2250720111108"
                   className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group"
                 >
                   <div className="p-3 bg-blue-100 rounded-full text-blue-600">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold">+225 07 08 88 77 77</h4>
+                    <h4 className="font-semibold">+225 07 20 11 11 08</h4>
                     <p className="text-sm text-nourx-gray-600">Lun-Ven 8h-18h</p>
                   </div>
                   <ArrowRight className="w-5 h-5 text-nourx-gray-400 group-hover:translate-x-1 transition-transform" />
@@ -262,7 +262,7 @@ export default function CallToAction() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/2250708887777"
+        href="https://wa.me/2250720111108"
         className="fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
         aria-label="Contactez-nous sur WhatsApp"
       >

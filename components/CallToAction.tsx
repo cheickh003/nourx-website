@@ -21,6 +21,11 @@ export default function CallToAction() {
     setSubmitStatus('idle')
     
     try {
+      // Validate phone number has at least 10 digits
+      if (!formData.phoneNumber || formData.phoneNumber.length < 10) {
+        throw new Error('Veuillez entrer un numéro de téléphone valide')
+      }
+
       // Send email
       const emailResponse = await fetch('/api/send-email', {
         method: 'POST',
@@ -34,6 +39,8 @@ export default function CallToAction() {
       })
 
       if (!emailResponse.ok) {
+        const errorData = await emailResponse.text()
+        console.error('Email error response:', errorData)
         throw new Error('Erreur lors de l\'envoi de l\'email')
       }
 

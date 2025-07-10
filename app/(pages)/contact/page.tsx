@@ -30,8 +30,7 @@ const formSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
   email: z.string().email('Email invalide'),
   phoneNumber: z.string()
-    .min(10, 'Le numéro de téléphone doit contenir au moins 10 chiffres')
-    .regex(/^(2[2-4][0-9]|23[0-8]|24[5])[0-9]+$/, 'Format de numéro invalide'),
+    .min(10, 'Le numéro de téléphone doit contenir au moins 10 chiffres'),
   subject: z.string().min(1, 'Veuillez sélectionner un sujet'),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
 })

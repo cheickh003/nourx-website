@@ -47,14 +47,14 @@ export default function Header() {
         isVisible ? 'translate-y-0' : '-translate-y-full'
       )}
     >
-      <nav className="container flex items-center justify-between py-4">
+      <nav className="container flex items-center justify-between py-2">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-nourx.png"
             alt="Nourx"
-            width={100}
-            height={30}
-            className="h-6 w-auto md:h-7"
+            width={80}
+            height={24}
+            className="h-5 w-auto md:h-6"
             priority
           />
         </Link>

@@ -260,14 +260,6 @@ export default function CallToAction() {
         </div>
       </div>
 
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/2250720111108"
-        className="fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
-        aria-label="Contactez-nous sur WhatsApp"
-      >
-        <MessageCircle className="w-6 h-6" />
-      </a>
     </section>
   )
 }

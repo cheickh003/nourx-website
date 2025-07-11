@@ -11,7 +11,7 @@ const stats = [
 
 export default function Hero() {
   const [displayText, setDisplayText] = useState('')
-  const fullText = 'Transformez votre vision en\nréalité digitale avec notre\nexpertise technologique'
+  const fullText = 'Votre transformation digitale commence ici'
   
   useEffect(() => {
     let index = 0
@@ -53,7 +53,7 @@ export default function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Main Title with Typewriter Effect */}
           <h1 className="text-4xl sm:heading-1 mb-6 animate-fade-in font-bold leading-tight">
-            <span className="inline-block min-h-[1.2em] whitespace-pre-line">
+            <span className="inline-block min-h-[1.2em]">
               {displayText}
               <span className="animate-blink">|</span>
             </span>

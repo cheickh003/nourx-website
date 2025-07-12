@@ -137,7 +137,7 @@ export default function RealisationsPage() {
             <SelectTrigger className="w-64">
               <SelectValue placeholder="Filtrer par catégorie" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="!bg-white !opacity-100 border-nourx-gray-200 shadow-lg z-[100]">
               {categories.map((cat) => (
                 <SelectItem key={cat.value} value={cat.value}>
                   {cat.label}

@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { westAfricaCountries, defaultCountry } from '@/lib/west-africa-countries'
 import {
@@ -63,16 +64,28 @@ const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
           <SelectTrigger className="w-[145px] bg-white">
             <SelectValue>
               <div className="flex items-center gap-2">
-                <span className="text-xl">{selectedCountry.flag}</span>
+                <Image 
+                  src={selectedCountry.flag} 
+                  alt={`${selectedCountry.name} flag`}
+                  width={24}
+                  height={16}
+                  className="rounded-sm"
+                />
                 <span className="text-sm font-medium">{selectedCountry.dialCode}</span>
               </div>
             </SelectValue>
           </SelectTrigger>
-          <SelectContent className="max-h-[300px]">
+          <SelectContent className="max-h-[300px] !bg-white !opacity-100 border-nourx-gray-200 shadow-lg z-[100]">
             {westAfricaCountries.map((country) => (
-              <SelectItem key={country.code} value={country.code} className="py-2">
+              <SelectItem key={country.code} value={country.code} className="py-2 hover:bg-nourx-gray-50">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">{country.flag}</span>
+                  <Image 
+                    src={country.flag} 
+                    alt={`${country.name} flag`}
+                    width={24}
+                    height={16}
+                    className="rounded-sm"
+                  />
                   <span className="text-sm font-medium min-w-[45px]">{country.dialCode}</span>
                   <span className="text-sm text-muted-foreground">{country.name}</span>
                 </div>

@@ -1,11 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { Send, MessageCircle, Phone, ArrowRight, Lock, Zap } from 'lucide-react'
+import { Send, MessageCircle, Phone, ArrowRight, Lock, Zap, AlertCircle, CheckCircle, Loader2, User, Mail } from 'lucide-react'
 import { PhoneInput } from '@/components/ui/phone-input'
+import { cn } from '@/lib/utils'
 
 export default function CallToAction() {
   const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    message: '',
+  })
+
+  const [formErrors, setFormErrors] = useState({
     name: '',
     email: '',
     phoneNumber: '',
@@ -163,36 +171,70 @@ export default function CallToAction() {
               <h3 className="heading-3 mb-6">Envoyez-nous un message</h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
+                <div className="relative">
                   <label htmlFor="name" className="block text-sm font-medium text-nourx-gray-700 mb-2">
                     Nom complet
                   </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-nourx-gray-200 rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300"
-                    placeholder="Jean Kouassi"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <User className="h-5 w-5 text-nourx-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className={cn(
+                        "w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300 transform",
+                        formErrors.name ? "border-red-500 shake" : "border-nourx-gray-200",
+                        "hover:shadow-sm focus:shadow-md focus:scale-[1.01]"
+                      )}
+                      placeholder="Jean Kouassi"
+                    />
+                    {formErrors.name && (
+                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <AlertCircle className="h-5 w-5 text-red-500" />
+                      </div>
+                    )}
+                  </div>
+                  {formErrors.name && (
+                    <p className="mt-1 text-sm text-red-600 animate-fade-in">{formErrors.name}</p>
+                  )}
                 </div>
 
-                <div>
+                <div className="relative">
                   <label htmlFor="email" className="block text-sm font-medium text-nourx-gray-700 mb-2">
                     Email professionnel
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-nourx-gray-200 rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300"
-                    placeholder="jean@entreprise.ci"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-nourx-gray-400" />
+                    </div>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className={cn(
+                        "w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300 transform",
+                        formErrors.email ? "border-red-500 shake" : "border-nourx-gray-200",
+                        "hover:shadow-sm focus:shadow-md focus:scale-[1.01]"
+                      )}
+                      placeholder="jean@entreprise.ci"
+                    />
+                    {formErrors.email && (
+                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <AlertCircle className="h-5 w-5 text-red-500" />
+                      </div>
+                    )}
+                  </div>
+                  {formErrors.email && (
+                    <p className="mt-1 text-sm text-red-600 animate-fade-in">{formErrors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -227,27 +269,49 @@ export default function CallToAction() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full btn-accent flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={cn(
+                    "w-full relative py-4 px-6 rounded-lg font-medium text-white transition-all duration-300 transform",
+                    "bg-gradient-to-r from-nourx-blue to-blue-600 hover:from-blue-600 hover:to-nourx-blue",
+                    "hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]",
+                    "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100",
+                    "focus:outline-none focus:ring-2 focus:ring-nourx-blue focus:ring-offset-2"
+                  )}
                 >
-                  {isSubmitting ? (
-                    'Envoi en cours...'
-                  ) : (
-                    <>
-                      Envoyer le message
-                      <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </>
+                  <span className={cn(
+                    "flex items-center justify-center gap-2 transition-all",
+                    isSubmitting && "opacity-0"
+                  )}>
+                    Envoyer le message
+                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  {isSubmitting && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    </div>
                   )}
                 </button>
 
                 {submitStatus === 'success' && (
-                  <div className="p-4 bg-green-50 text-green-700 rounded-lg text-sm">
-                    Message envoyé avec succès ! Vous recevrez une confirmation par email et SMS.
+                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-sm animate-slide-up">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-green-800">Message envoyé avec succès !</p>
+                        <p className="text-green-700 mt-1">Vous recevrez une confirmation par email et SMS.</p>
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {submitStatus === 'error' && (
-                  <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm">
-                    Une erreur est survenue. Veuillez réessayer.
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-sm animate-shake">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-medium text-red-800">Une erreur est survenue</p>
+                        <p className="text-red-700 mt-1">Veuillez vérifier votre connexion et réessayer.</p>
+                      </div>
+                    </div>
                   </div>
                 )}
 

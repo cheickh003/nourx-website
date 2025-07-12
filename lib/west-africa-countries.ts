@@ -3,7 +3,7 @@ export const westAfricaCountries = [
     name: 'Côte d\'Ivoire',
     code: 'CI',
     dialCode: '+225',
-    flag: '🇨🇮',
+    flag: '/flags/ci.svg',
     pattern: '^[0-9]{10}$',
     placeholder: '07 XX XX XX XX'
   },
@@ -11,7 +11,7 @@ export const westAfricaCountries = [
     name: 'Sénégal',
     code: 'SN',
     dialCode: '+221',
-    flag: '🇸🇳',
+    flag: '/flags/sn.svg',
     pattern: '^[0-9]{9}$',
     placeholder: '77 XXX XX XX'
   },
@@ -19,7 +19,7 @@ export const westAfricaCountries = [
     name: 'Mali',
     code: 'ML',
     dialCode: '+223',
-    flag: '🇲🇱',
+    flag: '/flags/ml.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XX XX XX'
   },
@@ -27,7 +27,7 @@ export const westAfricaCountries = [
     name: 'Burkina Faso',
     code: 'BF',
     dialCode: '+226',
-    flag: '🇧🇫',
+    flag: '/flags/bf.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XX XX XX'
   },
@@ -35,7 +35,7 @@ export const westAfricaCountries = [
     name: 'Bénin',
     code: 'BJ',
     dialCode: '+229',
-    flag: '🇧🇯',
+    flag: '/flags/bj.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XX XX XX'
   },
@@ -43,7 +43,7 @@ export const westAfricaCountries = [
     name: 'Togo',
     code: 'TG',
     dialCode: '+228',
-    flag: '🇹🇬',
+    flag: '/flags/tg.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XX XX XX'
   },
@@ -51,7 +51,7 @@ export const westAfricaCountries = [
     name: 'Niger',
     code: 'NE',
     dialCode: '+227',
-    flag: '🇳🇪',
+    flag: '/flags/ne.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XX XX XX'
   },
@@ -59,7 +59,7 @@ export const westAfricaCountries = [
     name: 'Guinée',
     code: 'GN',
     dialCode: '+224',
-    flag: '🇬🇳',
+    flag: '/flags/gn.svg',
     pattern: '^[0-9]{9}$',
     placeholder: 'XXX XX XX XX'
   },
@@ -67,7 +67,7 @@ export const westAfricaCountries = [
     name: 'Ghana',
     code: 'GH',
     dialCode: '+233',
-    flag: '🇬🇭',
+    flag: '/flags/gh.svg',
     pattern: '^[0-9]{9}$',
     placeholder: 'XX XXX XXXX'
   },
@@ -75,7 +75,7 @@ export const westAfricaCountries = [
     name: 'Nigeria',
     code: 'NG',
     dialCode: '+234',
-    flag: '🇳🇬',
+    flag: '/flags/ng.svg',
     pattern: '^[0-9]{10}$',
     placeholder: 'XXX XXX XXXX'
   },
@@ -83,7 +83,7 @@ export const westAfricaCountries = [
     name: 'Liberia',
     code: 'LR',
     dialCode: '+231',
-    flag: '🇱🇷',
+    flag: '/flags/lr.svg',
     pattern: '^[0-9]{7,9}$',
     placeholder: 'XX XXX XXXX'
   },
@@ -91,7 +91,7 @@ export const westAfricaCountries = [
     name: 'Sierra Leone',
     code: 'SL',
     dialCode: '+232',
-    flag: '🇸🇱',
+    flag: '/flags/sl.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XXXXXX'
   },
@@ -99,7 +99,7 @@ export const westAfricaCountries = [
     name: 'Gambie',
     code: 'GM',
     dialCode: '+220',
-    flag: '🇬🇲',
+    flag: '/flags/gm.svg',
     pattern: '^[0-9]{7}$',
     placeholder: 'XXX XXXX'
   },
@@ -107,7 +107,7 @@ export const westAfricaCountries = [
     name: 'Mauritanie',
     code: 'MR',
     dialCode: '+222',
-    flag: '🇲🇷',
+    flag: '/flags/mr.svg',
     pattern: '^[0-9]{8}$',
     placeholder: 'XX XX XX XX'
   },
@@ -115,7 +115,7 @@ export const westAfricaCountries = [
     name: 'Cap-Vert',
     code: 'CV',
     dialCode: '+238',
-    flag: '🇨🇻',
+    flag: '/flags/cv.svg',
     pattern: '^[0-9]{7}$',
     placeholder: 'XXX XX XX'
   },
@@ -123,7 +123,7 @@ export const westAfricaCountries = [
     name: 'Guinée-Bissau',
     code: 'GW',
     dialCode: '+245',
-    flag: '🇬🇼',
+    flag: '/flags/gw.svg',
     pattern: '^[0-9]{7}$',
     placeholder: 'XXX XXXX'
   }

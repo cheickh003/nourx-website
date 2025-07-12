@@ -52,7 +52,7 @@ export default function Hero() {
       <div className="container">
         <div className="max-w-5xl mx-auto text-center">
           {/* Main Title with Typewriter Effect */}
-          <h1 className="text-4xl sm:heading-1 mb-6 animate-fade-in font-bold leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:heading-1 mb-4 sm:mb-6 animate-fade-in font-bold leading-tight">
             <span className="inline-block min-h-[1.2em]">
               {displayText}
               <span className="animate-blink">|</span>
@@ -60,7 +60,7 @@ export default function Hero() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-body text-xl md:text-2xl mb-10 animate-slide-up opacity-0 animation-delay-500">
+          <p className="text-body text-lg sm:text-xl md:text-2xl mb-6 sm:mb-10 animate-slide-up opacity-0 animation-delay-500">
             Du conseil stratégique à l&apos;exploitation 24/7
           </p>
 

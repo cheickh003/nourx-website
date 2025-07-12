@@ -222,11 +222,16 @@ export default function ContactPage() {
                               <SelectValue placeholder="Sélectionnez un sujet" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
-                            <SelectItem value="new-project">Nouveau projet</SelectItem>
-                            <SelectItem value="support">Support technique</SelectItem>
-                            <SelectItem value="partnership">Partenariat</SelectItem>
-                            <SelectItem value="other">Autre</SelectItem>
+                          <SelectContent className="!bg-white !opacity-100 border-nourx-gray-200 shadow-lg z-[100]">
+                            <SelectItem value="new-project">Développement d'application web/mobile</SelectItem>
+                            <SelectItem value="digital-transformation">Transformation digitale</SelectItem>
+                            <SelectItem value="ai-integration">Intégration IA & Automatisation</SelectItem>
+                            <SelectItem value="erp-crm">Implémentation ERP/CRM</SelectItem>
+                            <SelectItem value="support">Support & Maintenance</SelectItem>
+                            <SelectItem value="consulting">Conseil & Audit</SelectItem>
+                            <SelectItem value="training">Formation équipes</SelectItem>
+                            <SelectItem value="partnership">Partenariat stratégique</SelectItem>
+                            <SelectItem value="other">Autre demande</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

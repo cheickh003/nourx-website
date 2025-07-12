@@ -96,11 +96,11 @@ const services = [
 export default function Services() {
 
   return (
-    <section id="services" className="section-padding bg-white">
-      <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">Nos Services</h2>
-          <p className="text-body max-w-2xl mx-auto">
+    <section id="services" className="py-12 sm:py-16 md:py-20 px-4 bg-white">
+      <div className="container max-w-7xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:heading-2 mb-3 sm:mb-4">Nos Services</h2>
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
             Une expertise complète pour accompagner votre transformation digitale de A à Z
           </p>
         </div>

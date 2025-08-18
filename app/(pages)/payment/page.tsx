@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
@@ -28,51 +28,19 @@ import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   amount: z.coerce.number().min(1, { message: "Le montant doit être d'au moins 1" }),
-  paymentChannel: z.enum(["ALL", "MOBILE_MONEY"]),
-  customer_name: z.string().optional(),
-  customer_surname: z.string().optional(),
-  customer_email: z.string().email({ message: "Adresse email invalide" }).optional(),
-  customer_phone_number: z.string().optional(),
-  customer_address: z.string().optional(),
-  customer_city: z.string().optional(),
-  customer_country: z.string().optional(),
-  customer_state: z.string().optional(),
-  customer_zip_code: z.string().optional(),
-}).superRefine((data, ctx) => {
-    if (data.paymentChannel === 'ALL') {
-        if (!data.customer_name) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le nom du client est requis", path: ["customer_name"] });
-        }
-        if (!data.customer_surname) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le prénom du client est requis", path: ["customer_surname"] });
-        }
-        if (!data.customer_email) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "L'email du client est requis", path: ["customer_email"] });
-        }
-        if (!data.customer_phone_number) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le numéro de téléphone du client est requis", path: ["customer_phone_number"] });
-        }
-        if (!data.customer_address) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "L'adresse du client est requise", path: ["customer_address"] });
-        }
-        if (!data.customer_city) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "La ville du client est requise", path: ["customer_city"] });
-        }
-        if (!data.customer_country) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le pays du client est requis", path: ["customer_country"] });
-        }
-        if (!data.customer_state) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "L'État/Région du client est requis", path: ["customer_state"] });
-        }
-        if (!data.customer_zip_code) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le code postal du client est requis", path: ["customer_zip_code"] });
-        }
-    }
+  customer_name: z.string().min(1, { message: "Le nom du client est requis" }),
+  customer_surname: z.string().min(1, { message: "Le prénom du client est requis" }),
+  customer_email: z.string().email({ message: "Adresse email invalide" }),
+  customer_phone_number: z.string().min(1, { message: "Le numéro de téléphone du client est requis" }),
+  customer_address: z.string().min(1, { message: "L'adresse du client est requise" }),
+  customer_city: z.string().min(1, { message: "La ville du client est requise" }),
+  customer_country: z.string().min(1, { message: "Le pays du client est requis" }),
+  customer_state: z.string().min(1, { message: "L'État/Région du client est requis" }),
+  customer_zip_code: z.string().min(1, { message: "Le code postal du client est requis" }),
 });
 
 
 const PaymentPage = () => {
-  const [paymentChannel, setPaymentChannel] = useState("ALL");
   const router = useRouter();
   const { toast } = useToast();
 
@@ -80,7 +48,6 @@ const PaymentPage = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       amount: 100,
-      paymentChannel: "ALL",
       customer_name: "",
       customer_surname: "",
       customer_email: "",
@@ -107,19 +74,17 @@ const PaymentPage = () => {
       transaction_id,
       amount: values.amount,
       currency: 'XOF',
-      channels: values.paymentChannel === 'MOBILE_MONEY' ? 'MOBILE_MONEY' : 'ALL',
+      channels: 'ALL',
       description: 'Paiement de facture',
-      ... (values.paymentChannel === 'ALL' ? {
-        customer_name: values.customer_name,
-        customer_surname: values.customer_surname,
-        customer_email: values.customer_email,
-        customer_phone_number: values.customer_phone_number,
-        customer_address: values.customer_address,
-        customer_city: values.customer_city,
-        customer_country: values.customer_country,
-        customer_state: values.customer_state,
-        customer_zip_code: values.customer_zip_code,
-      } : {})
+      customer_name: values.customer_name,
+      customer_surname: values.customer_surname,
+      customer_email: values.customer_email,
+      customer_phone_number: values.customer_phone_number,
+      customer_address: values.customer_address,
+      customer_city: values.customer_city,
+      customer_country: values.customer_country,
+      customer_state: values.customer_state,
+      customer_zip_code: values.customer_zip_code,
     };
 
     window.CinetPay.getCheckout(paymentData);
@@ -170,34 +135,9 @@ const PaymentPage = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="paymentChannel"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Moyen de paiement</FormLabel>
-                <Select onValueChange={(value: "ALL" | "MOBILE_MONEY") => {
-                    field.onChange(value);
-                    setPaymentChannel(value);
-                }} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Sélectionnez un moyen de paiement" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="ALL">Tous les moyens de paiement</SelectItem>
-                    <SelectItem value="MOBILE_MONEY">Mobile Money uniquement</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
-          {paymentChannel === "ALL" && (
             <div className="space-y-8 border-t pt-8">
-                <h2 className="text-xl font-bold">Informations client (pour les paiements par carte)</h2>
+                <h2 className="text-xl font-bold">Informations client</h2>
               <FormField
                 control={form.control}
                 name="customer_name"
@@ -325,7 +265,6 @@ const PaymentPage = () => {
                 )}
               />
             </div>
-          )}
 
           <Button type="submit">Payer</Button>
         </form>

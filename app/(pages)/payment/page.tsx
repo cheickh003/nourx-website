@@ -76,6 +76,7 @@ const PaymentPage = () => {
       currency: 'XOF',
       channels: 'ALL',
       description: 'Paiement de facture',
+      return_url: `${window.location.origin}/payment/success`,
       customer_name: values.customer_name,
       customer_surname: values.customer_surname,
       customer_email: values.customer_email,
@@ -109,6 +110,13 @@ const PaymentPage = () => {
             title: "Une erreur est survenue",
             description: "Une erreur est survenue pendant le processus de paiement. Veuillez réessayer.",
             variant: "destructive",
+        })
+      });
+
+      window.CinetPay.onClose(function() {
+        toast({
+            title: "Fenêtre de paiement fermée",
+            description: "Vous avez fermé la fenêtre de paiement. Si vous avez terminé le paiement, nous le traiterons sous peu.",
         })
       });
     }

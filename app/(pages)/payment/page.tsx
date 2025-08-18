@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
-import { countries } from "@/lib/west-africa-countries";
+import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";

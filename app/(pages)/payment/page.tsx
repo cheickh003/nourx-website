@@ -281,7 +281,7 @@ const PaymentPage = () => {
                 name="customer_country"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Country</_FormLabel>
+                    <FormLabel>Customer Country</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                             <SelectTrigger>

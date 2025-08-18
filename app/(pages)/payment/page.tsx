@@ -27,11 +27,11 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
-  amount: z.coerce.number().min(1, { message: "Amount must be at least 1" }),
+  amount: z.coerce.number().min(1, { message: "Le montant doit être d'au moins 1" }),
   paymentChannel: z.enum(["ALL", "MOBILE_MONEY"]),
   customer_name: z.string().optional(),
   customer_surname: z.string().optional(),
-  customer_email: z.string().email({ message: "Invalid email address" }).optional(),
+  customer_email: z.string().email({ message: "Adresse email invalide" }).optional(),
   customer_phone_number: z.string().optional(),
   customer_address: z.string().optional(),
   customer_city: z.string().optional(),
@@ -41,31 +41,31 @@ const formSchema = z.object({
 }).superRefine((data, ctx) => {
     if (data.paymentChannel === 'ALL') {
         if (!data.customer_name) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer name is required", path: ["customer_name"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le nom du client est requis", path: ["customer_name"] });
         }
         if (!data.customer_surname) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer surname is required", path: ["customer_surname"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le prénom du client est requis", path: ["customer_surname"] });
         }
         if (!data.customer_email) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer email is required", path: ["customer_email"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "L'email du client est requis", path: ["customer_email"] });
         }
         if (!data.customer_phone_number) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer phone number is required", path: ["customer_phone_number"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le numéro de téléphone du client est requis", path: ["customer_phone_number"] });
         }
         if (!data.customer_address) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer address is required", path: ["customer_address"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "L'adresse du client est requise", path: ["customer_address"] });
         }
         if (!data.customer_city) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer city is required", path: ["customer_city"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "La ville du client est requise", path: ["customer_city"] });
         }
         if (!data.customer_country) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer country is required", path: ["customer_country"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le pays du client est requis", path: ["customer_country"] });
         }
         if (!data.customer_state) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer state is required", path: ["customer_state"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "L'État/Région du client est requis", path: ["customer_state"] });
         }
         if (!data.customer_zip_code) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Customer zip code is required", path: ["customer_zip_code"] });
+            ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Le code postal du client est requis", path: ["customer_zip_code"] });
         }
     }
 });
@@ -108,7 +108,7 @@ const PaymentPage = () => {
       amount: values.amount,
       currency: 'XOF',
       channels: values.paymentChannel === 'MOBILE_MONEY' ? 'MOBILE_MONEY' : 'ALL',
-      description: 'Paiement de test',
+      description: 'Paiement de facture',
       ... (values.paymentChannel === 'ALL' ? {
         customer_name: values.customer_name,
         customer_surname: values.customer_surname,
@@ -130,8 +130,8 @@ const PaymentPage = () => {
       window.CinetPay.waitResponse(function(data: any) {
         if (data.status == "REFUSED") {
           toast({
-            title: "Payment Failed",
-            description: "Your payment has failed. Please try again.",
+            title: "Paiement échoué",
+            description: "Votre paiement a échoué. Veuillez réessayer.",
             variant: "destructive",
           })
         } else if (data.status == "ACCEPTED") {
@@ -141,8 +141,8 @@ const PaymentPage = () => {
       window.CinetPay.onError(function(err: any) {
         console.error(err);
         toast({
-            title: "An error occurred",
-            description: "An error occurred during the payment process. Please try again.",
+            title: "Une erreur est survenue",
+            description: "Une erreur est survenue pendant le processus de paiement. Veuillez réessayer.",
             variant: "destructive",
         })
       });
@@ -153,8 +153,8 @@ const PaymentPage = () => {
   return (
     <>
     <Script src="https://cdn.cinetpay.com/seamless/main.js" />
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-5">CinetPay Payment</h1>
+    <div className="container mx-auto pt-24 sm:pt-32 pb-16">
+      <h1 className="text-3xl font-bold mb-5">Paiement facture</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-lg">
           <FormField
@@ -162,9 +162,9 @@ const PaymentPage = () => {
             name="amount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Amount</FormLabel>
+                <FormLabel>Montant</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Enter amount" {...field} />
+                  <Input type="number" placeholder="Entrez le montant" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,19 +175,19 @@ const PaymentPage = () => {
             name="paymentChannel"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Payment Method</FormLabel>
+                <FormLabel>Moyen de paiement</FormLabel>
                 <Select onValueChange={(value: "ALL" | "MOBILE_MONEY") => {
                     field.onChange(value);
                     setPaymentChannel(value);
                 }} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a payment method" />
+                      <SelectValue placeholder="Sélectionnez un moyen de paiement" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="ALL">All payment methods</SelectItem>
-                    <SelectItem value="MOBILE_MONEY">Mobile Money Only</SelectItem>
+                    <SelectItem value="ALL">Tous les moyens de paiement</SelectItem>
+                    <SelectItem value="MOBILE_MONEY">Mobile Money uniquement</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -197,13 +197,13 @@ const PaymentPage = () => {
 
           {paymentChannel === "ALL" && (
             <div className="space-y-8 border-t pt-8">
-                <h2 className="text-xl font-bold">Customer Information (for card payments)</h2>
+                <h2 className="text-xl font-bold">Informations client (pour les paiements par carte)</h2>
               <FormField
                 control={form.control}
                 name="customer_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Name</FormLabel>
+                    <FormLabel>Nom du client</FormLabel>
                     <FormControl>
                       <Input placeholder="John" {...field} />
                     </FormControl>
@@ -216,7 +216,7 @@ const PaymentPage = () => {
                 name="customer_surname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Surname</FormLabel>
+                    <FormLabel>Prénom du client</FormLabel>
                     <FormControl>
                       <Input placeholder="Doe" {...field} />
                     </FormControl>
@@ -229,7 +229,7 @@ const PaymentPage = () => {
                 name="customer_email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Email</FormLabel>
+                    <FormLabel>Email du client</FormLabel>
                     <FormControl>
                       <Input type="email" placeholder="john.doe@example.com" {...field} />
                     </FormControl>
@@ -242,9 +242,9 @@ const PaymentPage = () => {
                 name="customer_phone_number"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Phone Number</FormLabel>
+                    <FormLabel>Numéro de téléphone du client</FormLabel>
                     <FormControl>
-                      <Input placeholder="123456789" {...field} />
+                      <Input placeholder="07xxxxxxxx" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -255,9 +255,9 @@ const PaymentPage = () => {
                 name="customer_address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Address</FormLabel>
+                    <FormLabel>Adresse du client</FormLabel>
                     <FormControl>
-                      <Input placeholder="123 Main St" {...field} />
+                      <Input placeholder="123 Rue Principale" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -268,9 +268,9 @@ const PaymentPage = () => {
                 name="customer_city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer City</FormLabel>
+                    <FormLabel>Ville du client</FormLabel>
                     <FormControl>
-                      <Input placeholder="Anytown" {...field} />
+                      <Input placeholder="Abidjan" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -281,11 +281,11 @@ const PaymentPage = () => {
                 name="customer_country"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Country</FormLabel>
+                    <FormLabel>Pays du client</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select a country" />
+                                <SelectValue placeholder="Sélectionnez un pays" />
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -303,9 +303,9 @@ const PaymentPage = () => {
                 name="customer_state"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer State</FormLabel>
+                    <FormLabel>État/Région du client</FormLabel>
                     <FormControl>
-                      <Input placeholder="State" {...field} />
+                      <Input placeholder="Région des Lagunes" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -316,9 +316,9 @@ const PaymentPage = () => {
                 name="customer_zip_code"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer Zip Code</FormLabel>
+                    <FormLabel>Code postal du client</FormLabel>
                     <FormControl>
-                      <Input placeholder="12345" {...field} />
+                      <Input placeholder="00225" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -327,7 +327,7 @@ const PaymentPage = () => {
             </div>
           )}
 
-          <Button type="submit">Pay</Button>
+          <Button type="submit">Payer</Button>
         </form>
       </Form>
     </div>

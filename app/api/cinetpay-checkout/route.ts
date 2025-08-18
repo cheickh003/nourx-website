@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     const data = await response.json();
 
-    if (data.code === '00' && data.data && data.data.payment_url) {
+    if (data.code === '201' && data.data && data.data.payment_url) {
         return NextResponse.json({ payment_url: data.data.payment_url });
     } else {
         console.error('CinetPay API Error:', data);

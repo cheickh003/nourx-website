@@ -1,29 +1,37 @@
 import { NextResponse } from 'next/server';
-const CinetPay = require('cinetpay-nodejs');
 
 export async function POST(req: Request) {
   try {
     const body = await req.formData();
     const transactionId = body.get('cpm_trans_id') as string;
-    const siteId = body.get('cpm_site_id') as string;
 
     if (!transactionId) {
       return NextResponse.json({ status: 'error', message: 'Transaction ID not provided' }, { status: 400 });
     }
 
-    const cp = new CinetPay(process.env.CINETPAY_APIKEY!, process.env.CINETPAY_SITE_ID!, '');
+    const response = await fetch('https://api-checkout.cinetpay.com/v2/payment/check', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            apikey: process.env.CINETPAY_APIKEY!,
+            site_id: process.env.CINETPAY_SITE_ID!,
+            transaction_id: transactionId
+        })
+    });
 
-    const response = await cp.checkPayStatus(transactionId);
+    const data = await response.json();
 
-    console.log('CinetPay checkPayStatus response:', response);
+    console.log('CinetPay checkPayStatus response:', data);
 
-    if (response.code === '00') {
+    if (data.code === '00') {
       // Payment is successful
       // Here you can update your database, deliver the product, etc.
       console.log('Payment successful for transaction:', transactionId);
     } else {
       // Payment failed or is pending
-      console.log('Payment not successful for transaction:', transactionId, 'Status:', response.message);
+      console.log('Payment not successful for transaction:', transactionId, 'Status:', data.message);
     }
 
     return NextResponse.json({ status: 'success' });

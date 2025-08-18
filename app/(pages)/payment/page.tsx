@@ -20,11 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect } from "react";
 import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
-import Script from "next/script";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const formSchema = z.object({
   amount: z.coerce.number().min(1, { message: "Le montant doit être d'au moins 1" }),
@@ -41,8 +39,8 @@ const formSchema = z.object({
 
 
 const PaymentPage = () => {
-  const router = useRouter();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,72 +58,61 @@ const PaymentPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const transaction_id = Math.floor(Math.random() * 100000000).toString();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    try {
+      const transaction_id = Math.floor(Math.random() * 100000000).toString();
 
-    window.CinetPay.setConfig({
-      apikey: process.env.NEXT_PUBLIC_CINETPAY_APIKEY!,
-      site_id: process.env.NEXT_PUBLIC_CINETPAY_SITE_ID!,
-      mode: 'PRODUCTION',
-      notify_url: `${window.location.origin}/api/cinetpay-notification`
-    });
+      const paymentData = {
+        transaction_id,
+        amount: values.amount,
+        currency: 'XOF',
+        channels: 'ALL',
+        description: 'Paiement de facture',
+        return_url: `${window.location.origin}/payment/success?transaction_id=${transaction_id}`,
+        notify_url: `${window.location.origin}/api/cinetpay-notification`,
+        customer_name: values.customer_name,
+        customer_surname: values.customer_surname,
+        customer_email: values.customer_email,
+        customer_phone_number: values.customer_phone_number,
+        customer_address: values.customer_address,
+        customer_city: values.customer_city,
+        customer_country: values.customer_country,
+        customer_state: values.customer_state,
+        customer_zip_code: values.customer_zip_code,
+      };
 
-    const paymentData = {
-      transaction_id,
-      amount: values.amount,
-      currency: 'XOF',
-      channels: 'ALL',
-      description: 'Paiement de facture',
-      return_url: `${window.location.origin}/payment/success`,
-      customer_name: values.customer_name,
-      customer_surname: values.customer_surname,
-      customer_email: values.customer_email,
-      customer_phone_number: values.customer_phone_number,
-      customer_address: values.customer_address,
-      customer_city: values.customer_city,
-      customer_country: values.customer_country,
-      customer_state: values.customer_state,
-      customer_zip_code: values.customer_zip_code,
-    };
+      const response = await fetch('/api/cinetpay-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
+      });
 
-    window.CinetPay.getCheckout(paymentData);
+      const data = await response.json();
+
+      if (response.ok && data.payment_url) {
+        window.location.href = data.payment_url;
+      } else {
+        toast({
+          title: "Erreur de paiement",
+          description: data.details || "Impossible de générer le lien de paiement. Veuillez réessayer.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Erreur inattendue",
+        description: "Une erreur inattendue est survenue. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'CinetPay' in window) {
-      window.CinetPay.waitResponse(function(data: any) {
-        if (data.status == "REFUSED") {
-          toast({
-            title: "Paiement échoué",
-            description: "Votre paiement a échoué. Veuillez réessayer.",
-            variant: "destructive",
-          })
-        } else if (data.status == "ACCEPTED") {
-            router.push('/payment/success');
-        }
-      });
-      window.CinetPay.onError(function(err: any) {
-        console.error(err);
-        toast({
-            title: "Une erreur est survenue",
-            description: "Une erreur est survenue pendant le processus de paiement. Veuillez réessayer.",
-            variant: "destructive",
-        })
-      });
-
-      window.CinetPay.onClose(function() {
-        toast({
-            title: "Fenêtre de paiement fermée",
-            description: "Vous avez fermé la fenêtre de paiement. Si vous avez terminé le paiement, nous le traiterons sous peu.",
-        })
-      });
-    }
-  }, [router, toast]);
-
-
   return (
-    <>
-    <Script src="https://cdn.cinetpay.com/seamless/main.js" />
     <div className="container mx-auto pt-24 sm:pt-32 pb-16">
       <h1 className="text-3xl font-bold mb-5">Paiement facture</h1>
       <Form {...form}>
@@ -274,11 +261,12 @@ const PaymentPage = () => {
               />
             </div>
 
-          <Button type="submit">Payer</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Chargement...' : 'Payer'}
+          </Button>
         </form>
       </Form>
     </div>
-    </>
   );
 };
 

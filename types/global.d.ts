@@ -26,6 +26,7 @@ interface CinetPay {
         [key: string]: any;
     }) => void): void;
     onError(callback: (error: any) => void): void;
+    onClose(callback: () => void): void;
 }
 
 interface Window {

@@ -22,7 +22,8 @@ import {
 } from "@/components/ui/select";
 import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   amount: z.coerce.number().min(1, { message: "Le montant doit être d'au moins 1" }),
@@ -38,14 +39,16 @@ const formSchema = z.object({
 });
 
 
-const PaymentPage = () => {
+function PaymentPageContent() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const amountParam = searchParams.get("amount");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: 100,
+      amount: amountParam ? Number(amountParam) : 100,
       customer_name: "",
       customer_surname: "",
       customer_email: "",
@@ -124,7 +127,12 @@ const PaymentPage = () => {
               <FormItem>
                 <FormLabel>Montant</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Entrez le montant" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="Entrez le montant"
+                    readOnly={!!amountParam}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -270,4 +278,10 @@ const PaymentPage = () => {
   );
 };
 
-export default PaymentPage;
+export default function PaymentPage() {
+  return (
+    <Suspense>
+      <PaymentPageContent />
+    </Suspense>
+  );
+}

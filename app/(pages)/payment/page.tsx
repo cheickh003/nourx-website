@@ -23,6 +23,7 @@ import {
 import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { CreditCard, User, MapPin, Loader2, Shield, CheckCircle } from "lucide-react";
 
 const formSchema = z.object({
   amount: z.coerce.number().min(1, { message: "Le montant doit être d'au moins 1" }),
@@ -113,159 +114,317 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="container mx-auto pt-24 sm:pt-32 pb-16">
-      <h1 className="text-3xl font-bold mb-5">Paiement facture</h1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-lg">
-          <FormField
-            control={form.control}
-            name="amount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Montant</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="Entrez le montant" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div className="min-h-screen bg-gradient-to-br from-nourx-gray-50 to-white pt-24 sm:pt-32 pb-16 px-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex p-3 bg-nourx-blue/10 rounded-full mb-6">
+            <CreditCard className="w-8 h-8 text-nourx-blue" />
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">
+            Paiement sécurisé
+          </h1>
+          <p className="text-nourx-gray-600 text-lg">
+            Effectuez votre paiement en toute sécurité
+          </p>
+        </div>
 
-            <div className="space-y-8 border-t pt-8">
-                <h2 className="text-xl font-bold">Informations client</h2>
-              <FormField
-                control={form.control}
-                name="customer_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nom du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_surname"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Prénom du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email du client</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="john.doe@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_phone_number"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Numéro de téléphone du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="07xxxxxxxx" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Adresse du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="123 Rue Principale" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ville du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Abidjan" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Pays du client</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Sélectionnez un pays" />
-                            </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                            {countries.map(country => (
-                                <SelectItem key={country.code} value={country.code}>{country.name}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>État/Région du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Région des Lagunes" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_zip_code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Code postal du client</FormLabel>
-                    <FormControl>
-                      <Input placeholder="00225" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        {/* Main Form Card */}
+        <div className="bg-white rounded-2xl shadow-lg border border-nourx-gray-200 overflow-hidden">
+          {/* Security Banner */}
+          <div className="bg-green-50 border-b border-green-100 px-6 py-4">
+            <div className="flex items-center gap-2 text-green-700">
+              <Shield className="w-4 h-4" />
+              <span className="text-sm font-medium">Paiement sécurisé avec CinetPay</span>
             </div>
+          </div>
 
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? 'Chargement...' : 'Payer'}
-          </Button>
-        </form>
-      </Form>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 sm:p-8">
+              {/* Amount Section */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-nourx-blue/10 rounded-lg">
+                    <CreditCard className="w-5 h-5 text-nourx-blue" />
+                  </div>
+                  <h2 className="text-xl font-semibold text-nourx-black">Montant à payer</h2>
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="amount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                        Montant (FCFA)
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input 
+                            type="number" 
+                            placeholder="Entrez le montant" 
+                            className="pl-12 py-3 text-lg font-semibold border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            {...field} 
+                          />
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-nourx-gray-500 font-medium">
+                            XOF
+                          </span>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Customer Information Section */}
+              <div className="border-t border-nourx-gray-100 pt-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-nourx-blue/10 rounded-lg">
+                    <User className="w-5 h-5 text-nourx-blue" />
+                  </div>
+                  <h2 className="text-xl font-semibold text-nourx-black">Informations client</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="customer_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          Nom
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Votre nom" 
+                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="customer_surname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          Prénom
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Votre prénom" 
+                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+                  <FormField
+                    control={form.control}
+                    name="customer_email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          Email
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="email" 
+                            placeholder="votre@email.com" 
+                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="customer_phone_number"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          Téléphone
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="07 XX XX XX XX" 
+                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Address Section */}
+              <div className="border-t border-nourx-gray-100 pt-8 mt-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-nourx-blue/10 rounded-lg">
+                    <MapPin className="w-5 h-5 text-nourx-blue" />
+                  </div>
+                  <h2 className="text-xl font-semibold text-nourx-black">Adresse de facturation</h2>
+                </div>
+                
+                <div className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="customer_address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          Adresse
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="123 Rue Principale" 
+                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="customer_city"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                            Ville
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Abidjan" 
+                              className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="customer_zip_code"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                            Code postal
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="00225" 
+                              className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="customer_country"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                            Pays
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20">
+                                <SelectValue placeholder="Sélectionnez un pays" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {countries.map(country => (
+                                <SelectItem key={country.code} value={country.code}>
+                                  {country.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="customer_state"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                            État/Région
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Région des Lagunes" 
+                              className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="border-t border-nourx-gray-100 pt-8 mt-8">
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full py-4 text-lg font-semibold bg-nourx-blue hover:bg-blue-600 transition-all duration-300 hover:scale-[1.02] disabled:hover:scale-100"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      Traitement en cours...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-5 h-5 mr-2" />
+                      Procéder au paiement
+                    </>
+                  )}
+                </Button>
+                
+                {/* Security Notice */}
+                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-nourx-gray-500">
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span>Paiement sécurisé SSL 256-bit</span>
+                </div>
+              </div>
+            </form>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

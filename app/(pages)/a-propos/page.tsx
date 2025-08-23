@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ArrowRight } from 'lucide-react'
 
 export default function AboutPage() {
@@ -25,33 +24,6 @@ export default function AboutPage() {
       number: '04',
       title: 'Agilité',
       description: 'Nous nous adaptons rapidement aux changements pour garantir votre succès.'
-    }
-  ]
-
-  const team = [
-    {
-      name: 'Amadou Diallo',
-      role: 'CEO & Fondateur',
-      image: '/team/amadou.jpg',
-      initials: 'AD'
-    },
-    {
-      name: 'Fatou Koné',
-      role: 'CTO',
-      image: '/team/fatou.jpg',
-      initials: 'FK'
-    },
-    {
-      name: 'Ibrahim Touré',
-      role: 'Lead Developer',
-      image: '/team/ibrahim.jpg',
-      initials: 'IT'
-    },
-    {
-      name: 'Mariam Bamba',
-      role: 'Head of Design',
-      image: '/team/mariam.jpg',
-      initials: 'MB'
     }
   ]
 
@@ -133,33 +105,6 @@ export default function AboutPage() {
                     <p className="text-nourx-gray-600">{value.description}</p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 px-4">
-        <div className="container max-w-6xl mx-auto">
-          <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Notre Équipe</h2>
-            <p className="text-lg text-nourx-gray-600">
-              Une équipe passionnée d'experts dédiés à votre succès numérique.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {team.map((member) => (
-              <div key={member.name} className="text-center">
-                <Avatar className="w-32 h-32 mx-auto mb-4">
-                  <AvatarImage src={member.image} alt={member.name} />
-                  <AvatarFallback className="text-2xl bg-nourx-gray-100">
-                    {member.initials}
-                  </AvatarFallback>
-                </Avatar>
-                <h3 className="font-semibold">{member.name}</h3>
-                <p className="text-sm text-nourx-gray-600">{member.role}</p>
               </div>
             ))}
           </div>

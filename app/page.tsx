@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import Services from '@/components/Services'
-import Expertise from '@/components/Expertise'
+import ExpertiseRedirect from '@/components/ExpertiseRedirect'
 import Portfolio from '@/components/Portfolio'
 import Differentiators from '@/components/Differentiators'
 import Testimonials from '@/components/Testimonials'
@@ -16,7 +16,7 @@ export default function Home() {
       <Hero />
       <About />
       <Services />
-      <Expertise />
+      <ExpertiseRedirect />
       <Portfolio />
       <Differentiators />
       <Testimonials />

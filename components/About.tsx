@@ -30,7 +30,7 @@ export default function About() {
     <section id="about" className="section-padding bg-white">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="heading-2 font-android mb-4">À propos de Nourx</h2>
+          <h2 className="heading-2 mb-4">À propos de Nourx</h2>
           <p className="text-body max-w-2xl mx-auto">
             Une entreprise de services du numérique qui conjugue expertise internationale et flexibilité locale
           </p>
@@ -71,19 +71,19 @@ export default function About() {
         <div className="mt-20 bg-nourx-black text-white rounded-2xl p-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="font-android text-4xl md:text-5xl font-bold text-nourx-blue mb-2">80+</div>
+              <div className="text-4xl md:text-5xl font-bold text-nourx-blue mb-2">80+</div>
               <p className="text-sm">Projets livrés</p>
             </div>
             <div>
-              <div className="font-android text-4xl md:text-5xl font-bold text-nourx-blue mb-2">35+</div>
+              <div className="text-4xl md:text-5xl font-bold text-nourx-blue mb-2">35+</div>
               <p className="text-sm">Clients satisfaits</p>
             </div>
             <div>
-              <div className="font-android text-4xl md:text-5xl font-bold text-nourx-blue mb-2">4</div>
+              <div className="text-4xl md:text-5xl font-bold text-nourx-blue mb-2">4</div>
               <p className="text-sm">Pays couverts</p>
             </div>
             <div>
-              <div className="font-android text-4xl md:text-5xl font-bold text-nourx-blue mb-2">24/7</div>
+              <div className="text-4xl md:text-5xl font-bold text-nourx-blue mb-2">24/7</div>
               <p className="text-sm">Support disponible</p>
             </div>
           </div>

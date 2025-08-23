@@ -4,125 +4,115 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const stats = [
-  { label: 'Projets livrés', value: '80+', suffix: '' },
-  { label: 'Clients récurrents', value: '35+', suffix: '' },
-  { label: 'Support', value: '24/7', suffix: '' },
+  { label: 'Projets livrés', value: '80+' },
+  { label: 'Clients satisfaits', value: '35+' },
+  { label: 'Support', value: '24/7' },
 ]
 
 export default function Hero() {
-  const [displayText, setDisplayText] = useState('')
-  const fullText = 'Votre transformation digitale commence ici'
+  const [isLoaded, setIsLoaded] = useState(false)
   
   useEffect(() => {
-    let index = 0
-    const interval = setInterval(() => {
-      if (index <= fullText.length) {
-        setDisplayText(fullText.slice(0, index))
-        index++
-      } else {
-        clearInterval(interval)
-      }
-    }, 50)
-    
-    return () => clearInterval(interval)
+    setIsLoaded(true)
   }, [])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 px-4">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96">
-          <div className="absolute inset-0 bg-gradient-to-r from-nourx-gray-100 to-transparent rounded-full blur-3xl opacity-50 animate-pulse" />
+    <section className="relative min-h-screen flex items-center justify-center px-6 pt-24 sm:pt-20">
+      {/* Minimalist Background Blur Animation */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-96 h-96 bg-gradient-to-r from-nourx-blue/10 to-purple-500/10 rounded-full blur-3xl animate-gentle-pulse" />
+        </div>
+        <div className="absolute bottom-1/3 right-1/3">
+          <div className="w-64 h-64 bg-gradient-to-l from-cyan-400/8 to-nourx-blue/8 rounded-full blur-2xl animate-gentle-float" />
         </div>
       </div>
 
-      {/* X Pattern */}
-      <div className="absolute top-1/4 right-1/4 -z-10 opacity-5">
-        <svg width="200" height="200" viewBox="0 0 200 200" className="animate-spin-slow">
-          <path
-            d="M30 30 L170 170 M170 30 L30 170"
-            stroke="currentColor"
-            strokeWidth="20"
-            strokeLinecap="round"
-            className="text-nourx-black"
-          />
-        </svg>
-      </div>
-
-      <div className="container">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Main Title with Typewriter Effect */}
-          <h1 className="text-3xl sm:text-4xl md:heading-1 mb-4 sm:mb-6 animate-fade-in font-bold leading-tight">
-            <span className="inline-block min-h-[1.2em]">
-              {displayText}
-              <span className="animate-blink">|</span>
-            </span>
+      {/* Centered Content */}
+      <div className="max-w-4xl mx-auto text-center">
+        {/* Main Title */}
+        <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-nourx-black">
+            Votre transformation digitale commence ici
           </h1>
+        </div>
 
-          {/* Subtitle */}
-          <p className="text-body text-lg sm:text-xl md:text-2xl mb-6 sm:mb-10 animate-slide-up opacity-0 animation-delay-500">
+        {/* Subtitle */}
+        <div className={`transition-all duration-1000 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <p className="text-xl sm:text-2xl text-nourx-gray-600 mb-12 font-light max-w-2xl mx-auto leading-relaxed">
             Du conseil stratégique à l&apos;exploitation 24/7
           </p>
+        </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20 animate-slide-up opacity-0 animation-delay-700">
-            <Link href="#services" className="btn-primary">
+        {/* CTA Buttons */}
+        <div className={`transition-all duration-1000 delay-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
+            <Link 
+              href="#contact" 
+              className="px-8 py-4 bg-nourx-black text-white rounded-full font-medium hover:bg-nourx-blue transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            >
+              Démarrer mon projet
+            </Link>
+            <Link 
+              href="#services" 
+              className="px-8 py-4 border border-nourx-gray-300 text-nourx-black rounded-full font-medium hover:border-nourx-black transition-all duration-300 hover:scale-105"
+            >
               Découvrir nos services
             </Link>
-            <Link href="#realisations" className="btn-secondary">
-              Consulter nos réalisations
-            </Link>
           </div>
+        </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto">
+        {/* Minimalist Stats */}
+        <div className={`transition-all duration-1000 delay-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="text-center animate-slide-up opacity-0"
-                style={{ animationDelay: `${900 + index * 100}ms` }}
+                className="text-center group cursor-default"
               >
-                <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-nourx-blue mb-1 sm:mb-2">
+                <div className="text-3xl sm:text-4xl font-bold text-nourx-blue mb-2 group-hover:scale-110 transition-transform duration-300">
                   {stat.value}
-                  {stat.suffix}
                 </div>
-                <div className="text-xs sm:text-sm text-nourx-gray-600 uppercase tracking-wider">
+                <div className="text-sm text-nourx-gray-500 tracking-wide">
                   {stat.label}
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+
       </div>
 
-
       <style jsx>{`
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
+        @keyframes gentle-pulse {
+          0%, 100% { 
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 0.6;
+            transform: scale(1.1);
+          }
         }
         
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        @keyframes gentle-float {
+          0%, 100% { 
+            opacity: 0.2;
+            transform: translateY(0) scale(1);
+          }
+          50% { 
+            opacity: 0.4;
+            transform: translateY(-20px) scale(1.05);
+          }
         }
         
-        .animate-blink {
-          animation: blink 1s infinite;
+        .animate-gentle-pulse {
+          animation: gentle-pulse 6s ease-in-out infinite;
         }
         
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
-        }
-        
-        .animation-delay-500 {
-          animation-delay: 500ms;
-          animation-fill-mode: forwards;
-        }
-        
-        .animation-delay-700 {
-          animation-delay: 700ms;
-          animation-fill-mode: forwards;
+        .animate-gentle-float {
+          animation: gentle-float 8s ease-in-out infinite;
         }
       `}</style>
     </section>

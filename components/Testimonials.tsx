@@ -45,7 +45,7 @@ export default function Testimonials() {
     <section className="section-padding bg-white">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="heading-2 font-android mb-4">Ce que disent nos clients</h2>
+          <h2 className="heading-2 mb-4">Ce que disent nos clients</h2>
           <p className="text-body max-w-2xl mx-auto">
             Des témoignages authentiques de nos partenaires satisfaits
           </p>

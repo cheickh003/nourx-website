@@ -76,7 +76,7 @@ export default function Differentiators() {
     <section ref={sectionRef} className="section-padding bg-nourx-gray-50">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="heading-2 font-android mb-4">Ce qui nous différencie</h2>
+          <h2 className="heading-2 mb-4">Ce qui nous différencie</h2>
           <p className="text-body max-w-2xl mx-auto">
             Une approche unique qui combine expertise technique, proximité locale et engagement qualité
           </p>

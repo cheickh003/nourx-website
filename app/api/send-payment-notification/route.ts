@@ -13,67 +13,16 @@ export async function POST(req: Request) {
       transaction_id
     } = await req.json();
 
-    // Try multiple SMTP configurations for better reliability
-    const smtpConfigs = [
-      {
-        host: 'mail.spacemail.com',
-        port: 587,
-        secure: false, // STARTTLS
-        auth: {
-          user: 'no-reply@nourx.dev',
-          pass: process.env.NOURX_EMAIL_PASSWORD || '.Malminek21'
-        },
-        requireTLS: true
-      },
-      {
-        host: 'mail.spacemail.com',
-        port: 465,
-        secure: true, // SSL
-        auth: {
-          user: 'no-reply@nourx.dev',
-          pass: process.env.NOURX_EMAIL_PASSWORD || '.Malminek21'
-        }
-      },
-      {
-        host: 'mail.spacemail.com',
-        port: 25,
-        secure: false,
-        auth: {
-          user: 'no-reply@nourx.dev',
-          pass: process.env.NOURX_EMAIL_PASSWORD || '.Malminek21'
-        }
+    // Create transporter using the provided SMTP configuration
+    const transporter = nodemailer.createTransport({
+      host: 'mail.spacemail.com',
+      port: 465,
+      secure: true, // SSL
+      auth: {
+        user: 'no-reply@nourx.dev',
+        pass: process.env.NOURX_EMAIL_PASSWORD || '.Malminek21'
       }
-    ];
-
-    let transporter;
-    let lastError;
-
-    // Try each configuration until one works
-    for (const config of smtpConfigs) {
-      try {
-        transporter = nodemailer.createTransport({
-          ...config,
-          connectionTimeout: 10000,
-          greetingTimeout: 10000,
-          socketTimeout: 10000,
-          debug: process.env.NODE_ENV === 'development',
-          logger: process.env.NODE_ENV === 'development'
-        });
-
-        // Test the connection
-        await transporter.verify();
-        console.log(`SMTP connection successful with port ${config.port}`);
-        break;
-      } catch (error) {
-        console.log(`SMTP connection failed with port ${config.port}:`, error.message);
-        lastError = error;
-        transporter = null;
-      }
-    }
-
-    if (!transporter) {
-      throw new Error(`All SMTP configurations failed. Last error: ${lastError?.message}`);
-    }
+    });
 
     // Email content
     const htmlContent = `

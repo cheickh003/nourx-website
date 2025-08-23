@@ -23,9 +23,36 @@ import {
 import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { CreditCard, User, MapPin, Loader2, Shield, CheckCircle } from "lucide-react";
+import { CreditCard, User, MapPin, Loader2, Shield, CheckCircle, Globe, Settings } from "lucide-react";
+
+// Predefined services
+const services = [
+  {
+    id: 'website-management',
+    name: 'Frais de gestion mensuel site internet',
+    amount: 150000,
+    description: 'Maintenance et gestion mensuelle de votre site web',
+    icon: Globe
+  },
+  {
+    id: 'google-maps-api',
+    name: 'Frais ajout Google Maps API',
+    amount: 250000,
+    description: 'Intégration et configuration de Google Maps sur votre site',
+    icon: MapPin
+  },
+  {
+    id: 'custom',
+    name: 'Montant personnalisé',
+    amount: 0,
+    description: 'Saisissez un montant personnalisé',
+    icon: Settings
+  }
+];
 
 const formSchema = z.object({
+  service_id: z.string().min(1, { message: "Veuillez sélectionner un service" }),
+  payment_reference: z.string().min(1, { message: "La référence de paiement est requise" }),
   amount: z.coerce.number().min(1, { message: "Le montant doit être d'au moins 1" }),
   customer_name: z.string().min(1, { message: "Le nom du client est requis" }),
   customer_surname: z.string().min(1, { message: "Le prénom du client est requis" }),
@@ -42,10 +69,13 @@ const formSchema = z.object({
 const PaymentPage = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedService, setSelectedService] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      service_id: "",
+      payment_reference: "",
       amount: 100,
       customer_name: "",
       customer_surname: "",
@@ -59,17 +89,75 @@ const PaymentPage = () => {
     },
   });
 
+  const handleServiceSelect = (serviceId: string) => {
+    setSelectedService(serviceId);
+    const service = services.find(s => s.id === serviceId);
+    if (service && serviceId !== 'custom') {
+      form.setValue('amount', service.amount);
+    }
+  };
+
+  const selectedServiceData = services.find(s => s.id === selectedService);
+  const isCustomAmount = selectedService === 'custom';
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
       const transaction_id = Math.floor(Math.random() * 100000000).toString();
+
+      const selectedServiceInfo = services.find(s => s.id === values.service_id);
+      const serviceDescription = selectedServiceInfo ? selectedServiceInfo.name : 'Paiement de service';
+
+      // Send notification email before processing payment
+      try {
+        await fetch('/api/send-payment-notification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            service_name: serviceDescription,
+            amount: values.amount,
+            payment_reference: values.payment_reference,
+            customer_name: `${values.customer_name} ${values.customer_surname}`,
+            customer_email: values.customer_email,
+            customer_phone: values.customer_phone_number,
+            transaction_id
+          }),
+        });
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError);
+        // Continue with payment even if email fails
+      }
+
+      // Send notification email before processing payment
+      try {
+        await fetch('/api/send-payment-notification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            service_name: serviceDescription,
+            amount: values.amount,
+            payment_reference: values.payment_reference,
+            customer_name: `${values.customer_name} ${values.customer_surname}`,
+            customer_email: values.customer_email,
+            customer_phone: values.customer_phone_number,
+            transaction_id
+          }),
+        });
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError);
+        // Continue with payment even if email fails
+      }
 
       const paymentData = {
         transaction_id,
         amount: values.amount,
         currency: 'XOF',
         channels: 'ALL',
-        description: 'Paiement de facture',
+        description: serviceDescription,
         return_url: `${window.location.origin}/payment/success?transaction_id=${transaction_id}`,
         notify_url: `${window.location.origin}/api/cinetpay-notification`,
         customer_name: values.customer_name,
@@ -141,41 +229,164 @@ const PaymentPage = () => {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 sm:p-8">
-              {/* Amount Section */}
+              {/* Service Selection Section */}
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-nourx-blue/10 rounded-lg">
                     <CreditCard className="w-5 h-5 text-nourx-blue" />
                   </div>
-                  <h2 className="text-xl font-semibold text-nourx-black">Montant à payer</h2>
+                  <h2 className="text-xl font-semibold text-nourx-black">Sélection du service</h2>
                 </div>
                 
                 <FormField
                   control={form.control}
-                  name="amount"
+                  name="service_id"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-medium text-nourx-gray-700">
-                        Montant (FCFA)
+                        Type de service
+                      </FormLabel>
+                      <Select 
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          handleServiceSelect(value);
+                        }} 
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20">
+                            <SelectValue placeholder="Choisissez un service" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {services.map((service) => (
+                            <SelectItem key={service.id} value={service.id}>
+                              <div className="flex items-center gap-3 py-1">
+                                <service.icon className="w-4 h-4 text-nourx-gray-600" />
+                                <div>
+                                  <span className="font-medium">{service.name}</span>
+                                  {service.amount > 0 && (
+                                    <span className="ml-2 text-sm text-nourx-blue font-semibold">
+                                      ({service.amount.toLocaleString()} XOF)
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                      {selectedServiceData && (
+                        <p className="text-sm text-nourx-gray-600 mt-2">
+                          {selectedServiceData.description}
+                        </p>
+                      )}
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Payment Reference Section */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-nourx-blue/10 rounded-lg">
+                    <Shield className="w-5 h-5 text-nourx-blue" />
+                  </div>
+                  <h2 className="text-xl font-semibold text-nourx-black">Référence de paiement</h2>
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="payment_reference"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                        Référence fournie par Nourx *
                       </FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Input 
-                            type="number" 
-                            placeholder="Entrez le montant" 
-                            className="pl-12 py-3 text-lg font-semibold border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
-                            {...field} 
-                          />
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-nourx-gray-500 font-medium">
-                            XOF
-                          </span>
-                        </div>
+                        <Input 
+                          placeholder="Ex: REF-2024-001" 
+                          className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                          {...field} 
+                        />
                       </FormControl>
+                      <p className="text-xs text-nourx-gray-500 mt-1">
+                        Veuillez saisir la référence de paiement que nous vous avons fournie
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
+
+              {/* Amount Section */}
+              {selectedService && (
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-nourx-blue/10 rounded-lg">
+                      <CreditCard className="w-5 h-5 text-nourx-blue" />
+                    </div>
+                    <h2 className="text-xl font-semibold text-nourx-black">Montant à payer</h2>
+                  </div>
+                  
+                  {isCustomAmount ? (
+                    <FormField
+                      control={form.control}
+                      name="amount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                            Montant personnalisé (FCFA)
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input 
+                                type="number" 
+                                placeholder="Entrez le montant" 
+                                className="pl-12 py-3 text-lg font-semibold border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                                {...field} 
+                              />
+                              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-nourx-gray-500 font-medium">
+                                XOF
+                              </span>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ) : (
+                    <div className="p-4 bg-nourx-gray-50 rounded-lg border border-nourx-gray-200">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-nourx-gray-700">Service sélectionné :</p>
+                          <p className="text-nourx-black font-semibold">{selectedServiceData?.name}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-nourx-gray-600">Montant</p>
+                          <p className="text-2xl font-bold text-nourx-blue">
+                            {selectedServiceData?.amount.toLocaleString()} XOF
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem className="hidden">
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
 
               {/* Customer Information Section */}
               <div className="border-t border-nourx-gray-100 pt-8">

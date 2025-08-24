@@ -19,7 +19,7 @@ export default function CGVPage() {
             <p><span className="font-medium">Dénomination:</span> Nourx</p>
             <p><span className="font-medium">Forme:</span> SARLU</p>
             <p><span className="font-medium">RCCM:</span> CI-ABJ-03-2024-B13-06702</p>
-            <p><span className="font-medium">Capital social:</span> 500 000 FCFA (cinq cent mille)</p>
+            <p><span className="font-medium">Capital social:</span> 10 000 000 FCFA (dix millions)</p>
             <p><span className="font-medium">Siège social:</span> Abidjan Cocody Riviera golf, cité Riviera Beach, non loin du nouveau siège d'Orange CI, Lot 63 Ilot 6.</p>
             <p><span className="font-medium">Directeur de la publication:</span> KEITA CHEICKH MOHAMED LAMINE NOUREDINE — Gérant</p>
             <p><span className="font-medium">Contact:</span> <a className="text-nourx-blue" href="mailto:contact@nourx.dev">contact@nourx.dev</a> · <a className="text-nourx-blue" href="tel:+2250720111108">+225 07 20 11 11 08</a></p>

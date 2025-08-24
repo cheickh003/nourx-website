@@ -23,7 +23,7 @@ export default function MentionsLegalesPage() {
               <p><span className="font-medium">Activité:</span> Entreprise de Services du Numérique (ESN)</p>
               <p><span className="font-medium">Adresse du siège:</span> Abidjan Cocody Riviera golf, cité Riviera Beach, non loin du nouveau siège d'Orange CI, Lot 63 Ilot 6.</p>
               <p><span className="font-medium">RCCM:</span> CI-ABJ-03-2024-B13-06702</p>
-              <p><span className="font-medium">Capital social:</span> 500 000 FCFA (cinq cent mille)</p>
+              <p><span className="font-medium">Capital social:</span> 10 000 000 FCFA (dix millions)</p>
               <p><span className="font-medium">Téléphone:</span> <a className="text-nourx-blue" href="tel:+2250720111108">+225 07 20 11 11 08</a></p>
               <p><span className="font-medium">Email:</span> <a className="text-nourx-blue" href="mailto:contact@nourx.dev">contact@nourx.dev</a></p>
               <p className="text-sm text-nourx-gray-500 mt-2">Établissement créé: même adresse que le siège. Durée de la société: 99 ans à compter de l’immatriculation au RCCM.</p>

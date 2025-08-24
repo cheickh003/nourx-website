@@ -15,9 +15,10 @@ const footerLinks = {
     { name: 'Carrières', href: '#' },
   ],
   legal: [
-    { name: 'Mentions légales', href: '#' },
-    { name: 'Politique de confidentialité', href: '#' },
-    { name: 'CGV', href: '#' },
+    { name: 'Mentions légales', href: '/mentions-legales' },
+    { name: 'Politique de confidentialité', href: '/politique-de-confidentialite' },
+    { name: 'Politique des cookies', href: '/politique-cookies' },
+    { name: 'CGV', href: '/cgv' },
   ],
 }
 

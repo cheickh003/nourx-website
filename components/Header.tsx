@@ -78,7 +78,13 @@ export default function Header() {
         </div>
 
         {/* Right CTA */}
-        <div className="absolute right-6 sm:right-8 hidden md:flex items-center">
+        <div className="absolute right-6 sm:right-8 hidden md:flex items-center gap-3">
+          <Link
+            href="/gerer-mes-services"
+            className="px-4 py-1.5 border border-nourx-blue text-nourx-blue text-xs font-medium rounded-full hover:bg-nourx-blue hover:text-white transition-all duration-300"
+          >
+            Gérer mes services
+          </Link>
           <Link
             href="/contact"
             className="px-6 py-2 bg-nourx-black text-white text-sm font-medium rounded-full hover:bg-nourx-blue transition-all duration-300 hover:scale-105"
@@ -148,13 +154,22 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          <Link
-            href="/contact"
-            className="px-8 py-3 bg-nourx-black text-white rounded-full font-medium hover:bg-nourx-blue transition-all duration-300 mt-4"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Démarrer un projet
-          </Link>
+          <div className="flex flex-col gap-3 mt-4">
+            <Link
+              href="/gerer-mes-services"
+              className="px-6 py-2 border border-nourx-blue text-nourx-blue rounded-full font-medium hover:bg-nourx-blue hover:text-white transition-all duration-300 text-center"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Gérer mes services
+            </Link>
+            <Link
+              href="/contact"
+              className="px-8 py-3 bg-nourx-black text-white rounded-full font-medium hover:bg-nourx-blue transition-all duration-300"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Démarrer un projet
+            </Link>
+          </div>
         </div>
       </div>
     </>

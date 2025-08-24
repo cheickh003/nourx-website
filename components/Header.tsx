@@ -50,15 +50,15 @@ export default function Header() {
         isVisible ? 'translate-y-0' : '-translate-y-full'
       )}
     >
-      <nav className="max-w-6xl mx-auto px-6 sm:px-8 flex items-center justify-center py-6 sm:py-4">
+      <nav className="max-w-6xl mx-auto px-6 sm:px-8 flex items-center justify-center py-5 sm:py-4">
         {/* Logo */}
-        <Link href="/" className="absolute left-6 sm:left-8">
+        <Link href="/" className="absolute left-6 sm:left-8 flex items-center">
           <Image
             src="/logo-nourx.png"
             alt="Nourx"
-            width={80}
-            height={26}
-            className="h-6 sm:h-8 w-auto transition-opacity hover:opacity-80"
+            width={60}
+            height={20}
+            className="h-4 sm:h-5 w-auto transition-opacity hover:opacity-80"
             priority
           />
         </Link>
@@ -78,7 +78,7 @@ export default function Header() {
         </div>
 
         {/* Right CTA */}
-        <div className="absolute right-6 sm:right-8 hidden md:block">
+        <div className="absolute right-6 sm:right-8 hidden md:flex items-center">
           <Link
             href="/contact"
             className="px-6 py-2 bg-nourx-black text-white text-sm font-medium rounded-full hover:bg-nourx-blue transition-all duration-300 hover:scale-105"

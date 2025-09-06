@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ type CinetPayStatus = {
   data?: any;
 };
 
-const PaymentConfirmationPage = () => {
+const ConfirmationContent = () => {
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('transaction_id') || '';
 
@@ -119,5 +119,20 @@ const PaymentConfirmationPage = () => {
   );
 };
 
-export default PaymentConfirmationPage;
+const PaymentConfirmationPage = () => {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-nourx-gray-50 to-white pt-24 sm:pt-32 pb-16 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="bg-white rounded-2xl shadow-lg border border-nourx-gray-200 p-8 sm:p-12 mb-8">
+            <h1 className="text-2xl font-semibold text-nourx-black">Chargement…</h1>
+          </div>
+        </div>
+      </div>
+    }>
+      <ConfirmationContent />
+    </Suspense>
+  );
+};
 
+export default PaymentConfirmationPage;

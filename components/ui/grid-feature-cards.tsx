@@ -12,7 +12,7 @@ type FeatureCardProps = React.ComponentProps<'div'> & {
 };
 
 export function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
-    const p = genRandomPattern();
+    const p = genRandomPattern(undefined, feature.title);
 
     return (
         <div className={cn('relative overflow-hidden p-6 border border-dashed border-nourx-gray-200 bg-white hover:border-nourx-gray-300 transition-colors duration-300', className)} {...props}>
@@ -64,10 +64,30 @@ function GridPattern({
     );
 }
 
-function genRandomPattern(length?: number): number[][] {
-    length = length ?? 5;
-    return Array.from({ length }, () => [
-        Math.floor(Math.random() * 4) + 7, // random x between 7 and 10
-        Math.floor(Math.random() * 6) + 1, // random y between 1 and 6
+// Deterministic PRNG seeded by a string to keep SSR/CSR markup identical
+function stringToSeed(str: string): number {
+    let h = 2166136261 >>> 0; // FNV-1a like hash
+    for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+}
+
+function mulberry32(a: number) {
+    return function () {
+        let t = (a += 0x6D2B79F5);
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+function genRandomPattern(length?: number, seedKey: string = 'default'): number[][] {
+    const len = length ?? 5;
+    const rng = mulberry32(stringToSeed(seedKey));
+    return Array.from({ length: len }, () => [
+        Math.floor(rng() * 4) + 7, // x between 7 and 10
+        Math.floor(rng() * 6) + 1, // y between 1 and 6
     ]);
 }

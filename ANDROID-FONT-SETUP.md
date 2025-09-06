@@ -12,7 +12,7 @@ La police Android a été configurée sur tout le site Nourx. Voici ce qui a ét
 ### 2. **Configuration Next.js**
 - Import de la police avec `localFont` dans `app/fonts.ts`
 - Variable CSS `--font-android` ajoutée
-- Fallback vers Space Grotesk si la police n'est pas chargée
+- Fallback vers Inter si la police n'est pas chargée
 
 ### 3. **Configuration Tailwind**
 - Classe `font-android` disponible dans tout le projet
@@ -59,7 +59,7 @@ Pour appliquer la police Android à de nouveaux éléments :
 ## 🎨 Stratégie typographique
 
 - **Police Android** : Titres principaux, numéros, éléments d'accent tech
-- **Space Grotesk** : Sous-titres, navigation
+- **Inter** : Police unique pour tout le site
 - **Inter** : Corps de texte, paragraphes
 
 Cette hiérarchie crée une identité visuelle cohérente avec votre logo tout en maintenant une excellente lisibilité.

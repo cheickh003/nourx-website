@@ -41,7 +41,7 @@ La police Android est maintenant appliquée UNIQUEMENT sur :
 - Les numéros et statistiques
 - Les titres des pages internes
 
-Cela crée une hiérarchie visuelle claire tout en gardant le titre principal du Hero dans la police par défaut (Space Grotesk).
+Cela crée une hiérarchie visuelle claire tout en gardant le titre principal du Hero dans la police Inter.
 
 ## ⚠️ RAPPEL IMPORTANT
 

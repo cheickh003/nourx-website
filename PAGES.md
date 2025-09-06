@@ -48,7 +48,7 @@
 
 ### Principes
 - **Minimalisme** : Beaucoup d'espace blanc
-- **Typographie** : Space Grotesk (titres) + Inter (corps)
+- **Typographie** : Inter (tout le site)
 - **Couleurs** : Noir, blanc, gris (3 nuances), bleu accent
 - **Animations** : Subtiles et performantes
 - **Mobile-first** : Responsive à tous les breakpoints

@@ -64,7 +64,7 @@ Colors in `tailwind.config.js`:
 - Gray scale: `nourx-gray-50` through `nourx-gray-900`
 
 Typography:
-- Headings: Space Grotesk
+- Headings: Inter
 - Body: Inter
 
 Common utility classes:

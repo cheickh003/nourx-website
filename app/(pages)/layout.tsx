@@ -1,4 +1,3 @@
-import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function PagesLayout({
@@ -8,7 +7,6 @@ export default function PagesLayout({
 }) {
   return (
     <>
-      <Header />
       {children}
       <Footer />
     </>

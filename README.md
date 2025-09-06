@@ -66,7 +66,7 @@ nourx-website/
 - Gamme de gris : 50-900
 
 ### Typographie
-- Headings : Space Grotesk
+- Headings : Inter
 - Body : Inter
 
 ## 📝 Sections développées

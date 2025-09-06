@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import { inter, spaceGrotesk } from './fonts'
+import { inter } from './fonts'
 import { Toaster } from '@/components/ui/toaster'
+import Header from '@/components/Header'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -23,8 +24,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="fr" className={inter.variable}>
       <body className={inter.className}>
+        <Header />
         {children}
         <Toaster />
       </body>

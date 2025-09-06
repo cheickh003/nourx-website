@@ -1,10 +1,10 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { CreditCard, User, Settings, Globe, ExternalLink } from 'lucide-react'
+import { CreditCard, User, Settings, Globe, ExternalLink, Cloud, Server, GraduationCap } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Gérer mes services | Nourx',
-  description: 'Accédez à vos services Nourx : paiements, compte client, cPanel et WordPress.',
+  description: 'Accédez à tous vos services Nourx : paiements, hébergement, cloud AWS, Vercel, IvoirEdu et bien plus.',
 }
 
 const services = [
@@ -43,6 +43,33 @@ const services = [
     isExternal: true,
     color: 'bg-purple-50 border-purple-200 hover:bg-purple-100',
     iconColor: 'text-purple-600',
+  },
+  {
+    title: 'Gérer mon hébergement Vercel',
+    description: 'Administrez vos déploiements et projets sur la plateforme Vercel',
+    icon: Cloud,
+    href: 'https://vercel.nourx.dev',
+    isExternal: true,
+    color: 'bg-cyan-50 border-cyan-200 hover:bg-cyan-100',
+    iconColor: 'text-cyan-600',
+  },
+  {
+    title: 'Gérer mon infrastructure AWS',
+    description: 'Contrôlez vos ressources cloud AWS : EC2, S3, Lambda et bien plus',
+    icon: Server,
+    href: 'https://aws.nourx.dev',
+    isExternal: true,
+    color: 'bg-yellow-50 border-yellow-200 hover:bg-yellow-100',
+    iconColor: 'text-yellow-600',
+  },
+  {
+    title: 'Accéder à IvoirEdu',
+    description: 'Votre plateforme de gestion scolaire complète - Élèves, enseignants, notes, emplois du temps',
+    icon: GraduationCap,
+    href: 'https://ivoiredu.com',
+    isExternal: true,
+    color: 'bg-indigo-50 border-indigo-200 hover:bg-indigo-100',
+    iconColor: 'text-indigo-600',
   },
 ]
 

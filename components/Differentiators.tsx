@@ -1,142 +1,90 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { 
   Zap, 
-  Users, 
   Brain, 
   MapPin, 
   CreditCard,
-  HeadphonesIcon,
-  ShieldCheck,
   Rocket
 } from 'lucide-react'
+import { FeatureCard } from '@/components/ui/grid-feature-cards'
 
-const differentiators = [
+const features = [
   {
-    icon: <Zap className="w-8 h-8" />,
     title: 'Approche Full-Stack',
+    icon: Zap,
     description: 'Couverture complète du cycle de vie projet sans sous-traitance. De la stratégie à l\'exploitation, une équipe unique pour tous vos besoins.',
-    color: 'from-yellow-400 to-orange-500',
   },
   {
-    icon: <Rocket className="w-8 h-8" />,
     title: 'Culture DevOps',
+    icon: Rocket,
     description: 'Automatisation maximale et réduction des délais de mise en production. Déploiements continus et monitoring 24/7.',
-    color: 'from-blue-400 to-indigo-500',
   },
   {
-    icon: <Brain className="w-8 h-8" />,
     title: 'Innovation Pragmatique',
+    icon: Brain,
     description: 'Usage raisonné de l\'IA avec POCs rapides. Solutions innovantes adaptées à votre contexte et votre budget.',
-    color: 'from-purple-400 to-pink-500',
   },
   {
-    icon: <MapPin className="w-8 h-8" />,
     title: 'Proximité Locale',
+    icon: MapPin,
     description: 'Disponibilité sur site avec connaissance approfondie du contexte UEMOA/OHADA. Équipe basée à Abidjan.',
-    color: 'from-green-400 to-teal-500',
   },
   {
-    icon: <CreditCard className="w-8 h-8" />,
     title: 'Transparence Budgétaire',
+    icon: CreditCard,
     description: 'Modèles tarifaires clairs (TJM ou forfait). Pas de coûts cachés, reporting détaillé des prestations.',
-    color: 'from-red-400 to-pink-500',
   },
 ]
 
-export default function Differentiators() {
-  const [visibleItems, setVisibleItems] = useState<number[]>([])
-  const sectionRef = useRef<HTMLElement>(null)
+type ViewAnimationProps = {
+  delay?: number;
+  className?: React.ComponentProps<typeof motion.div>['className'];
+  children: React.ReactNode;
+}
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            differentiators.forEach((_, index) => {
-              setTimeout(() => {
-                setVisibleItems((prev) => [...prev, index])
-              }, index * 150)
-            })
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
+function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationProps) {
+  const shouldReduceMotion = useReducedMotion();
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  if (shouldReduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
-    <section ref={sectionRef} className="section-padding bg-nourx-gray-50">
-      <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">Ce qui nous différencie</h2>
-          <p className="text-body max-w-2xl mx-auto">
+    <motion.div
+      initial={{ filter: 'blur(4px)', translateY: -8, opacity: 0 }}
+      whileInView={{ filter: 'blur(0px)', translateY: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.8 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default function Differentiators() {
+  return (
+    <section className="py-16 md:py-32 bg-nourx-gray-50">
+      <div className="mx-auto w-full max-w-5xl space-y-8 px-4">
+        <AnimatedContainer className="mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold text-nourx-black">
+            Ce qui nous différencie
+          </h2>
+          <p className="mt-4 text-sm tracking-wide text-balance md:text-base text-nourx-gray-600">
             Une approche unique qui combine expertise technique, proximité locale et engagement qualité
           </p>
-        </div>
+        </AnimatedContainer>
 
-        {/* Differentiators Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-          {differentiators.map((diff, index) => (
-            <div
-              key={diff.title}
-              className={`text-center ${
-                visibleItems.includes(index) ? 'animate-fade-in' : 'opacity-0'
-              }`}
-            >
-              {/* Icon & Visual */}
-              <div className="flex justify-center mb-4">
-                <div className="relative">
-                  <div
-                    className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br ${diff.color} opacity-20 absolute inset-0 animate-pulse`}
-                  />
-                  <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full flex items-center justify-center shadow-xl">
-                    <div className="text-nourx-black scale-75 sm:scale-100">{diff.icon}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div>
-                <h3 className="heading-3 text-base sm:text-xl mb-2 sm:mb-3">{diff.title}</h3>
-                <p className="text-body text-xs sm:text-sm">{diff.description}</p>
-              </div>
-            </div>
+        <AnimatedContainer
+          delay={0.4}
+          className="grid grid-cols-1 divide-x divide-y divide-dashed sm:grid-cols-2 md:grid-cols-3"
+        >
+          {features.map((feature, i) => (
+            <FeatureCard key={i} feature={feature} />
           ))}
-        </div>
-
-        {/* Additional Stats */}
-        <div className="mt-20 bg-white rounded-lg p-8 shadow-lg">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <ShieldCheck className="w-10 h-10 text-nourx-blue mx-auto mb-3" />
-              <h4 className="font-bold text-2xl mb-1">100%</h4>
-              <p className="text-sm text-nourx-gray-600">Projets sécurisés</p>
-            </div>
-            <div className="text-center">
-              <Users className="w-10 h-10 text-nourx-blue mx-auto mb-3" />
-              <h4 className="font-bold text-2xl mb-1">95%</h4>
-              <p className="text-sm text-nourx-gray-600">Clients satisfaits</p>
-            </div>
-            <div className="text-center">
-              <Rocket className="w-10 h-10 text-nourx-blue mx-auto mb-3" />
-              <h4 className="font-bold text-2xl mb-1">-50%</h4>
-              <p className="text-sm text-nourx-gray-600">Time to market</p>
-            </div>
-            <div className="text-center">
-              <HeadphonesIcon className="w-10 h-10 text-nourx-blue mx-auto mb-3" />
-              <h4 className="font-bold text-2xl mb-1">24/7</h4>
-              <p className="text-sm text-nourx-gray-600">Support bilingue</p>
-            </div>
-          </div>
-        </div>
+        </AnimatedContainer>
       </div>
     </section>
   )

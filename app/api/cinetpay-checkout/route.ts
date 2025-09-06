@@ -50,11 +50,8 @@ export async function POST(req: Request) {
     // CinetPay accepts string transaction identifiers; use a short UUID without dashes
     const transaction_id = randomUUID().replace(/-/g, '');
 
-    // Build base URL for redirects/notifications
-    const originHeader = req.headers.get('origin');
-    const host = req.headers.get('host');
-    const proto = req.headers.get('x-forwarded-proto') || 'http';
-    const origin = originHeader || (host ? `${proto}://${host}` : (process.env.SITE_URL || 'http://localhost:3000'));
+    // Fixed production URLs for CinetPay redirects and notifications
+    const baseUrl = 'https://nourx.dev';
 
     const description = service.name || 'Paiement de service';
 
@@ -66,9 +63,9 @@ export async function POST(req: Request) {
       currency: 'XOF',
       channels: 'ALL',
       description,
-      return_url: `${origin}/payment/confirmation?transaction_id=${transaction_id}`,
-      cancel_url: `${origin}/payment/cancel?transaction_id=${transaction_id}`,
-      notify_url: `${origin}/api/cinetpay-notification`,
+      return_url: `${baseUrl}/payment/confirmation?transaction_id=${transaction_id}`,
+      cancel_url: `${baseUrl}/payment/cancel?transaction_id=${transaction_id}`,
+      notify_url: `${baseUrl}/api/cinetpay-notification`,
       customer_name: input.customer_name,
       customer_surname: input.customer_surname,
       customer_email: input.customer_email,

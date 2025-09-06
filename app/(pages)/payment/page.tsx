@@ -24,31 +24,19 @@ import { westAfricaCountries as countries } from "@/lib/west-africa-countries";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { CreditCard, User, MapPin, Loader2, Shield, CheckCircle, Globe, Settings } from "lucide-react";
+import { SERVICES } from "@/lib/services";
 
-// Predefined services
-const services = [
-  {
-    id: 'website-management',
-    name: 'Frais de gestion mensuel site internet',
-    amount: 150000,
-    description: 'Maintenance et gestion mensuelle de votre site web',
-    icon: Globe
-  },
-  {
-    id: 'google-maps-api',
-    name: 'Frais ajout Google Maps API',
-    amount: 250000,
-    description: 'Intégration et configuration de Google Maps sur votre site',
-    icon: MapPin
-  },
-  {
-    id: 'custom',
-    name: 'Montant personnalisé',
-    amount: 0,
-    description: 'Saisissez un montant personnalisé',
-    icon: Settings
-  }
-];
+// Services unified with server list + icon mapping for UI
+const serviceIconById: Record<string, any> = {
+  'website-management': Globe,
+  'google-maps-api': MapPin,
+  'custom': Settings,
+};
+
+const services = SERVICES.map((s) => ({
+  ...s,
+  icon: serviceIconById[s.id] || CreditCard,
+}));
 
 const formSchema = z.object({
   service_id: z.string().min(1, { message: "Veuillez sélectionner un service" }),

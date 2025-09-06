@@ -103,63 +103,13 @@ const PaymentPage = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const transaction_id = Math.floor(Math.random() * 100000000).toString();
-
       const selectedServiceInfo = services.find(s => s.id === values.service_id);
       const serviceDescription = selectedServiceInfo ? selectedServiceInfo.name : 'Paiement de service';
-
-      // Send notification email before processing payment
-      try {
-        await fetch('/api/send-payment-notification', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            service_name: serviceDescription,
-            amount: values.amount,
-            payment_reference: values.payment_reference,
-            customer_name: `${values.customer_name} ${values.customer_surname}`,
-            customer_email: values.customer_email,
-            customer_phone: values.customer_phone_number,
-            transaction_id
-          }),
-        });
-      } catch (emailError) {
-        console.error('Failed to send notification email:', emailError);
-        // Continue with payment even if email fails
-      }
-
-      // Send notification email before processing payment
-      try {
-        await fetch('/api/send-payment-notification', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            service_name: serviceDescription,
-            amount: values.amount,
-            payment_reference: values.payment_reference,
-            customer_name: `${values.customer_name} ${values.customer_surname}`,
-            customer_email: values.customer_email,
-            customer_phone: values.customer_phone_number,
-            transaction_id
-          }),
-        });
-      } catch (emailError) {
-        console.error('Failed to send notification email:', emailError);
-        // Continue with payment even if email fails
-      }
-
+      // Prepare minimal payload; server validates and generates transaction_id + URLs
       const paymentData = {
-        transaction_id,
+        service_id: values.service_id,
+        payment_reference: values.payment_reference,
         amount: values.amount,
-        currency: 'XOF',
-        channels: 'ALL',
-        description: serviceDescription,
-        return_url: `${window.location.origin}/payment/success?transaction_id=${transaction_id}`,
-        notify_url: `${window.location.origin}/api/cinetpay-notification`,
         customer_name: values.customer_name,
         customer_surname: values.customer_surname,
         customer_email: values.customer_email,
@@ -182,6 +132,28 @@ const PaymentPage = () => {
       const data = await response.json();
 
       if (response.ok && data.payment_url) {
+        // Send notification email once we have a server-generated transaction_id
+        try {
+          await fetch('/api/send-payment-notification', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              service_name: serviceDescription,
+              amount: values.amount,
+              payment_reference: values.payment_reference,
+              customer_name: `${values.customer_name} ${values.customer_surname}`,
+              customer_email: values.customer_email,
+              customer_phone: values.customer_phone_number,
+              transaction_id: data.transaction_id
+            }),
+          });
+        } catch (emailError) {
+          console.error('Failed to send notification email:', emailError);
+          // Continue with payment even if email fails
+        }
+
         window.location.href = data.payment_url;
       } else {
         toast({

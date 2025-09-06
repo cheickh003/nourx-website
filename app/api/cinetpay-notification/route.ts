@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+
 export async function POST(req: Request) {
   try {
     const body = await req.formData();
-    const transactionId = body.get('cpm_trans_id') as string;
+    const transactionId = (body.get('cpm_trans_id') || body.get('transaction_id')) as string;
 
     if (!transactionId) {
       return NextResponse.json({ status: 'error', message: 'Transaction ID not provided' }, { status: 400 });

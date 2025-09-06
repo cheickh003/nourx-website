@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+export const runtime = 'nodejs';
+
 export async function POST(req: Request) {
   try {
     const {
@@ -13,6 +15,11 @@ export async function POST(req: Request) {
       transaction_id
     } = await req.json();
 
+    // Ensure credentials are present
+    if (!process.env.NOURX_EMAIL_PASSWORD) {
+      return NextResponse.json({ error: 'Email configuration missing' }, { status: 500 });
+    }
+
     // Create transporter using the provided SMTP configuration
     const transporter = nodemailer.createTransport({
       host: 'mail.spacemail.com',
@@ -20,7 +27,7 @@ export async function POST(req: Request) {
       secure: true, // SSL
       auth: {
         user: 'no-reply@nourx.dev',
-        pass: process.env.NOURX_EMAIL_PASSWORD || '.Malminek21'
+        pass: process.env.NOURX_EMAIL_PASSWORD
       }
     });
 

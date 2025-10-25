@@ -1,6 +1,6 @@
 export default function CGVPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero */}
       <section className="pt-32 pb-12 px-4">
         <div className="container max-w-4xl mx-auto">

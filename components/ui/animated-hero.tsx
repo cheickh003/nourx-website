@@ -30,7 +30,7 @@ function Hero() {
         <div className="flex gap-6 sm:gap-8 items-center justify-center flex-col text-center max-w-6xl mx-auto">
           <div className="flex gap-6 flex-col">
             <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tighter text-center font-regular leading-tight px-2">
-              <span className="text-nourx-black block sm:inline">Votre transformation</span>
+              <span className="text-foreground block sm:inline">Votre transformation</span>
               <span className="relative flex w-full justify-center overflow-hidden text-center h-10 xs:h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 items-center mt-2 sm:mt-0">
                 &nbsp;
                 {titles.map((title, index) => (
@@ -57,13 +57,13 @@ function Hero() {
               </span>
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed tracking-tight text-nourx-gray-600 max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center px-2 sm:px-4">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed tracking-tight text-muted-foreground max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center px-2 sm:px-4">
               Du conseil stratégique à l'exploitation 24/7, nous accompagnons les entreprises 
               africaines dans leur transformation digitale avec des solutions sur-mesure et une expertise locale reconnue.
             </p>
 
             {/* Stats rapides */}
-            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6 text-xs sm:text-sm text-nourx-gray-700">
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6 text-xs sm:text-sm text-muted-foreground">
               <div className="flex items-center gap-1 sm:gap-2">
                 <span className="text-lg sm:text-xl lg:text-2xl font-bold text-nourx-blue">80+</span>
                 <span>Projets livrés</span>

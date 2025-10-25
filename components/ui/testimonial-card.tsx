@@ -26,29 +26,29 @@ export function TestimonialCard({
     <Card
       {...(href ? { href } : {})}
       className={cn(
-        "flex flex-col rounded-lg border border-nourx-gray-200/50",
-        "bg-white shadow-sm",
+        "flex flex-col rounded-lg border border-border",
+        "bg-card shadow-sm",
         "p-4 text-start sm:p-6",
-        "hover:shadow-md hover:border-nourx-gray-200",
+        "hover:shadow-md",
         "max-w-[320px] sm:max-w-[320px]",
         "transition-all duration-300",
         className
       )}
     >
       <div className="flex items-center gap-3 mb-4">
-        <div className="h-12 w-12 rounded-full bg-nourx-gray-100 flex items-center justify-center">
-          <User className="h-6 w-6 text-nourx-gray-600" />
+        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+          <User className="h-6 w-6 text-muted-foreground" />
         </div>
         <div className="flex flex-col items-start">
-          <h3 className="text-md font-semibold leading-none text-nourx-black">
+          <h3 className="text-md font-semibold leading-none text-foreground">
             {author.name}
           </h3>
-          <p className="text-sm text-nourx-gray-600">
+          <p className="text-sm text-muted-foreground">
             {author.company || author.handle}
           </p>
         </div>
       </div>
-      <p className="sm:text-md text-sm text-nourx-gray-700 leading-relaxed">
+      <p className="sm:text-md text-sm text-muted-foreground leading-relaxed">
         "{text}"
       </p>
     </Card>

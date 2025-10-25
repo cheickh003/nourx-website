@@ -61,7 +61,7 @@ const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
     return (
       <div className="flex gap-2">
         <Select value={selectedCountry.code} onValueChange={handleCountryChange}>
-          <SelectTrigger className="w-[145px] bg-white">
+          <SelectTrigger className="w-[145px] bg-background">
             <SelectValue>
               <div className="flex items-center gap-2">
                 <Image 
@@ -75,7 +75,7 @@ const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
               </div>
             </SelectValue>
           </SelectTrigger>
-          <SelectContent className="max-h-[300px] !bg-white !opacity-100 border-nourx-gray-200 shadow-lg z-[100]">
+          <SelectContent className="max-h-[300px] !bg-background !opacity-100 border-border shadow-lg z-[100]">
             {westAfricaCountries.map((country) => (
               <SelectItem key={country.code} value={country.code} className="py-2 hover:bg-nourx-gray-50">
                 <div className="flex items-center gap-2">

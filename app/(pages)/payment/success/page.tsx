@@ -15,12 +15,12 @@ const PaymentSuccessPage = () => {
         </div>
         
         {/* Main Content */}
-        <div className="bg-white rounded-2xl shadow-lg border border-nourx-gray-200 p-8 sm:p-12 mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-6">
+        <div className="bg-card rounded-2xl shadow-lg border border-border p-8 sm:p-12 mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
             Paiement en cours de traitement
           </h1>
           
-          <p className="text-lg sm:text-xl text-nourx-gray-600 mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
             Votre paiement a été initié avec succès et est actuellement en cours de traitement.
           </p>
           
@@ -46,21 +46,21 @@ const PaymentSuccessPage = () => {
               </div>
             </div>
             
-            <div className="flex items-center gap-4 p-4 bg-nourx-gray-50 rounded-xl border border-nourx-gray-100">
+            <div className="flex items-center gap-4 p-4 bg-muted rounded-xl border border-border">
               <div className="p-2 bg-nourx-gray-100 rounded-lg">
-                <Shield className="w-5 h-5 text-nourx-gray-600" />
+                <Shield className="w-5 h-5 text-muted-foreground" />
               </div>
               <div className="text-left">
-                <p className="font-semibold text-nourx-gray-800">Sécurisé</p>
-                <p className="text-sm text-nourx-gray-600">Transaction protégée par CinetPay</p>
+                <p className="font-semibold text-foreground">Sécurisé</p>
+                <p className="text-sm text-muted-foreground">Transaction protégée par CinetPay</p>
               </div>
             </div>
           </div>
           
           {/* Important Notice */}
           <div className="bg-nourx-gray-50 rounded-xl p-6 mb-8">
-            <h3 className="font-semibold text-nourx-black mb-2">Que se passe-t-il ensuite ?</h3>
-            <ul className="text-sm text-nourx-gray-600 space-y-2 text-left">
+            <h3 className="font-semibold text-foreground mb-2">Que se passe-t-il ensuite ?</h3>
+            <ul className="text-sm text-muted-foreground space-y-2 text-left">
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 bg-nourx-blue rounded-full mt-2 flex-shrink-0"></span>
                 Vous recevrez un email de confirmation
@@ -86,7 +86,7 @@ const PaymentSuccessPage = () => {
         </div>
         
         {/* Footer Note */}
-        <p className="text-sm text-nourx-gray-500">
+        <p className="text-sm text-muted-foreground">
           En cas de problème, contactez notre équipe support via{' '}
           <a href="mailto:support@nourx.dev" className="text-nourx-blue hover:underline">
             support@nourx.dev

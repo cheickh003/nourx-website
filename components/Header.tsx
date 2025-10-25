@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import ThemeToggle from './ThemeToggle'
 
 const navigation = [
   { name: 'À propos', href: '/a-propos' },
@@ -45,7 +46,7 @@ export default function Header() {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-all duration-500 pt-safe',
         isScrolled 
-          ? 'bg-white/90 backdrop-blur-md border-b border-nourx-gray-100' 
+          ? 'bg-background/80 backdrop-blur-md border-b border-border' 
           : 'bg-transparent',
         isVisible ? 'translate-y-0' : '-translate-y-full'
       )}
@@ -53,12 +54,22 @@ export default function Header() {
       <nav className="max-w-6xl mx-auto px-6 sm:px-8 flex items-center justify-center py-5 sm:py-4">
         {/* Logo */}
         <Link href="/" className="absolute left-6 sm:left-8 flex items-center">
+          {/* Logo clair (mode clair) */}
           <Image
             src="/logo-nourx.png"
             alt="Nourx"
             width={60}
             height={20}
-            className="h-4 sm:h-5 w-auto transition-opacity hover:opacity-80"
+            className="h-4 sm:h-5 w-auto transition-opacity hover:opacity-80 dark:hidden"
+            priority
+          />
+          {/* Logo blanc (mode sombre) */}
+          <Image
+            src="/logo-nourx-blanc.png"
+            alt="Nourx"
+            width={60}
+            height={20}
+            className="h-4 sm:h-5 w-auto transition-opacity hover:opacity-80 hidden dark:block"
             priority
           />
         </Link>
@@ -69,25 +80,26 @@ export default function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="relative text-sm font-medium text-nourx-black/80 hover:text-nourx-black transition-all duration-300 group"
+              className="relative text-sm font-medium text-foreground/80 hover:text-foreground transition-all duration-300 group"
             >
               {item.name}
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-nourx-blue transition-all duration-300 group-hover:w-full group-hover:left-0" />
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0" />
             </Link>
           ))}
         </div>
 
         {/* Right CTA */}
         <div className="absolute right-6 sm:right-8 hidden md:flex items-center gap-3">
+          <ThemeToggle />
           <Link
             href="/gerer-mes-services"
-            className="px-4 py-1.5 border border-nourx-blue text-nourx-blue text-xs font-medium rounded-full hover:bg-nourx-blue hover:text-white transition-all duration-300"
+            className="px-4 py-1.5 border border-input text-foreground text-xs font-medium rounded-full hover:bg-accent transition-all duration-300"
           >
             Gérer mes services
           </Link>
           <Link
             href="/contact"
-            className="px-6 py-2 bg-nourx-black text-white text-sm font-medium rounded-full hover:bg-nourx-blue transition-all duration-300 hover:scale-105"
+            className="px-6 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-full hover:bg-primary/90 transition-all duration-300 hover:scale-105"
           >
             Démarrer un projet
           </Link>
@@ -103,19 +115,19 @@ export default function Header() {
           <div className="w-5 h-4 relative">
             <span
               className={cn(
-                'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 top-0',
+                'block absolute h-0.5 w-full bg-foreground transition-all duration-300 top-0',
                 mobileMenuOpen && 'rotate-45 top-1/2 -translate-y-1/2'
               )}
             />
             <span
               className={cn(
-                'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 top-1/2 -translate-y-1/2',
+                'block absolute h-0.5 w-full bg-foreground transition-all duration-300 top-1/2 -translate-y-1/2',
                 mobileMenuOpen && 'opacity-0'
               )}
             />
             <span
               className={cn(
-                'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 bottom-0',
+                'block absolute h-0.5 w-full bg-foreground transition-all duration-300 bottom-0',
                 mobileMenuOpen && '-rotate-45 top-1/2 -translate-y-1/2'
               )}
             />
@@ -127,7 +139,7 @@ export default function Header() {
       {/* Mobile Menu - Outside of header */}
       <div
         className={cn(
-          'md:hidden fixed inset-0 bg-white z-[100] transition-transform duration-300',
+          'md:hidden fixed inset-0 bg-background z-[100] transition-transform duration-300',
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
@@ -138,17 +150,18 @@ export default function Header() {
           onClick={() => setMobileMenuOpen(false)}
         >
           <div className="w-6 h-6 relative">
-            <span className="block absolute h-0.5 w-full bg-nourx-black rotate-45 top-1/2 -translate-y-1/2" />
-            <span className="block absolute h-0.5 w-full bg-nourx-black -rotate-45 top-1/2 -translate-y-1/2" />
+            <span className="block absolute h-0.5 w-full bg-foreground rotate-45 top-1/2 -translate-y-1/2" />
+            <span className="block absolute h-0.5 w-full bg-foreground -rotate-45 top-1/2 -translate-y-1/2" />
           </div>
         </button>
         
         <div className="flex flex-col items-center justify-center h-full gap-6 sm:gap-8 p-6 sm:p-8">
+          <ThemeToggle />
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-xl sm:text-2xl font-medium text-nourx-black transition-colors hover:text-nourx-blue"
+              className="text-xl sm:text-2xl font-medium text-foreground transition-colors hover:text-primary"
               onClick={() => setMobileMenuOpen(false)}
             >
               {item.name}
@@ -157,14 +170,14 @@ export default function Header() {
           <div className="flex flex-col gap-3 mt-4">
             <Link
               href="/gerer-mes-services"
-              className="px-6 py-2 border border-nourx-blue text-nourx-blue rounded-full font-medium hover:bg-nourx-blue hover:text-white transition-all duration-300 text-center"
+              className="px-6 py-2 border border-input text-foreground rounded-full font-medium hover:bg-accent transition-all duration-300 text-center"
               onClick={() => setMobileMenuOpen(false)}
             >
               Gérer mes services
             </Link>
             <Link
               href="/contact"
-              className="px-8 py-3 bg-nourx-black text-white rounded-full font-medium hover:bg-nourx-blue transition-all duration-300"
+              className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300"
               onClick={() => setMobileMenuOpen(false)}
             >
               Démarrer un projet

@@ -5,15 +5,15 @@ import { ArrowRight, Code, Smartphone, Cloud } from 'lucide-react'
 
 export default function ExpertiseRedirect() {
   return (
-    <section className="py-16 bg-gradient-to-r from-nourx-gray-50 to-white">
+    <section className="py-16 bg-gradient-to-r from-muted to-background">
       <div className="container">
         <div className="max-w-4xl mx-auto text-center">
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-nourx-black">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
               Découvrez notre expertise technique
             </h2>
-            <p className="text-lg text-nourx-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Technologies modernes, méthodologies éprouvées et savoir-faire local pour vos projets digitaux
             </p>
           </div>
@@ -24,19 +24,19 @@ export default function ExpertiseRedirect() {
               <div className="p-3 bg-blue-100 rounded-full text-blue-600 mb-2">
                 <Code className="w-6 h-6" />
               </div>
-              <span className="text-sm text-nourx-gray-600">Web & API</span>
+              <span className="text-sm text-muted-foreground">Web & API</span>
             </div>
             <div className="flex flex-col items-center">
               <div className="p-3 bg-purple-100 rounded-full text-purple-600 mb-2">
                 <Smartphone className="w-6 h-6" />
               </div>
-              <span className="text-sm text-nourx-gray-600">Mobile</span>
+              <span className="text-sm text-muted-foreground">Mobile</span>
             </div>
             <div className="flex flex-col items-center">
               <div className="p-3 bg-green-100 rounded-full text-green-600 mb-2">
                 <Cloud className="w-6 h-6" />
               </div>
-              <span className="text-sm text-nourx-gray-600">Cloud & IA</span>
+              <span className="text-sm text-muted-foreground">Cloud & IA</span>
             </div>
           </div>
 

@@ -28,7 +28,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="container max-w-6xl mx-auto">
@@ -45,7 +45,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
+      <section className="py-20 px-4 bg-muted">
         <div className="container max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             <div>
@@ -81,7 +81,7 @@ export default function AboutPage() {
                 Nous croyons que la transformation digitale n'est pas réservée aux grandes entreprises. Notre approche sur mesure et notre expertise locale nous permettent d'accompagner des organisations de toutes tailles.
               </p>
             </div>
-            <div className="relative h-96 bg-nourx-gray-100 rounded-lg overflow-hidden">
+            <div className="relative h-96 bg-muted rounded-lg overflow-hidden">
               {/* Placeholder pour image */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-nourx-gray-400">Image Mission</p>
@@ -92,12 +92,12 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
+      <section className="py-20 px-4 bg-muted">
         <div className="container max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">Nos Valeurs</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {values.map((value) => (
-              <div key={value.number} className="bg-white p-8 rounded-lg">
+              <div key={value.number} className="bg-card p-8 rounded-lg border border-border">
                 <div className="flex items-start gap-6">
                   <span className="text-5xl font-bold text-nourx-gray-200">{value.number}</span>
                   <div>
@@ -122,7 +122,7 @@ export default function AboutPage() {
           </p>
           <a 
             href="/contact" 
-            className="inline-flex items-center gap-2 bg-white text-nourx-black px-8 py-4 rounded-lg hover:bg-nourx-gray-100 transition-colors font-medium"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-lg hover:bg-primary/90 transition-colors font-medium"
           >
             Contactez-nous
             <ArrowRight className="w-5 h-5" />

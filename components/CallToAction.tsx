@@ -103,7 +103,7 @@ export default function CallToAction() {
   }
 
   return (
-    <section className="section-padding bg-gradient-to-br from-nourx-gray-50 to-white relative overflow-hidden">
+    <section className="section-padding bg-gradient-to-br from-muted to-background relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 right-0 w-96 h-96 bg-nourx-blue rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -126,35 +126,35 @@ export default function CallToAction() {
               <div className="space-y-4 mb-8">
                 <a
                   href="https://wa.me/2250720111108"
-                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group"
+                className="flex items-center gap-4 p-4 bg-card rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group border border-border"
                 >
                   <div className="p-3 bg-green-100 rounded-full text-green-600">
                     <MessageCircle className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-semibold">WhatsApp Business</h4>
-                    <p className="text-sm text-nourx-gray-600">Réponse instantanée</p>
+                    <p className="text-sm text-muted-foreground">Réponse instantanée</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-nourx-gray-400 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
                 </a>
 
                 <a
                   href="tel:+2250720111108"
-                  className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group"
+                className="flex items-center gap-4 p-4 bg-card rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group border border-border"
                 >
                   <div className="p-3 bg-blue-100 rounded-full text-blue-600">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-semibold">+225 07 20 11 11 08</h4>
-                    <p className="text-sm text-nourx-gray-600">Lun-Ven 8h-18h</p>
+                    <p className="text-sm text-muted-foreground">Lun-Ven 8h-18h</p>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-nourx-gray-400 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
 
               {/* Trust Indicators */}
-              <div className="flex items-center gap-6 text-sm text-nourx-gray-600">
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                   <span>Disponible maintenant</span>
@@ -167,17 +167,17 @@ export default function CallToAction() {
             </div>
 
             {/* Right Form */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="bg-card rounded-2xl shadow-xl p-8 border border-border">
               <h3 className="heading-3 mb-6">Envoyez-nous un message</h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="relative">
-                  <label htmlFor="name" className="block text-sm font-medium text-nourx-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                     Nom complet
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <User className="h-5 w-5 text-nourx-gray-400" />
+                      <User className="h-5 w-5 text-muted-foreground" />
                     </div>
                     <input
                       type="text"
@@ -188,7 +188,7 @@ export default function CallToAction() {
                       required
                       className={cn(
                         "w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300 transform",
-                        formErrors.name ? "border-red-500 shake" : "border-nourx-gray-200",
+                        formErrors.name ? "border-red-500 shake" : "border-border",
                         "hover:shadow-sm focus:shadow-md focus:scale-[1.01]"
                       )}
                       placeholder="Jean Kouassi"
@@ -205,12 +205,12 @@ export default function CallToAction() {
                 </div>
 
                 <div className="relative">
-                  <label htmlFor="email" className="block text-sm font-medium text-nourx-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                     Email professionnel
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-nourx-gray-400" />
+                      <Mail className="h-5 w-5 text-muted-foreground" />
                     </div>
                     <input
                       type="email"
@@ -221,7 +221,7 @@ export default function CallToAction() {
                       required
                       className={cn(
                         "w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300 transform",
-                        formErrors.email ? "border-red-500 shake" : "border-nourx-gray-200",
+                        formErrors.email ? "border-red-500 shake" : "border-border",
                         "hover:shadow-sm focus:shadow-md focus:scale-[1.01]"
                       )}
                       placeholder="jean@entreprise.ci"
@@ -238,7 +238,7 @@ export default function CallToAction() {
                 </div>
 
                 <div>
-                  <label htmlFor="phoneNumber" className="block text-sm font-medium text-nourx-gray-700 mb-2">
+                  <label htmlFor="phoneNumber" className="block text-sm font-medium text-foreground mb-2">
                     Téléphone
                   </label>
                   <PhoneInput
@@ -251,7 +251,7 @@ export default function CallToAction() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-nourx-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
                     Votre projet
                   </label>
                   <textarea
@@ -261,7 +261,7 @@ export default function CallToAction() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-3 border border-nourx-gray-200 rounded-lg focus:ring-2 focus:ring-nourx-blue focus:border-transparent transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none"
                     placeholder="Décrivez brièvement votre projet..."
                   />
                 </div>
@@ -315,7 +315,7 @@ export default function CallToAction() {
                   </div>
                 )}
 
-                <p className="text-xs text-center text-nourx-gray-500">
+                <p className="text-xs text-center text-muted-foreground">
                   En soumettant ce formulaire, vous acceptez notre politique de confidentialité
                 </p>
               </form>

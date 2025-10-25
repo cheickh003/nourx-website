@@ -1,11 +1,11 @@
 export default function PolitiqueConfidentialitePage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero */}
       <section className="pt-32 pb-12 px-4">
         <div className="container max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Politique de confidentialité</h1>
-          <p className="text-nourx-gray-600 text-lg">
+          <p className="text-muted-foreground text-lg">
             Cette politique explique quelles données nous collectons, comment nous les utilisons,
             et quels sont vos droits.
           </p>
@@ -14,7 +14,7 @@ export default function PolitiqueConfidentialitePage() {
 
       {/* Content */}
       <section className="pb-20 px-4">
-        <div className="container max-w-4xl mx-auto space-y-10 text-nourx-gray-700">
+        <div className="container max-w-4xl mx-auto space-y-10 text-muted-foreground">
           <div>
             <h2 className="text-2xl font-semibold mb-3">1. Responsable du traitement</h2>
             <p>
@@ -122,8 +122,8 @@ export default function PolitiqueConfidentialitePage() {
             </p>
           </div>
 
-          <div className="pt-6 border-t border-nourx-gray-200">
-            <p className="text-sm text-nourx-gray-500">Dernière mise à jour: {new Date().toLocaleDateString('fr-FR')}</p>
+          <div className="pt-6 border-t border-border">
+            <p className="text-sm text-muted-foreground">Dernière mise à jour: {new Date().toLocaleDateString('fr-FR')}</p>
           </div>
         </div>
       </section>

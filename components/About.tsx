@@ -27,7 +27,7 @@ const values = [
 
 export default function About() {
   return (
-    <section id="about" className="section-padding bg-white">
+    <section id="about" className="section-padding bg-background">
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="heading-2 mb-4">À propos de Nourx</h2>
@@ -38,7 +38,7 @@ export default function About() {
 
         {/* Mission Statement */}
         <div className="max-w-4xl mx-auto mb-20">
-          <div className="bg-nourx-gray-50 rounded-2xl p-8 md:p-12 text-center">
+          <div className="bg-muted rounded-2xl p-8 md:p-12 text-center">
             <h3 className="heading-3 mb-6">Notre Mission</h3>
             <p className="text-body text-lg leading-relaxed">
               Accompagner les organisations africaines dans leur transformation digitale complète, 
@@ -57,7 +57,7 @@ export default function About() {
                 key={value.title}
                 className="text-center group"
               >
-                <div className="inline-flex p-3 sm:p-4 bg-nourx-gray-50 rounded-full text-nourx-black mb-3 sm:mb-4 group-hover:bg-nourx-blue group-hover:text-white transition-all duration-300">
+                <div className="inline-flex p-3 sm:p-4 bg-muted rounded-full text-foreground mb-3 sm:mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
                   {value.icon}
                 </div>
                 <h4 className="font-semibold text-base sm:text-lg mb-2">{value.title}</h4>

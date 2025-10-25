@@ -29,16 +29,38 @@
     --radius: 0.5rem;
   }
 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 212 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212 100% 50%;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-white text-nourx-black antialiased;
+    @apply bg-background text-foreground antialiased;
   }
 
   ::selection {
-    @apply bg-nourx-blue text-white;
+    @apply bg-primary text-primary-foreground;
   }
 }
 
@@ -48,15 +70,15 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-md bg-nourx-black px-6 py-3 text-sm font-medium text-white transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-nourx-blue focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground px-6 py-3 text-sm font-medium transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-md border-2 border-nourx-black bg-transparent px-6 py-3 text-sm font-medium text-nourx-black transition-colors hover:bg-nourx-black hover:text-white focus:outline-none focus:ring-2 focus:ring-nourx-blue focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-md border-2 border-input bg-background px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
 
   .btn-accent {
-    @apply inline-flex items-center justify-center rounded-md bg-nourx-blue px-6 py-3 text-sm font-medium text-white transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-nourx-blue focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
 
   .section-padding {
@@ -76,12 +98,12 @@
   }
 
   .text-body {
-    @apply text-base text-nourx-gray-600 sm:text-lg;
+    @apply text-base text-muted-foreground sm:text-lg;
   }
 
   /* Cybernetic Bento Grid Styles */
   .main-container {
-    @apply w-full flex items-center justify-center py-12 sm:py-16 md:py-20 px-4 bg-white;
+    @apply w-full flex items-center justify-center py-12 sm:py-16 md:py-20 px-4 bg-background;
   }
 
   .bento-grid {
@@ -106,7 +128,7 @@
   }
 
   .bento-item {
-    @apply relative p-4 sm:p-6 bg-white border border-nourx-gray-200 rounded-xl transition-all duration-300 cursor-pointer overflow-hidden;
+    @apply relative p-4 sm:p-6 bg-card border border-border rounded-xl transition-all duration-300 cursor-pointer overflow-hidden;
     @apply hover:shadow-xl hover:border-nourx-blue/20;
     
     /* Gradient glow effect */

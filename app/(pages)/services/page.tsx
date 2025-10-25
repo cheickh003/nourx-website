@@ -64,7 +64,7 @@ export default function ServicesPage() {
   ]
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="container max-w-6xl mx-auto">
@@ -83,16 +83,16 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-20 px-4">
         <div className="container max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-px bg-nourx-gray-200">
+          <div className="grid md:grid-cols-3 gap-px bg-border">
             {services.map((service, index) => (
               <div
                 key={service.number}
-                className="bg-white p-8 md:p-12 relative group cursor-pointer transition-all duration-300 hover:bg-nourx-gray-50"
+                className="bg-card p-8 md:p-12 relative group cursor-pointer transition-all duration-300 hover:bg-muted"
                 onMouseEnter={() => setHoveredService(index)}
                 onMouseLeave={() => setHoveredService(null)}
               >
                 {/* Service Number */}
-                <span className="text-6xl md:text-7xl font-bold text-nourx-gray-100 mb-6 block">
+                <span className="text-6xl md:text-7xl font-bold text-muted mb-6 block">
                   {service.number}
                 </span>
 
@@ -102,7 +102,7 @@ export default function ServicesPage() {
                 </h3>
 
                 {/* Service Description */}
-                <p className="text-nourx-gray-600 mb-4">
+                <p className="text-muted-foreground mb-4">
                   {service.description}
                 </p>
 
@@ -110,7 +110,7 @@ export default function ServicesPage() {
                 <div className={`transition-all duration-300 ${
                   hoveredService === index ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
                 }`}>
-                  <p className="text-sm text-nourx-gray-500">
+                  <p className="text-sm text-muted-foreground">
                     {service.details}
                   </p>
                 </div>
@@ -126,7 +126,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
+      <section className="py-20 px-4 bg-muted">
         <div className="container max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">
             Notre Approche
@@ -134,40 +134,40 @@ export default function ServicesPage() {
           
           <div className="space-y-12">
             <div className="flex gap-8 items-start">
-              <span className="text-2xl font-bold text-nourx-gray-300 mt-1">01</span>
+              <span className="text-2xl font-bold text-muted-foreground/40 mt-1">01</span>
               <div>
                 <h3 className="text-xl font-semibold mb-2">Découverte</h3>
-                <p className="text-nourx-gray-600">
+                <p className="text-muted-foreground">
                   Nous analysons vos besoins, objectifs et contraintes pour définir la meilleure approche.
                 </p>
               </div>
             </div>
 
             <div className="flex gap-8 items-start">
-              <span className="text-2xl font-bold text-nourx-gray-300 mt-1">02</span>
+              <span className="text-2xl font-bold text-muted-foreground/40 mt-1">02</span>
               <div>
                 <h3 className="text-xl font-semibold mb-2">Conception</h3>
-                <p className="text-nourx-gray-600">
+                <p className="text-muted-foreground">
                   Création d'une solution sur mesure avec prototypes et validation à chaque étape.
                 </p>
               </div>
             </div>
 
             <div className="flex gap-8 items-start">
-              <span className="text-2xl font-bold text-nourx-gray-300 mt-1">03</span>
+              <span className="text-2xl font-bold text-muted-foreground/40 mt-1">03</span>
               <div>
                 <h3 className="text-xl font-semibold mb-2">Développement</h3>
-                <p className="text-nourx-gray-600">
+                <p className="text-muted-foreground">
                   Réalisation agile avec des livrables réguliers et une communication transparente.
                 </p>
               </div>
             </div>
 
             <div className="flex gap-8 items-start">
-              <span className="text-2xl font-bold text-nourx-gray-300 mt-1">04</span>
+              <span className="text-2xl font-bold text-muted-foreground/40 mt-1">04</span>
               <div>
                 <h3 className="text-xl font-semibold mb-2">Déploiement</h3>
-                <p className="text-nourx-gray-600">
+                <p className="text-muted-foreground">
                   Mise en production sécurisée avec formation et accompagnement de vos équipes.
                 </p>
               </div>

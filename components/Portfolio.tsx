@@ -5,7 +5,7 @@ import { ArrowRight, Rocket, Clock } from 'lucide-react'
 
 export default function Portfolio() {
   return (
-    <section id="realisations" className="section-padding bg-white">
+    <section id="realisations" className="section-padding bg-background">
       <div className="container">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="heading-2 mb-4">Nos Réalisations</h2>
@@ -14,19 +14,19 @@ export default function Portfolio() {
           </p>
 
           {/* Coming Soon Card */}
-          <div className="bg-gradient-to-br from-nourx-gray-50 to-white border-2 border-dashed border-nourx-gray-200 rounded-2xl p-12 mb-12">
+          <div className="bg-gradient-to-br from-muted to-background border-2 border-dashed border-border rounded-2xl p-12 mb-12">
             <div className="flex flex-col items-center">
               <div className="p-4 bg-nourx-blue/10 rounded-full mb-6">
                 <Rocket className="w-12 h-12 text-nourx-blue" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-nourx-black">
+              <h3 className="text-2xl font-bold mb-4 text-foreground">
                 Projets en préparation
               </h3>
-              <p className="text-nourx-gray-600 mb-6 max-w-2xl">
+              <p className="text-muted-foreground mb-6 max-w-2xl">
                 Nous finalisons actuellement la présentation de nos réalisations les plus récentes. 
                 Nos projets couvrent le développement web, mobile, l'IA et les solutions ERP.
               </p>
-              <div className="flex items-center gap-2 text-sm text-nourx-gray-500">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
                 <span>Mise à jour prochainement</span>
               </div>

@@ -28,10 +28,10 @@ export default function Expertise() {
           {techStack.map((tech, index) => (
             <div
               key={tech.name}
-              className="bg-white p-4 rounded-lg text-center hover:shadow-md transition-all"
+              className="bg-card p-4 rounded-lg text-center hover:shadow-md transition-all border border-border"
             >
               <p className="font-medium">{tech.name}</p>
-              <p className="text-sm text-nourx-gray-500">{tech.category}</p>
+              <p className="text-sm text-muted-foreground">{tech.category}</p>
             </div>
           ))}
         </div>

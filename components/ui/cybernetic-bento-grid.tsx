@@ -119,8 +119,8 @@ export const CyberneticBentoGrid: React.FC = () => {
     <div className="main-container">
       <div className="w-full max-w-6xl z-10">
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:heading-2 mb-3 sm:mb-4 text-nourx-black">Nos Services</h2>
-          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4 text-nourx-gray-600">
+          <h2 className="text-2xl sm:text-3xl md:heading-2 mb-3 sm:mb-4 text-foreground">Nos Services</h2>
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4 text-muted-foreground">
             Une expertise complète pour accompagner votre transformation digitale de A à Z
           </p>
         </div>
@@ -132,13 +132,13 @@ export const CyberneticBentoGrid: React.FC = () => {
               <div className="inline-flex p-3 rounded-lg bg-nourx-blue/10 text-nourx-blue mb-4">
                 {services[0].icon}
               </div>
-              <h3 className="text-xl font-bold text-nourx-black mb-3">{services[0].title}</h3>
-              <p className="text-nourx-gray-600 text-sm leading-relaxed">{services[0].description}</p>
+              <h3 className="text-xl font-bold text-foreground mb-3">{services[0].title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{services[0].description}</p>
             </div>
             <div className="mt-6 h-32 bg-gradient-to-br from-nourx-blue/5 to-nourx-blue/10 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <div className="text-2xl font-bold text-nourx-blue mb-1">80+</div>
-                <div className="text-xs text-nourx-gray-500">Projets livrés</div>
+                <div className="text-xs text-muted-foreground">Projets livrés</div>
               </div>
             </div>
           </BentoItem>
@@ -148,8 +148,8 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-emerald-500/10 text-emerald-600 mb-4">
               {services[1].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-2">{services[1].title}</h3>
-            <p className="text-nourx-gray-600 text-sm">{services[1].description}</p>
+            <h3 className="text-lg font-bold text-foreground mb-2">{services[1].title}</h3>
+            <p className="text-muted-foreground text-sm">{services[1].description}</p>
           </BentoItem>
 
           {/* Mobile Apps */}
@@ -157,8 +157,8 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-purple-500/10 text-purple-600 mb-4">
               {services[2].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-2">{services[2].title}</h3>
-            <p className="text-nourx-gray-600 text-sm">{services[2].description}</p>
+            <h3 className="text-lg font-bold text-foreground mb-2">{services[2].title}</h3>
+            <p className="text-muted-foreground text-sm">{services[2].description}</p>
           </BentoItem>
 
           {/* AI - Tall item */}
@@ -166,11 +166,11 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-indigo-500/10 text-indigo-600 mb-4">
               {services[4].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-3">{services[4].title}</h3>
-            <p className="text-nourx-gray-600 text-sm leading-relaxed mb-4">{services[4].description}</p>
-            <div className="mt-4 p-3 bg-indigo-50 rounded-lg">
+            <h3 className="text-lg font-bold text-foreground mb-3">{services[4].title}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4">{services[4].description}</p>
+            <div className="mt-4 p-3 bg-indigo-500/10 rounded-lg">
               <div className="text-xs text-indigo-600 font-medium">Nouveauté</div>
-              <div className="text-xs text-nourx-gray-600 mt-1">GPT-4o fine-tuning</div>
+              <div className="text-xs text-muted-foreground mt-1">GPT-4o fine-tuning</div>
             </div>
           </BentoItem>
 
@@ -181,12 +181,12 @@ export const CyberneticBentoGrid: React.FC = () => {
                 <div className="inline-flex p-3 rounded-lg bg-cyan-500/10 text-cyan-600 mb-4">
                   {services[5].icon}
                 </div>
-                <h3 className="text-lg font-bold text-nourx-black mb-2">{services[5].title}</h3>
-                <p className="text-nourx-gray-600 text-sm">{services[5].description}</p>
+                <h3 className="text-lg font-bold text-foreground mb-2">{services[5].title}</h3>
+                <p className="text-muted-foreground text-sm">{services[5].description}</p>
               </div>
               <div className="ml-4 text-right">
                 <div className="text-lg font-bold text-cyan-600">24/7</div>
-                <div className="text-xs text-nourx-gray-500">Monitoring</div>
+                <div className="text-xs text-muted-foreground">Monitoring</div>
               </div>
             </div>
           </BentoItem>
@@ -196,8 +196,8 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-orange-500/10 text-orange-600 mb-4">
               {services[3].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-2">{services[3].title}</h3>
-            <p className="text-nourx-gray-600 text-sm">{services[3].description}</p>
+            <h3 className="text-lg font-bold text-foreground mb-2">{services[3].title}</h3>
+            <p className="text-muted-foreground text-sm">{services[3].description}</p>
           </BentoItem>
 
           {/* Digital Marketing */}
@@ -205,8 +205,8 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-pink-500/10 text-pink-600 mb-4">
               {services[6].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-2">{services[6].title}</h3>
-            <p className="text-nourx-gray-600 text-sm">{services[6].description}</p>
+            <h3 className="text-lg font-bold text-foreground mb-2">{services[6].title}</h3>
+            <p className="text-muted-foreground text-sm">{services[6].description}</p>
           </BentoItem>
 
           {/* 24/7 Support */}
@@ -214,8 +214,8 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-red-500/10 text-red-600 mb-4">
               {services[7].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-2">{services[7].title}</h3>
-            <p className="text-nourx-gray-600 text-sm">{services[7].description}</p>
+            <h3 className="text-lg font-bold text-foreground mb-2">{services[7].title}</h3>
+            <p className="text-muted-foreground text-sm">{services[7].description}</p>
           </BentoItem>
 
           {/* Training */}
@@ -223,8 +223,8 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="inline-flex p-3 rounded-lg bg-green-500/10 text-green-600 mb-4">
               {services[8].icon}
             </div>
-            <h3 className="text-lg font-bold text-nourx-black mb-2">{services[8].title}</h3>
-            <p className="text-nourx-gray-600 text-sm">{services[8].description}</p>
+            <h3 className="text-lg font-bold text-foreground mb-2">{services[8].title}</h3>
+            <p className="text-muted-foreground text-sm">{services[8].description}</p>
           </BentoItem>
         </div>
       </div>

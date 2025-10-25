@@ -162,28 +162,28 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-nourx-gray-50 to-white pt-24 sm:pt-32 pb-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-muted to-background pt-24 sm:pt-32 pb-16 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex p-3 bg-nourx-blue/10 rounded-full mb-6">
             <CreditCard className="w-8 h-8 text-nourx-blue" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Paiement sécurisé
           </h1>
-          <p className="text-nourx-gray-600 text-lg">
+          <p className="text-muted-foreground text-lg">
             Effectuez votre paiement en toute sécurité
           </p>
         </div>
 
         {/* Main Form Card */}
-        <div className="bg-white rounded-2xl shadow-lg border border-nourx-gray-200 overflow-hidden">
+        <div className="bg-card rounded-2xl shadow-lg border border-border overflow-hidden">
           {/* Security Banner */}
-          <div className="bg-green-50 border-b border-green-100 px-6 py-4">
+          <div className="bg-green-500/10 border-b border-green-500/20 px-6 py-4">
             <div className="flex items-center gap-2 text-green-700">
               <Shield className="w-4 h-4" />
-              <span className="text-sm font-medium">Paiement sécurisé avec CinetPay</span>
+              <span className="text-sm font-medium text-foreground">Paiement sécurisé avec CinetPay</span>
             </div>
           </div>
 
@@ -195,7 +195,7 @@ const PaymentPage = () => {
                   <div className="p-2 bg-nourx-blue/10 rounded-lg">
                     <CreditCard className="w-5 h-5 text-nourx-blue" />
                   </div>
-                  <h2 className="text-xl font-semibold text-nourx-black">Sélection du service</h2>
+                    <h2 className="text-xl font-semibold text-foreground">Sélection du service</h2>
                 </div>
                 
                 <FormField
@@ -203,7 +203,7 @@ const PaymentPage = () => {
                   name="service_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                      <FormLabel className="text-sm font-medium text-foreground">
                         Type de service
                       </FormLabel>
                       <Select 
@@ -214,7 +214,7 @@ const PaymentPage = () => {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20">
+                          <SelectTrigger className="py-3 border-input focus:border-primary focus:ring-primary/20">
                             <SelectValue placeholder="Choisissez un service" />
                           </SelectTrigger>
                         </FormControl>
@@ -238,7 +238,7 @@ const PaymentPage = () => {
                       </Select>
                       <FormMessage />
                       {selectedServiceData && (
-                        <p className="text-sm text-nourx-gray-600 mt-2">
+                        <p className="text-sm text-muted-foreground mt-2">
                           {selectedServiceData.description}
                         </p>
                       )}
@@ -253,7 +253,7 @@ const PaymentPage = () => {
                   <div className="p-2 bg-nourx-blue/10 rounded-lg">
                     <Shield className="w-5 h-5 text-nourx-blue" />
                   </div>
-                  <h2 className="text-xl font-semibold text-nourx-black">Référence de paiement</h2>
+                    <h2 className="text-xl font-semibold text-foreground">Référence de paiement</h2>
                 </div>
                 
                 <FormField
@@ -261,17 +261,17 @@ const PaymentPage = () => {
                   name="payment_reference"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                      <FormLabel className="text-sm font-medium text-foreground">
                         Référence fournie par Nourx *
                       </FormLabel>
                       <FormControl>
                         <Input 
                           placeholder="Ex: REF-2024-001" 
-                          className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                          className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                           {...field} 
                         />
                       </FormControl>
-                      <p className="text-xs text-nourx-gray-500 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1">
                         Veuillez saisir la référence de paiement que nous vous avons fournie
                       </p>
                       <FormMessage />
@@ -287,7 +287,7 @@ const PaymentPage = () => {
                     <div className="p-2 bg-nourx-blue/10 rounded-lg">
                       <CreditCard className="w-5 h-5 text-nourx-blue" />
                     </div>
-                    <h2 className="text-xl font-semibold text-nourx-black">Montant à payer</h2>
+                    <h2 className="text-xl font-semibold text-foreground">Montant à payer</h2>
                   </div>
                   
                   {isCustomAmount ? (
@@ -296,7 +296,7 @@ const PaymentPage = () => {
                       name="amount"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                             Montant personnalisé (FCFA)
                           </FormLabel>
                           <FormControl>
@@ -304,10 +304,10 @@ const PaymentPage = () => {
                               <Input 
                                 type="number" 
                                 placeholder="Entrez le montant" 
-                                className="pl-12 py-3 text-lg font-semibold border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                                className="pl-12 py-3 text-lg font-semibold border-input focus:border-primary focus:ring-primary/20" 
                                 {...field} 
                               />
-                              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-nourx-gray-500 font-medium">
+                              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
                                 XOF
                               </span>
                             </div>
@@ -317,15 +317,15 @@ const PaymentPage = () => {
                       )}
                     />
                   ) : (
-                    <div className="p-4 bg-nourx-gray-50 rounded-lg border border-nourx-gray-200">
+                    <div className="p-4 bg-muted rounded-lg border border-border">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-nourx-gray-700">Service sélectionné :</p>
-                          <p className="text-nourx-black font-semibold">{selectedServiceData?.name}</p>
+                          <p className="font-medium text-foreground">Service sélectionné :</p>
+                          <p className="text-foreground font-semibold">{selectedServiceData?.name}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm text-nourx-gray-600">Montant</p>
-                          <p className="text-2xl font-bold text-nourx-blue">
+                          <p className="text-sm text-muted-foreground">Montant</p>
+                          <p className="text-2xl font-bold text-primary">
                             {selectedServiceData?.amount.toLocaleString()} XOF
                           </p>
                         </div>
@@ -349,12 +349,12 @@ const PaymentPage = () => {
               )}
 
               {/* Customer Information Section */}
-              <div className="border-t border-nourx-gray-100 pt-8">
+              <div className="border-t border-border pt-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-nourx-blue/10 rounded-lg">
                     <User className="w-5 h-5 text-nourx-blue" />
                   </div>
-                  <h2 className="text-xl font-semibold text-nourx-black">Informations client</h2>
+                    <h2 className="text-xl font-semibold text-foreground">Informations client</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -363,13 +363,13 @@ const PaymentPage = () => {
                     name="customer_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                           Nom
                         </FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Votre nom" 
-                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                             {...field} 
                           />
                         </FormControl>
@@ -383,13 +383,13 @@ const PaymentPage = () => {
                     name="customer_surname"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                           Prénom
                         </FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Votre prénom" 
-                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                             {...field} 
                           />
                         </FormControl>
@@ -405,14 +405,14 @@ const PaymentPage = () => {
                     name="customer_email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                           Email
                         </FormLabel>
                         <FormControl>
                           <Input 
                             type="email" 
                             placeholder="votre@email.com" 
-                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                             {...field} 
                           />
                         </FormControl>
@@ -426,13 +426,13 @@ const PaymentPage = () => {
                     name="customer_phone_number"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                           Téléphone
                         </FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="07 XX XX XX XX" 
-                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                             {...field} 
                           />
                         </FormControl>
@@ -444,12 +444,12 @@ const PaymentPage = () => {
               </div>
 
               {/* Address Section */}
-              <div className="border-t border-nourx-gray-100 pt-8 mt-8">
+              <div className="border-t border-border pt-8 mt-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-nourx-blue/10 rounded-lg">
                     <MapPin className="w-5 h-5 text-nourx-blue" />
                   </div>
-                  <h2 className="text-xl font-semibold text-nourx-black">Adresse de facturation</h2>
+                    <h2 className="text-xl font-semibold text-foreground">Adresse de facturation</h2>
                 </div>
                 
                 <div className="space-y-6">
@@ -458,13 +458,13 @@ const PaymentPage = () => {
                     name="customer_address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                           Adresse
                         </FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="123 Rue Principale" 
-                            className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                             {...field} 
                           />
                         </FormControl>
@@ -479,13 +479,13 @@ const PaymentPage = () => {
                       name="customer_city"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                             Ville
                           </FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="Abidjan" 
-                              className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                               {...field} 
                             />
                           </FormControl>
@@ -499,13 +499,13 @@ const PaymentPage = () => {
                       name="customer_zip_code"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                             Code postal
                           </FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="00225" 
-                              className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                               {...field} 
                             />
                           </FormControl>
@@ -521,12 +521,12 @@ const PaymentPage = () => {
                       name="customer_country"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                             Pays
                           </FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20">
+                              <SelectTrigger className="py-3 border-input focus:border-primary focus:ring-primary/20">
                                 <SelectValue placeholder="Sélectionnez un pays" />
                               </SelectTrigger>
                             </FormControl>
@@ -548,13 +548,13 @@ const PaymentPage = () => {
                       name="customer_state"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-nourx-gray-700">
+                          <FormLabel className="text-sm font-medium text-foreground">
                             État/Région
                           </FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="Région des Lagunes" 
-                              className="py-3 border-nourx-gray-200 focus:border-nourx-blue focus:ring-nourx-blue/20" 
+                            className="py-3 border-input focus:border-primary focus:ring-primary/20" 
                               {...field} 
                             />
                           </FormControl>
@@ -567,11 +567,11 @@ const PaymentPage = () => {
               </div>
 
               {/* Submit Button */}
-              <div className="border-t border-nourx-gray-100 pt-8 mt-8">
+              <div className="border-t border-border pt-8 mt-8">
                 <Button 
                   type="submit" 
                   disabled={isLoading}
-                  className="w-full py-4 text-lg font-semibold bg-nourx-blue hover:bg-blue-600 transition-all duration-300 hover:scale-[1.02] disabled:hover:scale-100"
+                  className="w-full py-4 text-lg font-semibold"
                 >
                   {isLoading ? (
                     <>
@@ -587,7 +587,7 @@ const PaymentPage = () => {
                 </Button>
                 
                 {/* Security Notice */}
-                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-nourx-gray-500">
+                <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500" />
                   <span>Paiement sécurisé SSL 256-bit</span>
                 </div>

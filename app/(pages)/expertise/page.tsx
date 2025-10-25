@@ -72,7 +72,7 @@ export default function ExpertisePage() {
   ]
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="container max-w-6xl mx-auto">
@@ -101,12 +101,12 @@ export default function ExpertisePage() {
                 <Tooltip key={tech.name}>
                   <TooltipTrigger asChild>
                     <div
-                      className="bg-nourx-gray-50 rounded-lg p-6 hover:bg-white hover:shadow-md transition-all duration-300 cursor-pointer"
+                      className="bg-muted rounded-lg p-6 hover:bg-card hover:shadow-md transition-all duration-300 cursor-pointer border border-border"
                       onMouseEnter={() => setHoveredTech(tech.name)}
                       onMouseLeave={() => setHoveredTech(null)}
                     >
                       <div 
-                        className="w-12 h-12 mx-auto text-nourx-gray-600"
+                        className="w-12 h-12 mx-auto text-muted-foreground"
                         dangerouslySetInnerHTML={{ __html: tech.svg || '' }}
                       />
                     </div>
@@ -119,14 +119,14 @@ export default function ExpertisePage() {
             </div>
           </TooltipProvider>
 
-          <p className="text-center text-nourx-gray-600 mt-12">
+          <p className="text-center text-muted-foreground mt-12">
             + Vue.js, Angular, PHP, MySQL, Swift, Kotlin, et bien d'autres...
           </p>
         </div>
       </section>
 
       {/* Expertise Levels */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
+      <section className="py-20 px-4 bg-muted">
         <div className="container max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-16">
             Domaines d'Expertise
@@ -137,7 +137,7 @@ export default function ExpertisePage() {
               <div key={domain.domain}>
                 <div className="flex justify-between items-end mb-3">
                   <h3 className="text-xl font-semibold">{domain.domain}</h3>
-                  <span className="text-sm text-nourx-gray-600">{domain.years} ans d'expérience</span>
+                  <span className="text-sm text-muted-foreground">{domain.years} ans d'expérience</span>
                 </div>
                 <Progress value={domain.level} className="h-2" />
               </div>
@@ -152,22 +152,22 @@ export default function ExpertisePage() {
           <div className="grid md:grid-cols-3 gap-12 text-center">
             <div>
               <p className="text-5xl font-bold mb-2">30+</p>
-              <p className="text-nourx-gray-600">Technologies maîtrisées</p>
+              <p className="text-muted-foreground">Technologies maîtrisées</p>
             </div>
             <div>
               <p className="text-5xl font-bold mb-2">150+</p>
-              <p className="text-nourx-gray-600">Projets déployés</p>
+              <p className="text-muted-foreground">Projets déployés</p>
             </div>
             <div>
               <p className="text-5xl font-bold mb-2">99.9%</p>
-              <p className="text-nourx-gray-600">Uptime garanti</p>
+              <p className="text-muted-foreground">Uptime garanti</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonial */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
+      <section className="py-20 px-4 bg-muted">
         <div className="container max-w-4xl mx-auto">
           <blockquote className="text-center">
             <p className="text-2xl md:text-3xl font-light mb-8">
@@ -175,7 +175,7 @@ export default function ExpertisePage() {
             </p>
             <footer>
               <p className="font-semibold">Jean-Marc Kouassi</p>
-              <p className="text-nourx-gray-600">CTO, FinTech Côte d'Ivoire</p>
+              <p className="text-muted-foreground">CTO, FinTech Côte d'Ivoire</p>
             </footer>
           </blockquote>
         </div>
@@ -194,7 +194,7 @@ export default function ExpertisePage() {
                 <AccordionTrigger className="text-left">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-nourx-gray-600">
+                <AccordionContent className="text-muted-foreground">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>

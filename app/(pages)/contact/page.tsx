@@ -128,7 +128,7 @@ export default function ContactPage() {
   ]
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="container max-w-6xl mx-auto">
@@ -149,7 +149,7 @@ export default function ContactPage() {
         <div className="container max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Contact Form */}
-            <div className="bg-nourx-gray-50 p-8 md:p-12 rounded-lg">
+            <div className="bg-muted p-8 md:p-12 rounded-lg">
               <h2 className="text-2xl font-semibold mb-8">Envoyez-nous un message</h2>
               
               <Form {...form}>
@@ -164,7 +164,6 @@ export default function ContactPage() {
                           <Input 
                             placeholder="Jean Kouassi" 
                             {...field} 
-                            className="bg-white"
                           />
                         </FormControl>
                         <FormMessage />
@@ -183,7 +182,6 @@ export default function ContactPage() {
                             type="email" 
                             placeholder="jean@entreprise.ci" 
                             {...field}
-                            className="bg-white"
                           />
                         </FormControl>
                         <FormMessage />
@@ -201,7 +199,6 @@ export default function ContactPage() {
                           <PhoneInput 
                             value={field.value}
                             onChange={field.onChange}
-                            className="bg-white"
                             defaultCountryCode="CI"
                           />
                         </FormControl>
@@ -218,11 +215,11 @@ export default function ContactPage() {
                         <FormLabel>Objet</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="bg-white">
+                            <SelectTrigger>
                               <SelectValue placeholder="Sélectionnez un sujet" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent className="!bg-white !opacity-100 border-nourx-gray-200 shadow-lg z-[100]">
+                          <SelectContent>
                             <SelectItem value="new-project">Développement d'application web/mobile</SelectItem>
                             <SelectItem value="digital-transformation">Transformation digitale</SelectItem>
                             <SelectItem value="ai-integration">Intégration IA & Automatisation</SelectItem>
@@ -248,7 +245,7 @@ export default function ContactPage() {
                         <FormControl>
                           <Textarea 
                             placeholder="Décrivez votre projet ou votre demande..."
-                            className="min-h-[120px] bg-white"
+                            className="min-h-[120px]"
                             {...field}
                           />
                         </FormControl>
@@ -274,7 +271,7 @@ export default function ContactPage() {
                 </form>
               </Form>
 
-              <p className="text-sm text-nourx-gray-600 text-center mt-6">
+              <p className="text-sm text-muted-foreground text-center mt-6">
                 Nous répondons généralement en moins de 24 heures
               </p>
             </div>
@@ -307,12 +304,12 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ CTA */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
+      <section className="py-20 px-4 bg-muted">
         <div className="container max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">
             Des questions fréquentes ?
           </h2>
-          <p className="text-lg text-nourx-gray-600 mb-8">
+          <p className="text-lg text-muted-foreground mb-8">
             Consultez notre FAQ pour trouver rapidement des réponses.
           </p>
           <Button variant="outline" asChild>

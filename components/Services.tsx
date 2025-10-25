@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Services() {
   return (
-    <section id="services" className="bg-white">
+    <section id="services" className="bg-background">
       <CyberneticBentoGrid />
       
       <div className="text-center pb-12">

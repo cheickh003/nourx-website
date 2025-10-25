@@ -75,14 +75,14 @@ const services = [
 
 export default function GererMesServicesPage() {
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 sm:pt-28 pb-12">
+    <div className="min-h-screen bg-background pt-24 sm:pt-28 pb-12">
       <div className="max-w-4xl mx-auto px-6 sm:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Gérer mes services
           </h1>
-          <p className="text-lg text-nourx-black/70 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Accédez rapidement à tous vos services Nourx. Choisissez l'option qui correspond à vos besoins.
           </p>
         </div>
@@ -99,18 +99,18 @@ export default function GererMesServicesPage() {
                   href={service.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${service.color} border-2 rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg group`}
+                  className={`border-2 rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg group bg-card border-border`}
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`${service.iconColor} p-3 bg-white rounded-lg shadow-sm`}>
+                    <div className={`p-3 bg-card rounded-lg shadow-sm border border-border`}>
                       <IconComponent className="w-6 h-6" />
                     </div>
-                    <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                   </div>
-                  <h3 className="text-xl font-semibold text-nourx-black mb-2">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
                     {service.title}
                   </h3>
-                  <p className="text-nourx-black/70">
+                  <p className="text-muted-foreground">
                     {service.description}
                   </p>
                 </a>
@@ -121,17 +121,17 @@ export default function GererMesServicesPage() {
               <Link
                 key={service.title}
                 href={service.href}
-                className={`${service.color} border-2 rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg block`}
+                className={`border-2 rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg block bg-card border-border`}
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className={`${service.iconColor} p-3 bg-white rounded-lg shadow-sm`}>
+                  <div className={`p-3 bg-card rounded-lg shadow-sm border border-border`}>
                     <IconComponent className="w-6 h-6" />
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-nourx-black mb-2">
+                <h3 className="text-xl font-semibold text-foreground mb-2">
                   {service.title}
                 </h3>
-                <p className="text-nourx-black/70">
+                <p className="text-muted-foreground">
                   {service.description}
                 </p>
               </Link>
@@ -140,17 +140,17 @@ export default function GererMesServicesPage() {
         </div>
 
         {/* Help Section */}
-        <div className="bg-white rounded-xl p-8 border border-gray-200 text-center">
-          <h2 className="text-2xl font-semibold text-nourx-black mb-4">
+        <div className="bg-card rounded-xl p-8 border border-border text-center">
+          <h2 className="text-2xl font-semibold text-foreground mb-4">
             Besoin d'aide ?
           </h2>
-          <p className="text-nourx-black/70 mb-6">
+          <p className="text-muted-foreground mb-6">
             Notre équipe est là pour vous accompagner dans la gestion de vos services.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
-              className="px-6 py-3 bg-nourx-blue text-white rounded-full font-medium hover:bg-nourx-blue/90 transition-all duration-300"
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300"
             >
               Nous contacter
             </Link>
@@ -158,7 +158,7 @@ export default function GererMesServicesPage() {
               href="https://wa.me/2250799997722"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 border border-green-500 text-green-600 rounded-full font-medium hover:bg-green-50 transition-all duration-300"
+              className="px-6 py-3 border border-input text-foreground rounded-full font-medium hover:bg-accent transition-all duration-300"
             >
               Support WhatsApp
             </a>

@@ -15,7 +15,7 @@ export function FeatureCard({ feature, className, ...props }: FeatureCardProps) 
     const p = genRandomPattern(undefined, feature.title);
 
     return (
-        <div className={cn('relative overflow-hidden p-6 border border-dashed border-nourx-gray-200 bg-white hover:border-nourx-gray-300 transition-colors duration-300', className)} {...props}>
+    <div className={cn('relative overflow-hidden p-6 border border-dashed border-border bg-card hover:border-border transition-colors duration-300', className)} {...props}>
             <div className="pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]">
                 <div className="absolute inset-0 bg-gradient-to-r from-nourx-gray-50/50 to-nourx-gray-100/30 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
                     <GridPattern
@@ -28,9 +28,9 @@ export function FeatureCard({ feature, className, ...props }: FeatureCardProps) 
                     />
                 </div>
             </div>
-            <feature.icon className="size-6 text-nourx-black/75" strokeWidth={1} aria-hidden />
-            <h3 className="mt-10 text-sm md:text-base font-semibold text-nourx-black">{feature.title}</h3>
-            <p className="relative z-20 mt-2 text-xs font-light text-nourx-gray-600 leading-relaxed">{feature.description}</p>
+            <feature.icon className="size-6 text-foreground/75" strokeWidth={1} aria-hidden />
+            <h3 className="mt-10 text-sm md:text-base font-semibold text-foreground">{feature.title}</h3>
+            <p className="relative z-20 mt-2 text-xs font-light text-muted-foreground leading-relaxed">{feature.description}</p>
         </div>
     );
 }

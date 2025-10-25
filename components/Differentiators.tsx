@@ -66,13 +66,13 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 
 export default function Differentiators() {
   return (
-    <section className="py-16 md:py-32 bg-nourx-gray-50">
+    <section className="py-16 md:py-32 bg-muted">
       <div className="mx-auto w-full max-w-5xl space-y-8 px-4">
         <AnimatedContainer className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold text-nourx-black">
+          <h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold text-foreground">
             Ce qui nous différencie
           </h2>
-          <p className="mt-4 text-sm tracking-wide text-balance md:text-base text-nourx-gray-600">
+          <p className="mt-4 text-sm tracking-wide text-balance md:text-base text-muted-foreground">
             Une approche unique qui combine expertise technique, proximité locale et engagement qualité
           </p>
         </AnimatedContainer>

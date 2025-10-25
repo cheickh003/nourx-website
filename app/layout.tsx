@@ -3,6 +3,7 @@ import { inter } from './fonts'
 import { Toaster } from '@/components/ui/toaster'
 import Header from '@/components/Header'
 import './globals.css'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: 'Nourx - Votre partenaire digital de A à Z',
@@ -24,11 +25,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={inter.variable}>
+    <html lang="fr" className={inter.variable} suppressHydrationWarning>
       <body className={inter.className}>
-        <Header />
-        {children}
-        <Toaster />
+        <Providers>
+          <Header />
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   )

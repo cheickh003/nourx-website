@@ -45,53 +45,53 @@ const ConfirmationContent = () => {
   const isFailure = !loading && !isSuccess && !isPending;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-nourx-gray-50 to-white pt-24 sm:pt-32 pb-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-muted to-background pt-24 sm:pt-32 pb-16 px-4">
       <div className="max-w-2xl mx-auto text-center">
-        <div className="bg-white rounded-2xl shadow-lg border border-nourx-gray-200 p-8 sm:p-12 mb-8">
+        <div className="bg-card rounded-2xl shadow-lg border border-border p-8 sm:p-12 mb-8">
           {loading ? (
             <>
               <div className="inline-flex p-6 bg-blue-100 rounded-full mb-6">
                 <Clock className="w-16 h-16 text-blue-600 animate-pulse" />
               </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">Vérification du paiement...</h1>
-              <p className="text-nourx-gray-600">Nous vérifions le statut de votre transaction.</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Vérification du paiement...</h1>
+              <p className="text-muted-foreground">Nous vérifions le statut de votre transaction.</p>
             </>
           ) : isSuccess ? (
             <>
               <div className="inline-flex p-6 bg-green-100 rounded-full mb-6">
                 <CheckCircle className="w-16 h-16 text-green-600" />
               </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">Paiement confirmé</h1>
-              <p className="text-nourx-gray-600">Votre paiement a été validé avec succès.</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Paiement confirmé</h1>
+              <p className="text-muted-foreground">Votre paiement a été validé avec succès.</p>
             </>
           ) : isPending ? (
             <>
               <div className="inline-flex p-6 bg-blue-100 rounded-full mb-6">
                 <Clock className="w-16 h-16 text-blue-600" />
               </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">Paiement en cours</h1>
-              <p className="text-nourx-gray-600">Le traitement peut prendre quelques minutes.</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Paiement en cours</h1>
+              <p className="text-muted-foreground">Le traitement peut prendre quelques minutes.</p>
             </>
           ) : (
             <>
               <div className="inline-flex p-6 bg-red-100 rounded-full mb-6">
                 <XCircle className="w-16 h-16 text-red-600" />
               </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-nourx-black mb-4">Paiement non confirmé</h1>
-              <p className="text-nourx-gray-600">{error || status?.message || 'Le paiement n’a pas pu être confirmé.'}</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Paiement non confirmé</h1>
+              <p className="text-muted-foreground">{error || status?.message || 'Le paiement n’a pas pu être confirmé.'}</p>
             </>
           )}
 
           {/* Transaction info */}
           {transactionId && (
-            <div className="mt-6 text-sm text-nourx-gray-600">
+            <div className="mt-6 text-sm text-muted-foreground">
               <p>ID transaction:</p>
-              <p className="font-mono text-nourx-gray-800">{transactionId}</p>
+              <p className="font-mono text-foreground">{transactionId}</p>
             </div>
           )}
 
-          <div className="bg-nourx-gray-50 rounded-xl p-6 mt-8">
-            <div className="flex items-center gap-2 justify-center text-sm text-nourx-gray-600">
+          <div className="bg-muted rounded-xl p-6 mt-8">
+            <div className="flex items-center gap-2 justify-center text-sm text-muted-foreground">
               <Shield className="w-4 h-4" />
               <span>Transaction protégée par CinetPay</span>
             </div>
@@ -110,7 +110,7 @@ const ConfirmationContent = () => {
             </Button>
           </div>
         </div>
-        <p className="text-sm text-nourx-gray-500">
+        <p className="text-sm text-muted-foreground">
           En cas de problème, contactez notre équipe support via{' '}
           <a href="mailto:support@nourx.dev" className="text-nourx-blue hover:underline">support@nourx.dev</a>
         </p>
@@ -122,10 +122,10 @@ const ConfirmationContent = () => {
 const PaymentConfirmationPage = () => {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-nourx-gray-50 to-white pt-24 sm:pt-32 pb-16 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-muted to-background pt-24 sm:pt-32 pb-16 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-white rounded-2xl shadow-lg border border-nourx-gray-200 p-8 sm:p-12 mb-8">
-            <h1 className="text-2xl font-semibold text-nourx-black">Chargement…</h1>
+          <div className="bg-card rounded-2xl shadow-lg border border-border p-8 sm:p-12 mb-8">
+            <h1 className="text-2xl font-semibold text-foreground">Chargement…</h1>
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
 export default function PolitiqueCookiesPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background">
       {/* Hero */}
       <section className="pt-32 pb-12 px-4">
         <div className="container max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Politique des cookies</h1>
-          <p className="text-nourx-gray-600 text-lg">
+          <p className="text-muted-foreground text-lg">
             Cette politique décrit les cookies utilisés sur le site nourx.dev, leur finalité,
             et vos choix de paramétrage.
           </p>
@@ -14,7 +14,7 @@ export default function PolitiqueCookiesPage() {
 
       {/* Content */}
       <section className="pb-20 px-4">
-        <div className="container max-w-4xl mx-auto space-y-10 text-nourx-gray-700">
+        <div className="container max-w-4xl mx-auto space-y-10 text-muted-foreground">
           <div>
             <h2 className="text-2xl font-semibold mb-3">1. Qu’est-ce qu’un cookie ?</h2>
             <p>
@@ -77,7 +77,7 @@ export default function PolitiqueCookiesPage() {
                 <li>Depuis les réglages de votre navigateur (blocage/suppression des cookies).</li>
                 <li>Via un bandeau ou un centre de préférences cookies lorsque disponible.</li>
               </ul>
-              <p className="text-sm text-nourx-gray-500">
+              <p className="text-sm text-muted-foreground">
                 Note: bloquer certains cookies strictement nécessaires peut dégrader le fonctionnement du site.
               </p>
             </div>
@@ -108,8 +108,8 @@ export default function PolitiqueCookiesPage() {
             </p>
           </div>
 
-          <div className="pt-6 border-t border-nourx-gray-200">
-            <p className="text-sm text-nourx-gray-500">Dernière mise à jour: {new Date().toLocaleDateString('fr-FR')}</p>
+          <div className="pt-6 border-t border-border">
+            <p className="text-sm text-muted-foreground">Dernière mise à jour: {new Date().toLocaleDateString('fr-FR')}</p>
           </div>
         </div>
       </section>

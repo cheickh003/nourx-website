@@ -54,7 +54,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer id="contact" className="bg-nourx-gray-100 border-t border-nourx-gray-200">
+    <footer id="contact" className="bg-muted border-t border-border">
       <div className="container py-8 sm:py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
           {/* Company Info */}
@@ -75,12 +75,12 @@ export default function Footer() {
             <div className="space-y-1 text-xs sm:text-sm">
               <p className="font-medium">Cocody Riviera Golf Cité Riviera Beach, Abidjan</p>
               <p>
-                <a href="tel:+2250720111108" className="hover:text-nourx-blue transition-colors">
+                <a href="tel:+2250720111108" className="hover:text-primary transition-colors">
                   +225 07 20 11 11 08
                 </a>
               </p>
               <p>
-                <a href="mailto:contact@nourx.dev" className="hover:text-nourx-blue transition-colors">
+                <a href="mailto:contact@nourx.dev" className="hover:text-primary transition-colors">
                   contact@nourx.dev
                 </a>
               </p>
@@ -93,7 +93,7 @@ export default function Footer() {
             <ul className="space-y-1 sm:space-y-2">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-nourx-gray-600 hover:text-nourx-black transition-colors">
+                  <Link href={link.href} className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -107,7 +107,7 @@ export default function Footer() {
             <ul className="space-y-1 sm:space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-nourx-gray-600 hover:text-nourx-black transition-colors">
+                  <Link href={link.href} className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -121,7 +121,7 @@ export default function Footer() {
             <ul className="space-y-1 sm:space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-nourx-gray-600 hover:text-nourx-black transition-colors">
+                  <Link href={link.href} className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -131,9 +131,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-nourx-gray-200">
+        <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-nourx-gray-600">
+            <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Nourx. Tous droits réservés.
             </p>
             
@@ -142,7 +142,7 @@ export default function Footer() {
                 <a
                   key={social.name}
                   href={social.href}
-                  className="text-nourx-gray-600 hover:text-nourx-black transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
                   aria-label={social.name}
                 >
                   {social.icon}

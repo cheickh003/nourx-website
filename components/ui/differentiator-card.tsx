@@ -20,10 +20,10 @@ export function DifferentiatorCard({
   return (
     <div
       className={cn(
-        "flex flex-col rounded-lg border border-nourx-gray-200/50",
-        "bg-white shadow-sm",
+        "flex flex-col rounded-lg border border-border",
+        "bg-card shadow-sm",
         "p-6 text-center",
-        "hover:shadow-md hover:border-nourx-gray-200",
+        "hover:shadow-md",
         "max-w-[320px] sm:max-w-[320px]",
         "transition-all duration-300",
         className
@@ -35,18 +35,18 @@ export function DifferentiatorCard({
           <div
             className={`w-16 h-16 rounded-full bg-gradient-to-br ${color} opacity-20 absolute inset-0`}
           />
-          <div className="relative z-10 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border border-nourx-gray-100">
-            <div className="text-nourx-black">{icon}</div>
+          <div className="relative z-10 w-16 h-16 bg-card rounded-full flex items-center justify-center shadow-lg border border-border">
+            <div className="text-foreground">{icon}</div>
           </div>
         </div>
       </div>
 
       {/* Content */}
       <div>
-        <h3 className="text-lg font-semibold text-nourx-black mb-3 leading-tight">
+        <h3 className="text-lg font-semibold text-foreground mb-3 leading-tight">
           {title}
         </h3>
-        <p className="text-sm text-nourx-gray-700 leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-relaxed">
           {description}
         </p>
       </div>

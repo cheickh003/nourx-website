@@ -32,14 +32,14 @@ export default function Hero() {
       <div className="max-w-4xl mx-auto text-center">
         {/* Main Title */}
         <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-nourx-black">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-foreground">
             Votre transformation digitale commence ici
           </h1>
         </div>
 
         {/* Subtitle */}
         <div className={`transition-all duration-1000 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          <p className="text-xl sm:text-2xl text-nourx-gray-600 mb-12 font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-muted-foreground mb-12 font-light max-w-2xl mx-auto leading-relaxed">
             Du conseil stratégique à l&apos;exploitation 24/7
           </p>
         </div>
@@ -49,13 +49,13 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
             <Link 
               href="#contact" 
-              className="px-8 py-4 bg-nourx-black text-white rounded-full font-medium hover:bg-nourx-blue transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               Démarrer mon projet
             </Link>
             <Link 
               href="#services" 
-              className="px-8 py-4 border border-nourx-gray-300 text-nourx-black rounded-full font-medium hover:border-nourx-black transition-all duration-300 hover:scale-105"
+              className="px-8 py-4 border border-input text-foreground rounded-full font-medium hover:bg-accent transition-all duration-300 hover:scale-105"
             >
               Découvrir nos services
             </Link>
@@ -70,10 +70,10 @@ export default function Hero() {
                 key={stat.label}
                 className="text-center group cursor-default"
               >
-                <div className="text-3xl sm:text-4xl font-bold text-nourx-blue mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl sm:text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform duration-300">
                   {stat.value}
                 </div>
-                <div className="text-sm text-nourx-gray-500 tracking-wide">
+                <div className="text-sm text-muted-foreground tracking-wide">
                   {stat.label}
                 </div>
               </div>

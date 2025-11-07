@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
       const normalized = normalizeCIV(phone || '')
       if (normalized) {
         const title = jobTitle && jobTitle.trim() ? jobTitle.trim() : 'Candidature spontanée'
-        const message = `Nourx: Votre candidature pour « ${title} » a été reçue. Un email de confirmation vous a été envoyé. Merci.`
+        const message = `Votre candidature pour « ${title} » a été reçue. Un email de confirmation vous a été envoyé. Merci.`
         const smsResult = await sendSms({
           recipient: normalized,
           message,

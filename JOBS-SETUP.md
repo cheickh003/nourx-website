@@ -2,7 +2,7 @@
 
 ## Vue d'ensemble
 
-Le système de candidature permet aux candidats de postuler en ligne aux offres d'emploi publiées. Les documents (CV, lettres de motivation) sont stockés sur Cloudflare R2 et les candidatures sont envoyées par email aux administrateurs.
+Le système de candidature permet aux candidats de postuler en ligne aux offres d'emploi publiées. Les documents (CV, lettres de motivation) sont stockés sur AWS S3 (anciennement R2) et les candidatures sont envoyées par email aux administrateurs.
 
 ## Architecture
 
@@ -33,11 +33,16 @@ EMAIL_PASS=********
 EMAIL_FROM="Nourx" <no-reply@nourx.dev>
 ADMIN_EMAILS=cheickh@nourx.dev,cheickh.keita@outlook.fr
 
-# Cloudflare R2
-R2_ACCOUNT_ID=xxxxxxxxxxxxxxxxxxxx
-R2_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxx
-R2_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxx
-R2_BUCKET=nourx-candidatures
+# AWS S3 (compatible)
+AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxx
+AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxx
+AWS_REGION=eu-west-3
+AWS_S3_BUCKET=nourx-candidatures
+
+# SMS (SMS Pro Africa)
+SMSPRO_API_TOKEN=xxxxxxxxxxxxxxxxxxxx
+SMS_SENDER_ID=Nourx
+SMS_ENABLED=true
 ```
 
 ### 2. Configuration Cloudflare R2

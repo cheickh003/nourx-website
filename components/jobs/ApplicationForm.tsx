@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast'
 import { Upload, X, CheckCircle2, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { normalizeCIV } from '@/lib/sms'
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024 // 8MB
 const ACCEPTED_FILE_TYPES = [
@@ -24,7 +25,10 @@ const ACCEPTED_FILE_TYPES = [
 const applicationSchema = z.object({
   fullName: z.string().min(2, 'Le nom complet doit contenir au moins 2 caractères'),
   email: z.string().email('Email invalide'),
-  phone: z.string().regex(/^(\+225)?[0-9]{10}$/, 'Numéro de téléphone ivoirien invalide (10 chiffres)'),
+  phone: z
+    .string()
+    .min(7, 'Numéro de téléphone requis')
+    .refine(val => normalizeCIV(val) !== null, 'Numéro de téléphone ivoirien invalide (10 chiffres)'),
   education: z.string().min(1, 'Niveau d\'études requis'),
   experience: z.string().min(1, 'Années d\'expérience requises'),
   location: z.string().min(1, 'Localisation requise'),

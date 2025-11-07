@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getTransporter, getEmailFrom, getAdminEmails } from '@/lib/email'
 import { uploadToS3, getPresignedDownloadUrl, sanitizeFilename } from '@/lib/s3'
 import { generateAdminEmail, generateCandidateEmail } from '@/lib/emailTemplates'
+import { normalizeCIV, sendSms } from '@/lib/sms'
 
 export const runtime = 'nodejs'
 
@@ -150,6 +151,27 @@ export async function POST(request: NextRequest) {
       } catch (e) {
         console.error('Candidate email failed:', e)
       }
+    }
+
+    // Send SMS confirmation (best effort, ne bloque pas la réponse HTTP)
+    try {
+      const normalized = normalizeCIV(phone || '')
+      if (normalized) {
+        const title = jobTitle && jobTitle.trim() ? jobTitle.trim() : 'Candidature spontanée'
+        const message = `Nourx: Votre candidature pour « ${title} » a été reçue. Un email de confirmation vous a été envoyé. Merci.`
+        const smsResult = await sendSms({
+          recipient: normalized,
+          message,
+          // senderId par défaut configuré côté lib (Nourx)
+        })
+        if (!smsResult.ok) {
+          console.error('SMS send failed:', smsResult.status, smsResult.error)
+        }
+      } else {
+        console.error('SMS skipped: invalid phone number input')
+      }
+    } catch (e) {
+      console.error('SMS error:', e)
     }
 
     return NextResponse.json({

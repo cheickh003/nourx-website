@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { inter } from './fonts'
 import { Toaster } from '@/components/ui/toaster'
+import { ScrollbarFix } from '@/components/ScrollbarFix'
 import Header from '@/components/Header'
 import './globals.css'
 
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <body className={inter.className}>
+        <ScrollbarFix />
         <Header />
         {children}
         <Toaster />

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { techLogos } from '@/data/techLogos'
-import { Progress } from '@/components/ui/progress'
 import {
   Tooltip,
   TooltipContent,
@@ -28,29 +27,6 @@ export default function ExpertisePage() {
   ]
 
   const selectedTechs = techLogos.filter(tech => featuredTechs.includes(tech.name))
-
-  const expertise = [
-    {
-      domain: 'Frontend',
-      level: 95,
-      years: 5
-    },
-    {
-      domain: 'Backend',
-      level: 90,
-      years: 5
-    },
-    {
-      domain: 'Mobile',
-      level: 85,
-      years: 4
-    },
-    {
-      domain: 'Cloud & DevOps',
-      level: 80,
-      years: 3
-    }
-  ]
 
   const faq = [
     {
@@ -126,26 +102,6 @@ export default function ExpertisePage() {
       </section>
 
       {/* Expertise Levels */}
-      <section className="py-20 px-4 bg-nourx-gray-50">
-        <div className="container max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-16">
-            Domaines d'Expertise
-          </h2>
-          
-          <div className="space-y-8">
-            {expertise.map((domain) => (
-              <div key={domain.domain}>
-                <div className="flex justify-between items-end mb-3">
-                  <h3 className="text-xl font-semibold">{domain.domain}</h3>
-                  <span className="text-sm text-nourx-gray-600">{domain.years} ans d'expérience</span>
-                </div>
-                <Progress value={domain.level} className="h-2" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Stats Section */}
       <section className="py-20 px-4">
         <div className="container max-w-6xl mx-auto">

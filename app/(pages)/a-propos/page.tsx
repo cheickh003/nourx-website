@@ -1,6 +1,3 @@
-import Image from 'next/image'
-import { Separator } from '@/components/ui/separator'
-import { Badge } from '@/components/ui/badge'
 import { ArrowRight } from 'lucide-react'
 
 export default function AboutPage() {
@@ -47,18 +44,14 @@ export default function AboutPage() {
       {/* Stats Section */}
       <section className="py-20 px-4 bg-nourx-gray-50">
         <div className="container max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
             <div>
-              <p className="text-4xl md:text-5xl font-bold">150+</p>
-              <p className="text-nourx-gray-600 mt-2">Projets réalisés</p>
+              <p className="text-4xl md:text-5xl font-bold">80+</p>
+              <p className="text-nourx-gray-600 mt-2">Projets livrés</p>
             </div>
             <div>
-              <p className="text-4xl md:text-5xl font-bold">50+</p>
+              <p className="text-4xl md:text-5xl font-bold">35+</p>
               <p className="text-nourx-gray-600 mt-2">Clients satisfaits</p>
-            </div>
-            <div>
-              <p className="text-4xl md:text-5xl font-bold">5</p>
-              <p className="text-nourx-gray-600 mt-2">Années d'expertise</p>
             </div>
             <div>
               <p className="text-4xl md:text-5xl font-bold">24/7</p>
@@ -71,22 +64,14 @@ export default function AboutPage() {
       {/* Mission Section */}
       <section className="py-20 px-4">
         <div className="container max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Notre Mission</h2>
-              <p className="text-lg text-nourx-gray-600 leading-relaxed mb-6">
-                Démocratiser l&apos;accès aux technologies de pointe pour permettre à chaque entreprise ivoirienne de prospérer dans l&apos;économie numérique mondiale.
-              </p>
-              <p className="text-lg text-nourx-gray-600 leading-relaxed">
-                Nous croyons que la transformation digitale n'est pas réservée aux grandes entreprises. Notre approche sur mesure et notre expertise locale nous permettent d'accompagner des organisations de toutes tailles.
-              </p>
-            </div>
-            <div className="relative h-96 bg-nourx-gray-100 rounded-lg overflow-hidden">
-              {/* Placeholder pour image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-nourx-gray-400">Image Mission</p>
-              </div>
-            </div>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">Notre Mission</h2>
+            <p className="text-lg md:text-xl text-nourx-gray-600 leading-relaxed mb-6">
+              Démocratiser l'accès aux technologies de pointe pour permettre à chaque entreprise ivoirienne de prospérer dans l'économie numérique mondiale.
+            </p>
+            <p className="text-lg text-nourx-gray-600 leading-relaxed">
+              Nous croyons que la transformation digitale n'est pas réservée aux grandes entreprises. Notre approche sur mesure et notre expertise locale nous permettent d'accompagner des organisations de toutes tailles.
+            </p>
           </div>
         </div>
       </section>

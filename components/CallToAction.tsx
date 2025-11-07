@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Send, MessageCircle, Phone, ArrowRight, Lock, Zap, AlertCircle, CheckCircle, Loader2, User, Mail } from 'lucide-react'
+import { Send, MessageCircle, Phone, ArrowRight, Zap, AlertCircle, CheckCircle, Loader2, User, Mail } from 'lucide-react'
 import { PhoneInput } from '@/components/ui/phone-input'
 import { cn } from '@/lib/utils'
 
@@ -153,17 +153,6 @@ export default function CallToAction() {
                 </a>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="flex items-center gap-6 text-sm text-nourx-gray-600">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span>Disponible maintenant</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Lock className="w-4 h-4" />
-                  <span>100% confidentiel</span>
-                </div>
-              </div>
             </div>
 
             {/* Right Form */}

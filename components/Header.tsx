@@ -10,6 +10,7 @@ const navigation = [
   { name: 'Services', href: '/services' },
   { name: 'Expertise', href: '/expertise' },
   { name: 'Réalisations', href: '/realisations' },
+  { name: 'Carrières', href: '/offres-emploi' },
   { name: 'Contact', href: '/contact' },
 ]
 
@@ -50,77 +51,101 @@ export default function Header() {
         isVisible ? 'translate-y-0' : '-translate-y-full'
       )}
     >
-      <nav className="max-w-6xl mx-auto px-6 sm:px-8 flex items-center justify-center py-5 sm:py-4">
-        {/* Logo */}
-        <Link href="/" className="absolute left-6 sm:left-8 flex items-center">
-          <Image
-            src="/logo-nourx.png"
-            alt="Nourx"
-            width={60}
-            height={20}
-            className="h-4 sm:h-5 w-auto transition-opacity hover:opacity-80"
-            priority
-          />
-        </Link>
+      <nav className="w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-4">
+        {/* Desktop Layout - True centered layout */}
+        <div className="hidden md:block md:max-w-7xl md:mx-auto">
+          <div className="relative flex items-center">
+            {/* Logo - Left */}
+            <div className="w-[180px] flex-shrink-0">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/logo-nourx.png"
+                  alt="Nourx"
+                  width={60}
+                  height={20}
+                  className="h-4 sm:h-5 w-auto transition-opacity hover:opacity-80"
+                  priority
+                />
+              </Link>
+            </div>
 
-        {/* Centered Desktop Navigation */}
-        <div className="hidden md:flex items-center justify-center space-x-8">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="relative text-sm font-medium text-nourx-black/80 hover:text-nourx-black transition-all duration-300 group"
-            >
-              {item.name}
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-nourx-blue transition-all duration-300 group-hover:w-full group-hover:left-0" />
-            </Link>
-          ))}
-        </div>
+            {/* Navigation - Center (flex-1 centers it) */}
+            <div className="flex-1 flex items-center justify-center">
+              <div className="flex items-center space-x-4 lg:space-x-6">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="relative text-sm font-medium text-nourx-black/80 hover:text-nourx-black transition-all duration-300 group whitespace-nowrap"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-nourx-blue transition-all duration-300 group-hover:w-full group-hover:left-0" />
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-        {/* Right CTA */}
-        <div className="absolute right-6 sm:right-8 hidden md:flex items-center gap-3">
-          <Link
-            href="/gerer-mes-services"
-            className="px-4 py-1.5 border border-nourx-blue text-nourx-blue text-xs font-medium rounded-full hover:bg-nourx-blue hover:text-white transition-all duration-300"
-          >
-            Gérer mes services
-          </Link>
-          <Link
-            href="/contact"
-            className="px-6 py-2 bg-nourx-black text-white text-sm font-medium rounded-full hover:bg-nourx-blue transition-all duration-300 hover:scale-105"
-          >
-            Démarrer un projet
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          type="button"
-          className="md:hidden absolute right-6 sm:right-8 p-2"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <span className="sr-only">Menu</span>
-          <div className="w-5 h-4 relative">
-            <span
-              className={cn(
-                'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 top-0',
-                mobileMenuOpen && 'rotate-45 top-1/2 -translate-y-1/2'
-              )}
-            />
-            <span
-              className={cn(
-                'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 top-1/2 -translate-y-1/2',
-                mobileMenuOpen && 'opacity-0'
-              )}
-            />
-            <span
-              className={cn(
-                'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 bottom-0',
-                mobileMenuOpen && '-rotate-45 top-1/2 -translate-y-1/2'
-              )}
-            />
+            {/* CTAs - Right (same width as logo area for perfect balance) */}
+            <div className="w-[280px] flex-shrink-0 flex items-center justify-end gap-2 lg:gap-3">
+              <Link
+                href="/gerer-mes-services"
+                className="px-3 lg:px-4 py-1.5 border border-nourx-blue text-nourx-blue text-xs font-medium rounded-full hover:bg-nourx-blue hover:text-white transition-all duration-300 whitespace-nowrap"
+              >
+                Gérer mes services
+              </Link>
+              <Link
+                href="/contact"
+                className="px-4 lg:px-6 py-2 bg-nourx-black text-white text-sm font-medium rounded-full hover:bg-nourx-blue transition-all duration-300 hover:scale-105 whitespace-nowrap"
+              >
+                Démarrer un projet
+              </Link>
+            </div>
           </div>
-        </button>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="md:hidden flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo-nourx.png"
+              alt="Nourx"
+              width={60}
+              height={20}
+              className="h-4 w-auto transition-opacity hover:opacity-80"
+              priority
+            />
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            className="p-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <span className="sr-only">Menu</span>
+            <div className="w-5 h-4 relative">
+              <span
+                className={cn(
+                  'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 top-0',
+                  mobileMenuOpen && 'rotate-45 top-1/2 -translate-y-1/2'
+                )}
+              />
+              <span
+                className={cn(
+                  'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 top-1/2 -translate-y-1/2',
+                  mobileMenuOpen && 'opacity-0'
+                )}
+              />
+              <span
+                className={cn(
+                  'block absolute h-0.5 w-full bg-nourx-black transition-all duration-300 bottom-0',
+                  mobileMenuOpen && '-rotate-45 top-1/2 -translate-y-1/2'
+                )}
+              />
+            </div>
+          </button>
+        </div>
       </nav>
     </header>
 

@@ -108,7 +108,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: 'Adresse',
-      details: ['Cocody Riviera Golf', 'Cité Riviera Beach', 'Abidjan, Côte d&apos;Ivoire'],
+      details: ['Cocody Riviera Golf', 'Cité Riviera Beach', "Abidjan, Côte d'Ivoire"],
     },
     {
       icon: Phone,

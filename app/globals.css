@@ -35,6 +35,13 @@
 
   body {
     @apply bg-white text-nourx-black antialiased;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  /* Prevent layout shift when modals/popovers open */
+  body.overflow-hidden {
+    padding-right: var(--scrollbar-width, 0px);
   }
 
   ::selection {

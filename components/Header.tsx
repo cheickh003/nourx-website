@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -9,6 +9,7 @@ const navigation = [
   { name: 'À propos', href: '/a-propos' },
   { name: 'Services', href: '/services' },
   { name: 'Expertise', href: '/expertise' },
+  { name: 'Sécurité', href: '/securite' },
   { name: 'Réalisations', href: '/realisations' },
   { name: 'Carrières', href: '/offres-emploi' },
   { name: 'Contact', href: '/contact' },
@@ -200,3 +201,6 @@ export default function Header() {
     </>
   )
 }
+
+
+

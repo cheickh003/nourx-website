@@ -14,9 +14,10 @@ export const testimonials: Testimonial[] = [
   {
     id: '1',
     name: 'Amadou K.',
-    position: 'Directeur Digital',
+    position: 'Directeur digital',
     company: 'E-commerce',
-    content: 'Nourx a transformé notre approche e-commerce. Leur expertise technique et leur compréhension du marché local ont permis de doubler nos ventes en ligne en 6 mois. Un partenaire de confiance pour notre transformation digitale.',
+    content:
+      "Nourx a transformé notre approche e-commerce. Leur expertise technique et leur compréhension du marché local nous ont permis de doubler nos ventes en ligne en six mois. C'est un partenaire de confiance pour notre transformation digitale.",
     rating: 5,
     sector: 'Retail',
   },
@@ -24,45 +25,51 @@ export const testimonials: Testimonial[] = [
     id: '2',
     name: 'Fatou D.',
     position: 'CTO',
-    company: 'Secteur Bancaire',
-    content: 'L\'application mobile développée par Nourx a révolutionné notre relation client. Leur maîtrise de la sécurité et leur réactivité 24/7 nous ont convaincus. Nos clients adorent la nouvelle expérience.',
+    company: 'Secteur bancaire',
+    content:
+      "L'application mobile développée par Nourx a révolutionné notre relation client. Leur maîtrise de la sécurité et leur réactivité 24/7 nous ont convaincus. Nos utilisateurs adorent la nouvelle expérience.",
     rating: 5,
     sector: 'Finance',
   },
   {
     id: '3',
     name: 'Jean-Marc Y.',
-    position: 'Responsable Innovation',
+    position: 'Responsable innovation',
     company: 'Télécommunications',
-    content: 'Le chatbot IA a considérablement amélioré notre service client. Nourx a su intégrer parfaitement l\'IA à nos systèmes existants. Réduction de 40% du temps de traitement des demandes.',
+    content:
+      "Le chatbot IA a considérablement amélioré notre service client. Nourx l'a intégré à nos systèmes existants sans friction et nous avons réduit de 40 % le temps de traitement des demandes.",
     rating: 5,
     sector: 'Télécom',
   },
   {
     id: '4',
     name: 'Marie K.',
-    position: 'Directrice des Opérations',
+    position: 'Directrice des opérations',
     company: 'Industrie',
-    content: 'L\'ERP sur mesure développé par Nourx a optimisé tous nos processus. De la production à la comptabilité, tout est maintenant centralisé et efficace. Un gain de productivité remarquable.',
+    content:
+      "L'ERP sur mesure livré par Nourx a aligné tous nos processus. De la production à la comptabilité, tout est désormais centralisé et fiable. Le gain de productivité est tangible dès le premier mois.",
     rating: 5,
     sector: 'Industrie',
   },
   {
     id: '5',
     name: 'Dr. Kouadio N.',
-    position: 'Responsable Académique',
-    company: 'Enseignement Supérieur',
-    content: 'La plateforme e-learning a permis d\'assurer la continuité pédagogique pour plusieurs milliers d\'étudiants. Nourx a su répondre à nos exigences avec une solution robuste et évolutive.',
+    position: 'Responsable académique',
+    company: 'Enseignement supérieur',
+    content:
+      "La plateforme e-learning a garanti la continuité pédagogique pour plusieurs milliers d'étudiants. Nourx a su répondre à nos exigences avec une solution robuste et évolutive.",
     rating: 5,
     sector: 'Éducation',
   },
   {
     id: '6',
     name: 'Sylvie B.',
-    position: 'Directrice Marketing',
-    company: 'Services Digitaux',
-    content: 'Les dashboards analytics développés nous donnent une vision temps réel de nos KPIs. L\'équipe Nourx a fait preuve d\'une grande expertise en data visualization. Un outil devenu indispensable.',
+    position: 'Directrice marketing',
+    company: 'Services digitaux',
+    content:
+      "Les dashboards analytics livrés par Nourx nous donnent une vision temps réel de nos KPIs. Leur expertise en data visualisation rend l'outil indispensable aux équipes.",
     rating: 5,
     sector: 'Services',
   },
 ]
+

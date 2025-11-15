@@ -7,19 +7,36 @@ import Differentiators from '@/components/Differentiators'
 import Testimonials from '@/components/Testimonials'
 import CallToAction from '@/components/CallToAction'
 import Footer from '@/components/Footer'
+import { AnimatedBlock } from '@/components/AnimatedBlock'
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <Hero />
-      <About />
-      <Services />
-      <ExpertiseRedirect />
-      <Portfolio />
-      <Differentiators />
-      <Testimonials />
-      <CallToAction />
-      <Footer />
+      <AnimatedBlock>
+        <About />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <Services />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <ExpertiseRedirect />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <Portfolio />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <Differentiators />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <Testimonials />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <CallToAction />
+      </AnimatedBlock>
+      <AnimatedBlock>
+        <Footer />
+      </AnimatedBlock>
     </main>
   )
 }

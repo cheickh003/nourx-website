@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const stats = [
   { label: 'Projets livrés', value: '80+' },
@@ -16,15 +18,51 @@ export default function Hero() {
     setIsLoaded(true)
   }, [])
 
+  useEffect(() => {
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion) return
+
+    gsap.registerPlugin(ScrollTrigger)
+
+    const ctx = gsap.context(() => {
+      gsap.to('.bg-blob-1', {
+        yPercent: -18,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      gsap.to('.bg-blob-2', {
+        yPercent: 14,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 pt-24 sm:pt-20">
+    <section className="hero relative min-h-screen flex items-center justify-center px-6 pt-24 sm:pt-20">
       {/* Minimalist Background Blur Animation */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="w-96 h-96 bg-gradient-to-r from-nourx-blue/10 to-purple-500/10 rounded-full blur-3xl animate-gentle-pulse" />
+          <div className="bg-blob-1 w-96 h-96 bg-gradient-to-r from-nourx-blue/10 to-purple-500/10 rounded-full blur-3xl animate-gentle-pulse" />
         </div>
         <div className="absolute bottom-1/3 right-1/3">
-          <div className="w-64 h-64 bg-gradient-to-l from-cyan-400/8 to-nourx-blue/8 rounded-full blur-2xl animate-gentle-float" />
+          <div className="bg-blob-2 w-64 h-64 bg-gradient-to-l from-cyan-400/8 to-nourx-blue/8 rounded-full blur-2xl animate-gentle-float" />
         </div>
       </div>
 

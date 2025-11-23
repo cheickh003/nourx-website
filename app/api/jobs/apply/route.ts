@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
     const education = formData.get('education') as string
     const experience = formData.get('experience') as string
     const location = formData.get('location') as string
+    const salaryExpectation = formData.get('salaryExpectation') as string
     const motivation = formData.get('motivation') as string
 
     // Extract files
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
     const otherFile = formData.get('other') as File | null
 
     // Validation
-    if (!jobId || !jobTitle || !fullName || !email || !phone || !education || !experience || !location || !motivation) {
+    if (!jobId || !jobTitle || !fullName || !email || !phone || !education || !experience || !location || !salaryExpectation || !motivation) {
       return NextResponse.json(
         { error: 'Tous les champs obligatoires doivent être remplis' },
         { status: 400 }
@@ -106,6 +107,7 @@ export async function POST(request: NextRequest) {
       experience,
       availability: 'Immédiate',
       location,
+      salaryExpectation,
       motivation,
       uploadedFiles
     })

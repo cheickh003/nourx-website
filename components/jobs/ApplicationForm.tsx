@@ -32,6 +32,11 @@ const applicationSchema = z.object({
   education: z.string().min(1, 'Niveau d\'études requis'),
   experience: z.string().min(1, 'Années d\'expérience requises'),
   location: z.string().min(1, 'Localisation requise'),
+  salaryExpectation: z
+    .string()
+    .min(1, 'La prétention salariale est requise')
+    .regex(/^\d+$/, 'Veuillez entrer uniquement des chiffres')
+    .refine(val => parseInt(val) >= 50000, 'Le montant minimum est 50 000 FCFA'),
   motivation: z.string().min(100, 'La lettre de motivation doit contenir au moins 100 caractères'),
   consent: z.boolean().refine(val => val === true, {
     message: 'Vous devez accepter le traitement de vos données personnelles'
@@ -104,7 +109,7 @@ export default function ApplicationForm({ job }: ApplicationFormProps) {
         fieldsToValidate = ['fullName', 'email', 'phone']
         break
       case 2:
-        fieldsToValidate = ['education', 'experience', 'location']
+        fieldsToValidate = ['education', 'experience', 'location', 'salaryExpectation']
         break
       case 3:
         if (!files.cv) {
@@ -153,6 +158,7 @@ export default function ApplicationForm({ job }: ApplicationFormProps) {
       formData.append('education', data.education)
       formData.append('experience', data.experience)
       formData.append('location', data.location)
+      formData.append('salaryExpectation', data.salaryExpectation)
       formData.append('motivation', data.motivation)
       
       formData.append('cv', files.cv)
@@ -367,12 +373,30 @@ export default function ApplicationForm({ job }: ApplicationFormProps) {
                     <SelectItem value="koumassi">Koumassi</SelectItem>
                     <SelectItem value="port-bouet">Port-Bouët</SelectItem>
                     <SelectItem value="bingerville">Bingerville</SelectItem>
+                    <SelectItem value="hors-abidjan">Hors Abidjan</SelectItem>
                     <SelectItem value="autre">Autre</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.location && (
                   <p className="text-sm text-red-500 mt-1">{errors.location.message}</p>
                 )}
+              </div>
+
+              <div>
+                <Label htmlFor="salaryExpectation">Prétention salariale (FCFA) *</Label>
+                <Input
+                  id="salaryExpectation"
+                  type="text"
+                  {...register('salaryExpectation')}
+                  placeholder="Ex: 500000"
+                  className={errors.salaryExpectation ? 'border-red-500' : ''}
+                />
+                {errors.salaryExpectation && (
+                  <p className="text-sm text-red-500 mt-1">{errors.salaryExpectation.message}</p>
+                )}
+                <p className="text-xs text-nourx-gray-500 mt-1">
+                  Montant mensuel souhaité en FCFA (sans espaces ni virgules)
+                </p>
               </div>
             </div>
           </div>

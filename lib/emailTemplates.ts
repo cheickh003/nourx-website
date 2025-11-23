@@ -4,6 +4,10 @@ import { fr } from 'date-fns/locale'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://nourx.dev'
 const LOGO_URL = `${SITE_URL}/logo-nourx.png`
 
+function formatSalary(amount: string): string {
+  return parseInt(amount).toLocaleString('fr-FR')
+}
+
 interface AdminEmailData {
   jobTitle: string
   fullName: string
@@ -13,6 +17,7 @@ interface AdminEmailData {
   experience: string
   availability: string
   location: string
+  salaryExpectation: string
   motivation: string
   uploadedFiles: Array<{ name: string; url: string }>
 }
@@ -107,6 +112,10 @@ export function generateAdminEmail(data: AdminEmailData): string {
                   <tr>
                     <td style="font-weight: 600; color: #6c757d; font-size: 14px;">Localisation</td>
                     <td style="color: #212529; font-size: 14px;">${data.location}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: 600; color: #6c757d; font-size: 14px;">Prétention salariale</td>
+                    <td style="color: #212529; font-size: 14px;">${formatSalary(data.salaryExpectation)} FCFA/mois</td>
                   </tr>
                 </table>
               </div>

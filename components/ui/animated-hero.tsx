@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { ArrowRight, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import Link from 'next/link';
 
 function Hero() {
@@ -44,10 +44,10 @@ function Hero() {
           <StatItem number="4" label="Pays couverts" />
         </div>
 
-        {/* Boutons d'action (CTA) */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 animate-fade-in-up delay-300">
+        {/* Bouton d'action (CTA) */}
+        <div className="mt-12 flex items-center justify-center animate-fade-in-up delay-300">
 
-          {/* Bouton Secondaire */}
+          {/* Bouton Contact */}
           <Link href="/contact">
             <button className="group px-6 py-3.5 rounded-xl border border-nourx-gray-200 bg-white text-nourx-gray-700 font-medium hover:border-nourx-gray-300 hover:bg-nourx-gray-50 hover:text-nourx-black transition-all flex items-center gap-2 shadow-sm">
               <span>Discuter de votre projet</span>
@@ -55,13 +55,6 @@ function Hero() {
             </button>
           </Link>
 
-          {/* Bouton Primaire */}
-          <Link href="/contact">
-            <button className="group px-8 py-3.5 rounded-xl bg-nourx-blue text-white font-semibold hover:bg-blue-700 transition-all shadow-xl shadow-nourx-blue/20 active:scale-95 flex items-center gap-2">
-              <span>Commencer maintenant</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </Link>
         </div>
 
       </main>

@@ -382,7 +382,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           style={{ WebkitBackdropFilter: 'blur(12px)' }}
           aria-label="Main navigation header"
         >
-          <div className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo">
+          <Link href="/" className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo" onClick={handleLinkClick}>
             {logoUrl && (
               <img
                 src={logoUrl}
@@ -398,7 +398,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                 NOUR<span className="font-extralight">X</span>
               </div>
             )}
-          </div>
+          </Link>
 
           <button
             ref={toggleBtnRef}

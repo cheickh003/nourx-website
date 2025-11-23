@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 /**
  * Hook pour détecter les media queries et gérer le responsive
@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState<boolean>(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Vérifier si on est côté client
     if (typeof window === 'undefined') {
       return;

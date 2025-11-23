@@ -303,3 +303,10 @@
   .animation-delay-900 { animation-delay: 900ms; }
   .animation-delay-1000 { animation-delay: 1000ms; }
 }
+
+/* Prévenir le flash du menu mobile au chargement */
+.sm-scope.sm-not-initialized .staggered-menu-panel,
+.sm-scope.sm-not-initialized .sm-prelayer {
+  opacity: 0 !important;
+  visibility: hidden;
+}

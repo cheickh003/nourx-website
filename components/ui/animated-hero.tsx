@@ -59,13 +59,6 @@ function Hero() {
 
       </main>
 
-      {/* Badge Flottant en bas à gauche */}
-      <div className="fixed bottom-6 left-6 z-40">
-        <div className="w-10 h-10 bg-nourx-black rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg cursor-pointer hover:scale-110 transition-transform">
-          N
-        </div>
-      </div>
-
       <style jsx>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(20px); }

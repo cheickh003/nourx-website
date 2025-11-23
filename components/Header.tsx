@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import CardNav, { CardNavItem } from './CardNav'
 import StaggeredMenu, { StaggeredMenuItem, StaggeredMenuSocialItem } from './StaggeredMenu'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 const navigation: CardNavItem[] = [
   {
@@ -56,44 +55,46 @@ const socialItems: StaggeredMenuSocialItem[] = [
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const isDesktop = useMediaQuery('(min-width: 1024px)')
-
-  // Afficher CardNav sur desktop, StaggeredMenu sur mobile
-  if (isDesktop) {
-    return (
-      <CardNav
-        logo="/logo-nourx.png"
-        logoAlt="Nourx"
-        items={navigation}
-        baseColor="#FFFFFF"
-        menuColor="#0F172A"
-        buttonBgColor="#111827"
-        buttonTextColor="#FFFFFF"
-        ease="power3.out"
-        ctaLabel="Démarrer un projet"
-        ctaHref="/contact"
-        className="pt-safe"
-      />
-    )
-  }
 
   return (
-    <StaggeredMenu
-      position="left"
-      colors={['#0D0716', '#170D27', '#271E37', '#0066FF']}
-      items={mobileMenuItems}
-      socialItems={socialItems}
-      displaySocials={true}
-      displayItemNumbering={true}
-      logoUrl="/logo-nourx.png"
-      menuButtonColor="#000000"
-      openMenuButtonColor="#000000"
-      accentColor="#0066FF"
-      isFixed={true}
-      changeMenuColorOnOpen={true}
-      isOpen={isMobileMenuOpen}
-      onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      onClose={() => setIsMobileMenuOpen(false)}
-    />
+    <>
+      {/* Desktop Navigation - Hidden on mobile, visible on desktop */}
+      <div className="hidden lg:block">
+        <CardNav
+          logo="/logo-nourx.png"
+          logoAlt="Nourx"
+          items={navigation}
+          baseColor="#FFFFFF"
+          menuColor="#0F172A"
+          buttonBgColor="#111827"
+          buttonTextColor="#FFFFFF"
+          ease="power3.out"
+          ctaLabel="Démarrer un projet"
+          ctaHref="/contact"
+          className="pt-safe"
+        />
+      </div>
+
+      {/* Mobile Navigation - Visible on mobile, hidden on desktop */}
+      <div className="block lg:hidden">
+        <StaggeredMenu
+          position="left"
+          colors={['#0D0716', '#170D27', '#271E37', '#0066FF']}
+          items={mobileMenuItems}
+          socialItems={socialItems}
+          displaySocials={true}
+          displayItemNumbering={true}
+          logoUrl="/logo-nourx.png"
+          menuButtonColor="#000000"
+          openMenuButtonColor="#000000"
+          accentColor="#0066FF"
+          isFixed={true}
+          changeMenuColorOnOpen={true}
+          isOpen={isMobileMenuOpen}
+          onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClose={() => setIsMobileMenuOpen(false)}
+        />
+      </div>
+    </>
   )
 }

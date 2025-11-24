@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createHmac } from 'crypto'
+
 import { getTransporter, getEmailFrom, getAdminEmails } from '@/lib/email'
 import { uploadToS3, getPresignedDownloadUrl, sanitizeFilename } from '@/lib/s3'
 import { generateAdminEmail, generateCandidateEmail } from '@/lib/emailTemplates'
@@ -10,7 +12,7 @@ const MAX_FILE_SIZE = 8 * 1024 * 1024 // 8MB
 const ACCEPTED_MIME_TYPES = [
   'application/pdf',
   'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
 
 export async function POST(request: NextRequest) {
@@ -29,64 +31,75 @@ export async function POST(request: NextRequest) {
     const salaryExpectation = formData.get('salaryExpectation') as string
     const motivation = formData.get('motivation') as string
 
+    const salaryAsNumber = Number.isNaN(Number.parseInt(salaryExpectation, 10))
+      ? undefined
+      : Number.parseInt(salaryExpectation, 10)
+
     // Extract files
     const cvFile = formData.get('cv') as File | null
     const coverLetterFile = formData.get('coverLetter') as File | null
     const otherFile = formData.get('other') as File | null
 
     // Validation
-    if (!jobId || !jobTitle || !fullName || !email || !phone || !education || !experience || !location || !salaryExpectation || !motivation) {
-      return NextResponse.json(
-        { error: 'Tous les champs obligatoires doivent être remplis' },
-        { status: 400 }
-      )
+    if (
+      !jobId ||
+      !jobTitle ||
+      !fullName ||
+      !email ||
+      !phone ||
+      !education ||
+      !experience ||
+      !location ||
+      !salaryExpectation ||
+      !motivation
+    ) {
+      return NextResponse.json({ error: 'Tous les champs obligatoires doivent Ǧtre remplis' }, { status: 400 })
     }
 
     if (!cvFile) {
-      return NextResponse.json(
-        { error: 'Le CV est obligatoire' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Le CV est obligatoire' }, { status: 400 })
     }
 
     // Validate files
     const filesToValidate = [
       { file: cvFile, name: 'CV' },
       ...(coverLetterFile ? [{ file: coverLetterFile, name: 'Lettre de motivation' }] : []),
-      ...(otherFile ? [{ file: otherFile, name: 'Autre document' }] : [])
+      ...(otherFile ? [{ file: otherFile, name: 'Autre document' }] : []),
     ]
 
     for (const { file, name } of filesToValidate) {
       if (file.size > MAX_FILE_SIZE) {
-        return NextResponse.json(
-          { error: `${name}: La taille maximale est de 8 Mo` },
-          { status: 400 }
-        )
+        return NextResponse.json({ error: `${name}: La taille maximale est de 8 Mo` }, { status: 400 })
       }
       if (!ACCEPTED_MIME_TYPES.includes(file.type)) {
         return NextResponse.json(
-          { error: `${name}: Seuls les fichiers PDF, DOC et DOCX sont acceptés` },
-          { status: 400 }
+          { error: `${name}: Seuls les fichiers PDF, DOC et DOCX sont acceptǸs` },
+          { status: 400 },
         )
       }
     }
 
     // Upload files to R2
     const timestamp = Date.now()
-    const uploadedFiles: { name: string; url: string }[] = []
+    const uploadedFiles: { name: string; url: string; contentType?: string; size?: number }[] = []
 
     const cvBuffer = Buffer.from(await cvFile.arrayBuffer())
     const cvKey = `jobs/${jobId}/${timestamp}-${sanitizeFilename(cvFile.name)}`
     await uploadToS3(cvKey, cvBuffer, cvFile.type)
     const cvUrl = await getPresignedDownloadUrl(cvKey)
-    uploadedFiles.push({ name: 'CV', url: cvUrl })
+    uploadedFiles.push({ name: 'CV', url: cvUrl, contentType: cvFile.type, size: cvFile.size })
 
     if (coverLetterFile) {
       const clBuffer = Buffer.from(await coverLetterFile.arrayBuffer())
       const clKey = `jobs/${jobId}/${timestamp}-${sanitizeFilename(coverLetterFile.name)}`
       await uploadToS3(clKey, clBuffer, coverLetterFile.type)
       const clUrl = await getPresignedDownloadUrl(clKey)
-      uploadedFiles.push({ name: 'Lettre de motivation', url: clUrl })
+      uploadedFiles.push({
+        name: 'Lettre de motivation',
+        url: clUrl,
+        contentType: coverLetterFile.type,
+        size: coverLetterFile.size,
+      })
     }
 
     if (otherFile) {
@@ -94,7 +107,12 @@ export async function POST(request: NextRequest) {
       const otherKey = `jobs/${jobId}/${timestamp}-${sanitizeFilename(otherFile.name)}`
       await uploadToS3(otherKey, otherBuffer, otherFile.type)
       const otherUrl = await getPresignedDownloadUrl(otherKey)
-      uploadedFiles.push({ name: 'Autre document', url: otherUrl })
+      uploadedFiles.push({
+        name: 'Autre document',
+        url: otherUrl,
+        contentType: otherFile.type,
+        size: otherFile.size,
+      })
     }
 
     // Generate email templates
@@ -105,17 +123,17 @@ export async function POST(request: NextRequest) {
       phone,
       education,
       experience,
-      availability: 'Immédiate',
+      availability: 'ImmǸdiate',
       location,
       salaryExpectation,
       motivation,
-      uploadedFiles
+      uploadedFiles,
     })
 
     const candidateHtml = generateCandidateEmail({
       fullName,
       jobTitle,
-      availability: 'Immédiate'
+      availability: 'ImmǸdiate',
     })
 
     // Get email configuration
@@ -147,7 +165,7 @@ export async function POST(request: NextRequest) {
         await transporter.sendMail({
           from: emailFrom,
           to: email.trim(),
-          subject: `Candidature reçue - ${jobTitle} - Nourx`,
+          subject: `Candidature re��ue - ${jobTitle} - Nourx`,
           html: candidateHtml,
         })
       } catch (e) {
@@ -155,16 +173,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send SMS confirmation (best effort, ne bloque pas la réponse HTTP)
+    // Send SMS confirmation (best effort, ne bloque pas la rǸponse HTTP)
     try {
       const normalized = normalizeCIV(phone || '')
       if (normalized) {
-        const title = jobTitle && jobTitle.trim() ? jobTitle.trim() : 'Candidature spontanée'
-        const message = `Votre candidature pour « ${title} » a été reçue. Un email de confirmation vous a été envoyé. Merci.`
+        const title = jobTitle && jobTitle.trim() ? jobTitle.trim() : 'Candidature spontanǸe'
+        const message = `Votre candidature pour �� ${title} �� a ǸtǸ re��ue. Un email de confirmation vous a ǸtǸ envoyǸ. Merci.`
         const smsResult = await sendSms({
           recipient: normalized,
           message,
-          // senderId par défaut configuré côté lib (Nourx)
+          // senderId par dǸfaut configurǸ c��tǸ lib (Nourx)
         })
         if (!smsResult.ok) {
           console.error('SMS send failed:', smsResult.status, smsResult.error)
@@ -176,20 +194,63 @@ export async function POST(request: NextRequest) {
       console.error('SMS error:', e)
     }
 
+    // Synchronisation vers le dashboard admin (nourx.app)
+    const ingestUrl = process.env.ADMIN_INGEST_URL
+    const ingestSecret = process.env.ADMIN_INGEST_SECRET
+
+    if (ingestUrl && ingestSecret) {
+      const payload = {
+        jobId,
+        jobTitle,
+        fullName,
+        email,
+        phone,
+        education,
+        experience,
+        location,
+        salaryExpectation: salaryAsNumber,
+        motivation,
+        source: 'nourx.dev',
+        status: 'nouvelle',
+        consentAcceptedAt: new Date().toISOString(),
+        files: uploadedFiles,
+      }
+
+      const body = JSON.stringify(payload)
+      const signature = createHmac('sha256', ingestSecret).update(body).digest('hex')
+
+      try {
+        const res = await fetch(ingestUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-nourx-signature': signature,
+          },
+          body,
+        })
+        if (!res.ok) {
+          const text = await res.text().catch(() => '')
+          console.error('Sync candidature admin échouée', res.status, text)
+        }
+      } catch (err) {
+        console.error('Sync candidature admin impossible', err)
+      }
+    } else {
+      console.warn('ADMIN_INGEST_URL ou ADMIN_INGEST_SECRET non configuré: synchronisation ignorée')
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'Candidature envoyée avec succès'
+      message: 'Candidature envoyǸe avec succ��s',
     })
-
   } catch (error) {
     console.error('Application submission error:', error)
     return NextResponse.json(
-      { 
-        error: 'Erreur lors de l\'envoi de la candidature',
-        details: error instanceof Error ? error.message : 'Erreur inconnue'
+      {
+        error: "Erreur lors de l'envoi de la candidature",
+        details: error instanceof Error ? error.message : 'Erreur inconnue',
       },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
-

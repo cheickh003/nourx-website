@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       !salaryExpectation ||
       !motivation
     ) {
-      return NextResponse.json({ error: 'Tous les champs obligatoires doivent Ǧtre remplis' }, { status: 400 })
+      return NextResponse.json({ error: 'Tous les champs obligatoires doivent être remplis' }, { status: 400 })
     }
 
     if (!cvFile) {
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       }
       if (!ACCEPTED_MIME_TYPES.includes(file.type)) {
         return NextResponse.json(
-          { error: `${name}: Seuls les fichiers PDF, DOC et DOCX sont acceptǸs` },
+          { error: `${name}: Seuls les fichiers PDF, DOC et DOCX sont acceptés` },
           { status: 400 },
         )
       }
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       phone,
       education,
       experience,
-      availability: 'ImmǸdiate',
+      availability: 'Immédiate',
       location,
       salaryExpectation,
       motivation,
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
     const candidateHtml = generateCandidateEmail({
       fullName,
       jobTitle,
-      availability: 'ImmǸdiate',
+      availability: 'Immédiate',
     })
 
     // Get email configuration
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
         await transporter.sendMail({
           from: emailFrom,
           to: email.trim(),
-          subject: `Candidature re��ue - ${jobTitle} - Nourx`,
+          subject: `Candidature reçue - ${jobTitle} - Nourx`,
           html: candidateHtml,
         })
       } catch (e) {
@@ -173,16 +173,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send SMS confirmation (best effort, ne bloque pas la rǸponse HTTP)
+    // Send SMS confirmation (best effort, ne bloque pas la réponse HTTP)
     try {
       const normalized = normalizeCIV(phone || '')
       if (normalized) {
-        const title = jobTitle && jobTitle.trim() ? jobTitle.trim() : 'Candidature spontanǸe'
-        const message = `Votre candidature pour �� ${title} �� a ǸtǸ re��ue. Un email de confirmation vous a ǸtǸ envoyǸ. Merci.`
+        const title = jobTitle && jobTitle.trim() ? jobTitle.trim() : 'Candidature spontanée'
+        const message = `Votre candidature pour "${title}" a été reçue. Un email de confirmation vous a été envoyé. Merci.`
         const smsResult = await sendSms({
           recipient: normalized,
           message,
-          // senderId par dǸfaut configurǸ c��tǸ lib (Nourx)
+          // senderId par défaut configuré côté lib (Nourx)
         })
         if (!smsResult.ok) {
           console.error('SMS send failed:', smsResult.status, smsResult.error)
@@ -241,7 +241,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Candidature envoyǸe avec succ��s',
+      message: 'Candidature envoyée avec succès',
     })
   } catch (error) {
     console.error('Application submission error:', error)

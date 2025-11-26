@@ -1,20 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import { createHmac } from 'crypto'
 
-// Email configuration from environment
-const EMAIL_CONFIG = {
-  host: process.env.EMAIL_HOST || 'mail.spacemail.com',
-  port: parseInt(process.env.EMAIL_PORT || '465'),
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER || 'no-reply@nourx.dev',
-    pass: process.env.EMAIL_PASS || ''
-  }
-}
+// Lazy initialization to avoid build-time errors
+let resendInstance: Resend | null = null
 
-// Create transporter
-const transporter = nodemailer.createTransport(EMAIL_CONFIG)
+function getResend(): Resend {
+  if (!resendInstance) {
+    resendInstance = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resendInstance
+}
 
 // Email template function
 function generateEmailTemplate(data: {
@@ -110,64 +106,64 @@ function generateEmailTemplate(data: {
     <div class="header">
       <a href="https://nourx.dev" class="logo">NOURX</a>
     </div>
-    
+
     <div class="content">
       <h1 style="color: #000000; margin-bottom: 30px;">Nouveau message reçu</h1>
-      
+
       <p style="font-size: 16px; line-height: 1.6; color: #666666;">
         Vous avez reçu un nouveau message via le formulaire de contact du site web.
       </p>
-      
+
       <div class="info-row">
         <span class="info-label">Nom :</span>
         <span class="info-value">${data.name}</span>
       </div>
-      
+
       <div class="info-row">
         <span class="info-label">Email :</span>
         <span class="info-value"><a href="mailto:${data.email}" style="color: #0066FF;">${data.email}</a></span>
       </div>
-      
+
       ${data.phoneNumber ? `
       <div class="info-row">
         <span class="info-label">Téléphone :</span>
         <span class="info-value"><a href="tel:${data.phoneNumber}" style="color: #0066FF;">${data.phoneNumber}</a></span>
       </div>
       ` : ''}
-      
+
       <div class="info-row">
         <span class="info-label">Objet :</span>
         <span class="info-value">${data.subject}</span>
       </div>
-      
+
       <div class="message-box">
         <h3 style="margin-top: 0; color: #333333;">Message :</h3>
         <p style="white-space: pre-wrap; line-height: 1.6;">${data.message}</p>
       </div>
-      
+
       <div style="text-align: center; margin-top: 40px;">
         <a href="mailto:${data.email}?subject=Re: ${data.subject}" class="button">
           Répondre au message
         </a>
       </div>
     </div>
-    
+
     <div class="footer">
       <p style="margin: 10px 0;">
         <strong>Nourx - Votre partenaire digital de A à Z</strong>
       </p>
       <p style="margin: 10px 0;">
         Cocody Riviera Golf Cité Riviera Beach, Abidjan, Côte d'Ivoire<br>
-        <a href="tel:+2250720111108" style="color: #666666;">+225 07 20 11 11 08</a> | 
+        <a href="tel:+2250720111108" style="color: #666666;">+225 07 20 11 11 08</a> |
         <a href="mailto:contact@nourx.dev" style="color: #666666;">contact@nourx.dev</a>
       </p>
-      
+
       <div class="social-links">
         <a href="#">LinkedIn</a>
         <a href="#">Twitter</a>
         <a href="#">GitHub</a>
       </div>
-      
+
       <p style="font-size: 12px; margin-top: 20px; color: #999999;">
         © ${new Date().getFullYear()} Nourx. Tous droits réservés.
       </p>
@@ -197,35 +193,8 @@ Cocody-Riviera Golf, Abidjan, Côte d'Ivoire
   return { html: htmlTemplate, text: textTemplate }
 }
 
-export async function POST(request: NextRequest) {
-  try {
-    const data = await request.json()
-    const { name, email, subject, message, phoneNumber } = data
-
-    if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'Tous les champs sont requis' },
-        { status: 400 }
-      )
-    }
-
-    // Generate email templates
-    const { html, text } = generateEmailTemplate(data)
-
-    // Send email to admin
-    const adminMailOptions = {
-      from: process.env.EMAIL_FROM || '"Nourx Website" <no-reply@nourx.dev>',
-      to: process.env.EMAIL_TO || 'cheickh@nourx.dev',
-      subject: `[Contact Web] ${subject}`,
-      text: text,
-      html: html,
-      replyTo: email
-    }
-
-    await transporter.sendMail(adminMailOptions)
-
-    // Send confirmation email to user
-    const userConfirmationHtml = `
+function generateUserConfirmationHtml(name: string) {
+  return `
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -243,7 +212,7 @@ export async function POST(request: NextRequest) {
   <![endif]-->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-    
+
     body {
       margin: 0;
       padding: 0;
@@ -253,13 +222,13 @@ export async function POST(request: NextRequest) {
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
     }
-    
+
     .email-container {
       max-width: 600px;
       margin: 0 auto;
       background-color: #ffffff;
     }
-    
+
     .header {
       background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
       padding: 60px 20px;
@@ -267,7 +236,7 @@ export async function POST(request: NextRequest) {
       position: relative;
       overflow: hidden;
     }
-    
+
     .header::before {
       content: '';
       position: absolute;
@@ -278,12 +247,12 @@ export async function POST(request: NextRequest) {
       background: radial-gradient(circle, rgba(0,102,255,0.1) 0%, transparent 70%);
       animation: pulse 10s ease-in-out infinite;
     }
-    
+
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 0.5; }
       50% { transform: scale(1.1); opacity: 0.8; }
     }
-    
+
     .logo {
       color: #ffffff;
       font-size: 36px;
@@ -293,7 +262,7 @@ export async function POST(request: NextRequest) {
       position: relative;
       z-index: 1;
     }
-    
+
     .hero-icon {
       width: 80px;
       height: 80px;
@@ -307,26 +276,26 @@ export async function POST(request: NextRequest) {
       position: relative;
       z-index: 1;
     }
-    
+
     .content {
       padding: 50px 40px;
       background-color: #ffffff;
     }
-    
+
     .greeting {
       font-size: 24px;
       font-weight: 600;
       color: #000000;
       margin-bottom: 20px;
     }
-    
+
     .message {
       font-size: 16px;
       line-height: 1.8;
       color: #555555;
       margin-bottom: 30px;
     }
-    
+
     .info-box {
       background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
       border-radius: 12px;
@@ -334,53 +303,53 @@ export async function POST(request: NextRequest) {
       margin: 30px 0;
       border-left: 4px solid #0066FF;
     }
-    
+
     .info-title {
       font-size: 18px;
       font-weight: 600;
       color: #000000;
       margin-bottom: 20px;
     }
-    
+
     .contact-grid {
       display: table;
       width: 100%;
       margin: 20px 0;
     }
-    
+
     .contact-item {
       display: table-row;
     }
-    
+
     .contact-icon {
       display: table-cell;
       width: 40px;
       padding: 10px 0;
       vertical-align: top;
     }
-    
+
     .contact-details {
       display: table-cell;
       padding: 10px 0;
       vertical-align: top;
     }
-    
+
     .contact-label {
       font-weight: 600;
       color: #333333;
       margin-bottom: 5px;
     }
-    
+
     .contact-value {
       color: #0066FF;
       text-decoration: none;
     }
-    
+
     .cta-section {
       text-align: center;
       margin: 40px 0;
     }
-    
+
     .cta-button {
       display: inline-block;
       padding: 16px 40px;
@@ -393,24 +362,24 @@ export async function POST(request: NextRequest) {
       box-shadow: 0 4px 15px rgba(0,102,255,0.3);
       transition: all 0.3s ease;
     }
-    
+
     .cta-button:hover {
       box-shadow: 0 6px 20px rgba(0,102,255,0.4);
     }
-    
+
     .timeline {
       margin: 40px 0;
       padding: 30px;
       background-color: #fafafa;
       border-radius: 12px;
     }
-    
+
     .timeline-item {
       display: flex;
       align-items: flex-start;
       margin-bottom: 20px;
     }
-    
+
     .timeline-dot {
       width: 12px;
       height: 12px;
@@ -420,7 +389,7 @@ export async function POST(request: NextRequest) {
       margin-top: 5px;
       position: relative;
     }
-    
+
     .timeline-dot::after {
       content: '';
       position: absolute;
@@ -430,37 +399,37 @@ export async function POST(request: NextRequest) {
       height: 30px;
       background-color: #e0e0e0;
     }
-    
+
     .timeline-item:last-child .timeline-dot::after {
       display: none;
     }
-    
+
     .timeline-content {
       flex: 1;
     }
-    
+
     .timeline-title {
       font-weight: 600;
       color: #333333;
       margin-bottom: 5px;
     }
-    
+
     .timeline-desc {
       color: #666666;
       font-size: 14px;
     }
-    
+
     .footer {
       background-color: #fafafa;
       padding: 40px;
       text-align: center;
       border-top: 1px solid #e0e0e0;
     }
-    
+
     .social-links {
       margin: 20px 0;
     }
-    
+
     .social-link {
       display: inline-block;
       width: 40px;
@@ -474,39 +443,39 @@ export async function POST(request: NextRequest) {
       color: #666666;
       transition: all 0.3s ease;
     }
-    
+
     .social-link:hover {
       background-color: #0066FF;
       color: #ffffff;
       border-color: #0066FF;
     }
-    
+
     .footer-text {
       color: #999999;
       font-size: 14px;
       margin: 10px 0;
     }
-    
+
     .footer-links {
       margin: 20px 0;
     }
-    
+
     .footer-links a {
       color: #666666;
       text-decoration: none;
       margin: 0 15px;
       font-size: 14px;
     }
-    
+
     @media only screen and (max-width: 600px) {
       .content {
         padding: 30px 20px;
       }
-      
+
       .greeting {
         font-size: 20px;
       }
-      
+
       .cta-button {
         display: block;
         width: 100%;
@@ -526,18 +495,18 @@ export async function POST(request: NextRequest) {
         </svg>
       </div>
     </div>
-    
+
     <div class="content">
       <h1 class="greeting">Bonjour ${name} 👋</h1>
-      
+
       <p class="message">
-        Nous avons bien reçu votre message et nous vous remercions de votre confiance. 
+        Nous avons bien reçu votre message et nous vous remercions de votre confiance.
         Notre équipe d'experts examine actuellement votre demande avec la plus grande attention.
       </p>
-      
+
       <div class="timeline">
         <h3 class="info-title">Prochaines étapes</h3>
-        
+
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
@@ -545,7 +514,7 @@ export async function POST(request: NextRequest) {
             <div class="timeline-desc">Votre demande a été enregistrée</div>
           </div>
         </div>
-        
+
         <div class="timeline-item">
           <div class="timeline-dot" style="background-color: #FFA500;"></div>
           <div class="timeline-content">
@@ -553,7 +522,7 @@ export async function POST(request: NextRequest) {
             <div class="timeline-desc">Notre équipe étudie votre projet</div>
           </div>
         </div>
-        
+
         <div class="timeline-item">
           <div class="timeline-dot" style="background-color: #e0e0e0;"></div>
           <div class="timeline-content">
@@ -562,10 +531,10 @@ export async function POST(request: NextRequest) {
           </div>
         </div>
       </div>
-      
+
       <div class="info-box">
         <h3 class="info-title">Contactez-nous directement</h3>
-        
+
         <div class="contact-grid">
           <div class="contact-item">
             <div class="contact-icon">
@@ -578,7 +547,7 @@ export async function POST(request: NextRequest) {
               <a href="tel:+2250720111108" class="contact-value">+225 07 20 11 11 08</a>
             </div>
           </div>
-          
+
           <div class="contact-item">
             <div class="contact-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -590,7 +559,7 @@ export async function POST(request: NextRequest) {
               <a href="https://wa.me/2250720111108" class="contact-value">+225 07 20 11 11 08</a>
             </div>
           </div>
-          
+
           <div class="contact-item">
             <div class="contact-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -604,30 +573,30 @@ export async function POST(request: NextRequest) {
           </div>
         </div>
       </div>
-      
+
       <div class="cta-section">
         <p style="color: #666666; margin-bottom: 20px;">En attendant notre réponse, découvrez nos services</p>
         <a href="https://nourx.dev/services" class="cta-button">Découvrir nos services</a>
       </div>
     </div>
-    
+
     <div class="footer">
       <div class="social-links">
         <a href="#" class="social-link">in</a>
         <a href="#" class="social-link">tw</a>
         <a href="#" class="social-link">gh</a>
       </div>
-      
+
       <div class="footer-links">
         <a href="https://nourx.dev">Site web</a>
         <a href="https://nourx.dev/about">À propos</a>
         <a href="https://nourx.dev/contact">Contact</a>
       </div>
-      
+
       <p class="footer-text">
         © ${new Date().getFullYear()} Nourx. Tous droits réservés.
       </p>
-      
+
       <p class="footer-text">
         Cocody Riviera Golf Cité Riviera Beach, Abidjan, Côte d'Ivoire
       </p>
@@ -635,17 +604,54 @@ export async function POST(request: NextRequest) {
   </div>
 </body>
 </html>
-    `
+  `
+}
 
-    const userMailOptions = {
-      from: '"Nourx" <no-reply@nourx.dev>',
-      to: email,
+export async function POST(request: NextRequest) {
+  try {
+    const data = await request.json()
+    const { name, email, subject, message, phoneNumber } = data
+
+    if (!name || !email || !subject || !message) {
+      return NextResponse.json(
+        { error: 'Tous les champs sont requis' },
+        { status: 400 }
+      )
+    }
+
+    // Generate email templates
+    const { html, text } = generateEmailTemplate(data)
+    const userConfirmationHtml = generateUserConfirmationHtml(name)
+
+    // Send email to admin
+    const resend = getResend()
+    const adminEmailResult = await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'Nourx Website <no-reply@nourx.dev>',
+      to: [process.env.EMAIL_TO || 'cheickh@nourx.dev'],
+      subject: `[Contact Web] ${subject}`,
+      html: html,
+      text: text,
+      replyTo: email
+    })
+
+    if (adminEmailResult.error) {
+      console.error('Erreur email admin:', adminEmailResult.error)
+      throw new Error(adminEmailResult.error.message)
+    }
+
+    // Send confirmation email to user
+    const userEmailResult = await resend.emails.send({
+      from: 'Nourx <no-reply@nourx.dev>',
+      to: [email],
       subject: 'Confirmation de réception - Nourx',
       html: userConfirmationHtml,
       text: `Bonjour ${name},\n\nNous avons bien reçu votre message et nous vous remercions de votre intérêt pour Nourx.\n\nNotre équipe examinera votre demande et vous répondra dans les 24 heures ouvrables.\n\nCordialement,\nL'équipe Nourx`
-    }
+    })
 
-    await transporter.sendMail(userMailOptions)
+    if (userEmailResult.error) {
+      console.error('Erreur email confirmation:', userEmailResult.error)
+      // Ne pas bloquer si l'email de confirmation échoue
+    }
 
     // Sync to admin dashboard
     try {

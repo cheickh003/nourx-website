@@ -625,9 +625,15 @@ export async function POST(request: NextRequest) {
 
     // Send email to admin
     const resend = getResend()
+    const fromEmail = process.env.EMAIL_FROM?.trim() || 'Nourx Website <no-reply@nourx.dev>'
+    const toEmail = process.env.EMAIL_TO?.trim() || 'cheickh@nourx.dev'
+
+    // Validate from email format
+    const validFrom = fromEmail.includes('@') ? fromEmail : 'Nourx Website <no-reply@nourx.dev>'
+
     const adminEmailResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Nourx Website <no-reply@nourx.dev>',
-      to: [process.env.EMAIL_TO || 'cheickh@nourx.dev'],
+      from: validFrom,
+      to: [toEmail],
       subject: `[Contact Web] ${subject}`,
       html: html,
       text: text,

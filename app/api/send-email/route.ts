@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { createHmac } from 'crypto'
 
 // Email configuration from environment
 const EMAIL_CONFIG = {
@@ -645,6 +646,40 @@ export async function POST(request: NextRequest) {
     }
 
     await transporter.sendMail(userMailOptions)
+
+    // Sync to admin dashboard
+    try {
+      const adminApiUrl = process.env.ADMIN_API_URL
+      const ingestSecret = process.env.ADMIN_INGEST_SECRET
+
+      if (adminApiUrl && ingestSecret) {
+        const contactPayload = {
+          fullName: name,
+          email: email,
+          phone: phoneNumber || undefined,
+          subject: subject,
+          message: message,
+          source: 'nourx.dev',
+        }
+
+        const payloadString = JSON.stringify(contactPayload)
+        const signature = createHmac('sha256', ingestSecret)
+          .update(payloadString)
+          .digest('hex')
+
+        await fetch(`${adminApiUrl}/api/contact/ingest`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-nourx-signature': signature,
+          },
+          body: payloadString,
+        })
+      }
+    } catch (webhookError) {
+      console.error('Erreur webhook contact:', webhookError)
+      // Don't fail the request if webhook fails
+    }
 
     return NextResponse.json({
       success: true,

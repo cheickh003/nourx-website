@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { jobs } from '@/data/jobs'
-import { ArrowLeft, MapPin, Calendar, Briefcase, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { getJobOfferBySlug, getJobSlugs, getJobOffers } from '@/lib/admin-api'
+import { ArrowLeft, MapPin, Calendar, Briefcase, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
@@ -12,16 +12,20 @@ interface PageProps {
   }>
 }
 
+// ISR: Revalidate every 5 minutes
+export const revalidate = 300
+
 export async function generateStaticParams() {
-  return jobs.map((job) => ({
-    jobId: job.id,
+  const slugs = await getJobSlugs()
+  return slugs.map((slug) => ({
+    jobId: slug,
   }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { jobId } = await params
-  const job = jobs.find((j) => j.id === jobId)
-  
+  const job = await getJobOfferBySlug(jobId)
+
   if (!job) {
     return {
       title: 'Offre non trouvée - Nourx',
@@ -36,18 +40,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function JobDetailPage({ params }: PageProps) {
   const { jobId } = await params
-  const job = jobs.find((j) => j.id === jobId)
+  const job = await getJobOfferBySlug(jobId)
 
   if (!job) {
     notFound()
   }
+
+  const isExpired = job.isExpired
+
+  // Get other jobs for the "Other offers" section
+  const allJobs = await getJobOffers()
+  const otherJobs = allJobs
+    .filter((j) => j.slug !== job.slug && !j.isExpired)
+    .slice(0, 3)
 
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="section-padding bg-gradient-to-b from-nourx-gray-50 to-white">
         <div className="container max-w-5xl">
-          <Link 
+          <Link
             href="/offres-emploi"
             className="inline-flex items-center gap-2 text-sm text-nourx-gray-600 hover:text-nourx-black mb-8 transition-colors group"
           >
@@ -56,9 +68,17 @@ export default async function JobDetailPage({ params }: PageProps) {
           </Link>
 
           <div className="animate-fade-in">
+            {/* Expired Badge */}
+            {isExpired && (
+              <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-4 py-2 rounded-lg text-sm font-medium mb-6 w-fit">
+                <AlertCircle className="w-5 h-5" />
+                Cette offre est expirée et n'accepte plus de candidatures
+              </div>
+            )}
+
             {/* Header */}
             <div className="mb-8">
-              <h1 className="heading-2 mb-4">
+              <h1 className={`heading-2 mb-4 ${isExpired ? 'text-nourx-gray-500' : ''}`}>
                 {job.title}
               </h1>
 
@@ -69,35 +89,62 @@ export default async function JobDetailPage({ params }: PageProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <Briefcase className="w-4 h-4" />
-                  <span>{job.type}</span>
+                  <span>{job.contractType}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  <span>
-                    Publié le {format(new Date(job.postedAt), 'dd MMMM yyyy', { locale: fr })}
-                  </span>
-                </div>
+                {job.publishedAt && (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    <span>
+                      Publié le {format(new Date(job.publishedAt), 'dd MMMM yyyy', { locale: fr })}
+                    </span>
+                  </div>
+                )}
+                {job.expiresAt && (
+                  <div className={`flex items-center gap-2 ${isExpired ? 'text-amber-600' : ''}`}>
+                    <Calendar className="w-4 h-4" />
+                    <span>
+                      {isExpired ? 'Expirée le' : 'Expire le'} {format(new Date(job.expiresAt), 'dd MMMM yyyy', { locale: fr })}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* CTA Button */}
-            <div className="bg-nourx-gray-50 border border-nourx-gray-200 rounded-2xl p-6 sm:p-8 mb-8">
+            <div className={`border rounded-2xl p-6 sm:p-8 mb-8 ${
+              isExpired
+                ? 'bg-nourx-gray-50 border-nourx-gray-300'
+                : 'bg-nourx-gray-50 border-nourx-gray-200'
+            }`}>
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-lg font-semibold text-nourx-black mb-2">
-                    Intéressé par ce poste ?
+                    {isExpired ? 'Cette offre n\'est plus disponible' : 'Intéressé par ce poste ?'}
                   </h3>
                   <p className="text-sm text-nourx-gray-600">
-                    Postulez maintenant et rejoignez l&apos;équipe Nourx
+                    {isExpired
+                      ? 'Consultez nos autres offres ou envoyez une candidature spontanée'
+                      : 'Postulez maintenant et rejoignez l\'équipe Nourx'
+                    }
                   </p>
                 </div>
-                <Link
-                  href={`/offres-emploi/postuler?job=${job.id}`}
-                  className="btn-accent whitespace-nowrap flex items-center gap-2 group w-full sm:w-auto justify-center"
-                >
-                  Postuler maintenant
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+                {isExpired ? (
+                  <Link
+                    href="/offres-emploi"
+                    className="btn-secondary whitespace-nowrap flex items-center gap-2 group w-full sm:w-auto justify-center"
+                  >
+                    Voir les offres actives
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/offres-emploi/postuler?job=${job.slug}`}
+                    className="btn-accent whitespace-nowrap flex items-center gap-2 group w-full sm:w-auto justify-center"
+                  >
+                    Postuler maintenant
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -109,7 +156,7 @@ export default async function JobDetailPage({ params }: PageProps) {
         <div className="container max-w-5xl">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className={`lg:col-span-2 space-y-8 ${isExpired ? 'opacity-75' : ''}`}>
               {/* Description */}
               <div className="bg-white border border-nourx-gray-200 rounded-2xl p-6 sm:p-8">
                 <h2 className="text-2xl font-bold text-nourx-black mb-4">
@@ -189,20 +236,37 @@ export default async function JobDetailPage({ params }: PageProps) {
             <div className="lg:col-span-1">
               <div className="sticky top-24 space-y-6">
                 {/* Apply Card */}
-                <div className="bg-nourx-black text-white rounded-2xl p-6">
-                  <h3 className="text-xl font-bold mb-4">
-                    Prêt à postuler ?
-                  </h3>
-                  <p className="text-white/80 text-sm mb-6">
-                    Rejoignez une équipe dynamique et participez à des projets innovants.
-                  </p>
-                  <Link
-                    href={`/offres-emploi/postuler?job=${job.id}`}
-                    className="block w-full text-center px-6 py-3 bg-white text-nourx-black rounded-lg font-medium hover:bg-nourx-gray-100 transition-colors"
-                  >
-                    Postuler
-                  </Link>
-                </div>
+                {isExpired ? (
+                  <div className="bg-nourx-gray-100 text-nourx-gray-600 rounded-2xl p-6">
+                    <h3 className="text-xl font-bold mb-4">
+                      Offre expirée
+                    </h3>
+                    <p className="text-sm mb-6">
+                      Cette offre n'accepte plus de candidatures. Consultez nos autres opportunités.
+                    </p>
+                    <Link
+                      href="/offres-emploi/postuler?spontanee=true"
+                      className="block w-full text-center px-6 py-3 bg-white text-nourx-black border border-nourx-gray-300 rounded-lg font-medium hover:bg-nourx-gray-50 transition-colors"
+                    >
+                      Candidature spontanée
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="bg-nourx-black text-white rounded-2xl p-6">
+                    <h3 className="text-xl font-bold mb-4">
+                      Prêt à postuler ?
+                    </h3>
+                    <p className="text-white/80 text-sm mb-6">
+                      Rejoignez une équipe dynamique et participez à des projets innovants.
+                    </p>
+                    <Link
+                      href={`/offres-emploi/postuler?job=${job.slug}`}
+                      className="block w-full text-center px-6 py-3 bg-white text-nourx-black rounded-lg font-medium hover:bg-nourx-gray-100 transition-colors"
+                    >
+                      Postuler
+                    </Link>
+                  </div>
+                )}
 
                 {/* Job Info Card */}
                 <div className="bg-white border border-nourx-gray-200 rounded-2xl p-6">
@@ -212,7 +276,7 @@ export default async function JobDetailPage({ params }: PageProps) {
                   <div className="space-y-4">
                     <div>
                       <div className="text-xs text-nourx-gray-500 mb-1">Type de contrat</div>
-                      <div className="text-sm font-medium text-nourx-black">{job.type}</div>
+                      <div className="text-sm font-medium text-nourx-black">{job.contractType}</div>
                     </div>
                     <div>
                       <div className="text-xs text-nourx-gray-500 mb-1">Localisation</div>
@@ -222,16 +286,26 @@ export default async function JobDetailPage({ params }: PageProps) {
                       <div className="text-xs text-nourx-gray-500 mb-1">Département</div>
                       <div className="text-sm font-medium text-nourx-black">{job.department}</div>
                     </div>
-                    <div>
-                      <div className="text-xs text-nourx-gray-500 mb-1">Date de publication</div>
-                      <div className="text-sm font-medium text-nourx-black">
-                        {format(new Date(job.postedAt), 'dd MMMM yyyy', { locale: fr })}
+                    {job.publishedAt && (
+                      <div>
+                        <div className="text-xs text-nourx-gray-500 mb-1">Date de publication</div>
+                        <div className="text-sm font-medium text-nourx-black">
+                          {format(new Date(job.publishedAt), 'dd MMMM yyyy', { locale: fr })}
+                        </div>
                       </div>
-                    </div>
+                    )}
+                    {isExpired && job.expiresAt && (
+                      <div>
+                        <div className="text-xs text-amber-600 mb-1">Date d'expiration</div>
+                        <div className="text-sm font-medium text-amber-600">
+                          {format(new Date(job.expiresAt), 'dd MMMM yyyy', { locale: fr })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Share Card - Will be handled client-side if needed */}
+                {/* Share Card */}
                 <div className="bg-nourx-gray-50 border border-nourx-gray-200 rounded-2xl p-6">
                   <h3 className="text-lg font-bold text-nourx-black mb-3">
                     Partager cette offre
@@ -240,7 +314,7 @@ export default async function JobDetailPage({ params }: PageProps) {
                     Vous connaissez quelqu&apos;un qui pourrait être intéressé ? Partagez ce lien :
                   </p>
                   <div className="text-xs text-nourx-gray-600 font-mono bg-white border border-nourx-gray-300 rounded-lg p-3 break-all">
-                    nourx.dev/offres-emploi/{job.id}
+                    nourx.dev/offres-emploi/{job.slug}
                   </div>
                 </div>
               </div>
@@ -248,18 +322,16 @@ export default async function JobDetailPage({ params }: PageProps) {
           </div>
 
           {/* Other Jobs */}
-          <div className="mt-16">
-            <h2 className="text-2xl font-bold text-nourx-black mb-8">
-              Autres offres disponibles
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobs
-                .filter((j) => j.id !== job.id)
-                .slice(0, 3)
-                .map((otherJob) => (
+          {otherJobs.length > 0 && (
+            <div className="mt-16">
+              <h2 className="text-2xl font-bold text-nourx-black mb-8">
+                Autres offres disponibles
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {otherJobs.map((otherJob) => (
                   <Link
-                    key={otherJob.id}
-                    href={`/offres-emploi/${otherJob.id}`}
+                    key={otherJob.slug}
+                    href={`/offres-emploi/${otherJob.slug}`}
                     className="group bg-white border border-nourx-gray-200 rounded-xl p-6 hover:border-nourx-blue/30 hover:shadow-lg transition-all duration-300"
                   >
                     <h3 className="text-lg font-bold text-nourx-black mb-2 group-hover:text-nourx-blue transition-colors">
@@ -275,11 +347,11 @@ export default async function JobDetailPage({ params }: PageProps) {
                     </div>
                   </Link>
                 ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </main>
   )
 }
-

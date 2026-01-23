@@ -2,6 +2,8 @@
  * Client API pour récupérer les offres d'emploi depuis le dashboard admin (nourx.app)
  */
 
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+
 // Types pour les offres d'emploi
 export interface JobOffer {
   id: string;
@@ -37,6 +39,7 @@ const ADMIN_API_KEY = process.env.ADMIN_API_KEY || "";
 const ADMIN_API_TIMEOUT_MS = Number(
   process.env.ADMIN_API_TIMEOUT_MS ?? "5000",
 );
+const IS_PRODUCTION_BUILD = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
 
 async function fetchWithTimeout(
   input: RequestInfo | URL,
@@ -65,6 +68,10 @@ async function fetchWithTimeout(
  * Récupère toutes les offres d'emploi publiées depuis le dashboard
  */
 export async function getJobOffers(): Promise<JobOffer[]> {
+  if (IS_PRODUCTION_BUILD) {
+    return getFallbackJobs();
+  }
+
   try {
     const response = await fetchWithTimeout(`${ADMIN_API_URL}/api/public/jobs`, {
       headers: {
@@ -105,6 +112,10 @@ export async function getJobOffers(): Promise<JobOffer[]> {
 export async function getJobOfferBySlug(
   slug: string,
 ): Promise<JobOffer | null> {
+  if (IS_PRODUCTION_BUILD) {
+    return getFallbackJobBySlug(slug);
+  }
+
   try {
     const response = await fetchWithTimeout(
       `${ADMIN_API_URL}/api/public/jobs/${slug}`,

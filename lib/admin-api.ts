@@ -2,6 +2,8 @@
  * Client API pour récupérer les offres d'emploi depuis le dashboard admin (nourx.app)
  */
 
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+
 // Types pour les offres d'emploi
 export interface JobOffer {
   id: string;
@@ -34,13 +36,44 @@ interface JobDetailResponse {
 // Configuration
 const ADMIN_API_URL = process.env.ADMIN_API_URL || "https://nourx.app";
 const ADMIN_API_KEY = process.env.ADMIN_API_KEY || "";
+const ADMIN_API_TIMEOUT_MS = Number(
+  process.env.ADMIN_API_TIMEOUT_MS ?? "5000",
+);
+const IS_PRODUCTION_BUILD = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
+
+async function fetchWithTimeout(
+  input: RequestInfo | URL,
+  init: RequestInit & { timeoutMs?: number } = {},
+): Promise<Response> {
+  const { timeoutMs = ADMIN_API_TIMEOUT_MS, ...options } = init;
+
+  if (timeoutMs <= 0) {
+    return fetch(input, options);
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(input, {
+      ...options,
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 /**
  * Récupère toutes les offres d'emploi publiées depuis le dashboard
  */
 export async function getJobOffers(): Promise<JobOffer[]> {
+  if (IS_PRODUCTION_BUILD) {
+    return getFallbackJobs();
+  }
+
   try {
-    const response = await fetch(`${ADMIN_API_URL}/api/public/jobs`, {
+    const response = await fetchWithTimeout(`${ADMIN_API_URL}/api/public/jobs`, {
       headers: {
         "x-api-key": ADMIN_API_KEY,
         "Content-Type": "application/json",
@@ -79,16 +112,23 @@ export async function getJobOffers(): Promise<JobOffer[]> {
 export async function getJobOfferBySlug(
   slug: string,
 ): Promise<JobOffer | null> {
+  if (IS_PRODUCTION_BUILD) {
+    return getFallbackJobBySlug(slug);
+  }
+
   try {
-    const response = await fetch(`${ADMIN_API_URL}/api/public/jobs/${slug}`, {
-      headers: {
-        "x-api-key": ADMIN_API_KEY,
-        "Content-Type": "application/json",
+    const response = await fetchWithTimeout(
+      `${ADMIN_API_URL}/api/public/jobs/${slug}`,
+      {
+        headers: {
+          "x-api-key": ADMIN_API_KEY,
+          "Content-Type": "application/json",
+        },
+        next: {
+          revalidate: 300, // Revalidate every 5 minutes (ISR)
+        },
       },
-      next: {
-        revalidate: 300, // Revalidate every 5 minutes (ISR)
-      },
-    });
+    );
 
     if (response.status === 404) {
       return null;

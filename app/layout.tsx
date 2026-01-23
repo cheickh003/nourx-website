@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { inter } from './fonts'
 import { Toaster } from '@/components/ui/toaster'
 import { ScrollbarFix } from '@/components/ScrollbarFix'
 import Header from '@/components/Header'
@@ -25,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={inter.variable}>
-      <body className={inter.className}>
+    <html lang="fr">
+      <body className="font-sans">
         <ScrollbarFix />
         <Header />
         {children}

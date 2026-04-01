@@ -4,7 +4,9 @@
       "Bash(find:*)",
       "Bash(cat:*)",
       "Bash(npx tsc:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(ls:*)",
+      "Bash(wc -l /Users/cheickh/Desktop/CODE/nourx-website/data/*.ts /Users/cheickh/Desktop/CODE/nourx-website/lib/*.ts /Users/cheickh/Desktop/CODE/nourx-website/components/*.tsx)"
     ],
     "deny": [],
     "ask": []

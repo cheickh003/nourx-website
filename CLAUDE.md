@@ -4,236 +4,119 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Nourx website - Modern Next.js application for an ESN (Entreprise de Services du Numérique) based in Abidjan, Côte d'Ivoire. The site showcases digital transformation services, job listings with application system, and integrated payment processing.
+Nourx website — site vitrine et applicatif pour une ESN (Entreprise de Services du Numérique) basée à Abidjan, Côte d'Ivoire. Next.js App Router avec système de candidatures (upload S3/R2), paiements CinetPay (XOF/mobile money), et notifications email/SMS.
 
 ## Essential Commands
 
 ```bash
-# Development
-npm run dev          # Start development server on http://localhost:3000
-
-# Production
-npm run build        # Build for production
-npm start           # Start production server
-
-# Code Quality
-npm run lint        # Run ESLint
-npx tsc --noEmit    # TypeScript type checking
-
-# Testing APIs
-curl -X POST http://localhost:3000/api/send-email -H "Content-Type: application/json" -d '{"name":"Test","email":"test@example.com","phoneNumber":"2250507080910","subject":"Test","message":"Test message"}'
-curl -X POST http://localhost:3000/api/send-sms -H "Content-Type: application/json" -d '{"phoneNumber":"2250507080910","name":"Test","message":"Test SMS"}'
-curl -X POST http://localhost:3000/api/jobs/apply -F "cv=@cv.pdf" -F "motivation=@letter.pdf" -F '{"name":"Test","email":"test@example.com","phoneNumber":"2250507080910","positionId":"1"}'
+npm run dev          # Dev server on http://localhost:3000
+npm run build        # Production build
+npm run lint         # ESLint
+npx tsc --noEmit     # TypeScript type checking
 ```
 
-## Architecture Overview
+No test suite is configured — there are zero test files in the codebase.
+
+## Architecture
 
 ### Tech Stack
-- **Next.js 15.3.5** with App Router
-- **React 19.1.0** with TypeScript 5.8.3
-- **Tailwind CSS** with custom design system
-- **shadcn/ui** components
-- **React Hook Form + Zod** for form validation
-- **Nodemailer** for email sending
-- **AWS SDK** for S3/R2 file uploads
-- **Axios** for SMS API integration
-- **GSAP** for animations
-- **CinetPay** for payment processing
+- **Next.js 15.3.8** (App Router) + **React 19.1.0** + **TypeScript 5.8.3**
+- **Tailwind CSS** + **shadcn/ui** (34 components in `components/ui/`)
+- **GSAP** (CardNav navigation animations) + **Framer Motion** + custom `AnimatedBlock` (Intersection Observer)
+- **React Hook Form + Zod** for all form validation
+- **Resend** for marketing emails (contact forms) + **Nodemailer/SpaceMail** for transactional emails (job applications)
+- **CinetPay** for West African payments (XOF currency, mobile money + card)
+- **AWS S3 / Cloudflare R2** for file uploads (presigned URLs, not public)
+- Custom SMS HTTP API for West African phone numbers
 
-### Complete Routing Structure
-```
-app/
-├── page.tsx                         # Homepage with all sections
-├── (pages)/                          # Route group for individual pages
-│   ├── a-propos/page.tsx            # About page
-│   ├── services/page.tsx            # Services page
-│   ├── expertise/page.tsx           # Expertise/Tech stack page
-│   ├── realisations/page.tsx        # Portfolio page
-│   ├── contact/page.tsx             # Contact page
-│   ├── offres-emploi/                # Jobs section
-│   │   ├── page.tsx                 # Job listings
-│   │   ├── [jobId]/page.tsx         # Job detail page
-│   │   └── postuler/page.tsx        # Multi-step application form
-│   ├── payment/                      # Payment flow
-│   │   ├── page.tsx                 # Payment initiation
-│   │   ├── success/page.tsx         # Success redirect
-│   │   ├── cancel/page.tsx          # Cancel redirect
-│   │   └── confirmation/page.tsx    # Confirmation page
-│   ├── securite/page.tsx             # Security service detail
-│   ├── gerer-mes-services/page.tsx  # Service management
-│   ├── cgv/page.tsx                 # Terms and conditions
-│   ├── mentions-legales/page.tsx    # Legal mentions
-│   ├── politique-de-confidentialite/page.tsx  # Privacy policy
-│   └── politique-cookies/page.tsx   # Cookie policy
-└── api/                              # API routes
-    ├── send-email/route.ts           # Email API endpoint
-    ├── send-sms/route.ts             # SMS API endpoint
-    ├── send-payment-notification/route.ts  # Payment confirmation emails
-    ├── jobs/apply/route.ts           # Job application with file upload
-    ├── cinetpay-checkout/route.ts   # Payment gateway initiation
-    ├── cinetpay-notification/route.ts     # Payment webhooks
-    └── cinetpay-status/route.ts     # Payment status checking
-```
+### Key Architectural Decisions
 
-### Core Library Utilities
-- `lib/email.ts` - Email transporter configuration and management
-- `lib/emailTemplates.ts` - HTML email template generators (15KB)
-- `lib/s3.ts` - AWS S3/Cloudflare R2 integration for file uploads
-- `lib/sms.ts` - SMS sending with retry logic and West African number normalization
-- `lib/services.ts` - Service data and descriptions
-- `lib/west-africa-countries.ts` - 16 West African countries phone support
+1. **No database** — all content is static TypeScript in `data/` (jobs, services, portfolio, testimonials, security)
+2. **Dual email system** — Resend for contact forms (`/api/send-email`), Nodemailer for job applications (`/api/jobs/apply`)
+3. **External admin CRM** — webhooks to `nourx.app` via HMAC-signed requests (`lib/admin-api.ts`)
+4. **Best-effort side effects** — email/SMS/admin-sync failures are logged but never block HTTP responses
+5. **No middleware** — all server logic lives in API route handlers
+6. **Client-side heavy** — most interaction logic on client (validation, animations, form state)
 
-### Key Components
-- `components/` - Homepage sections and shared components
-- `components/ui/` - shadcn/ui primitives + custom phone-input
-- `components/jobs/` - Job application form components
-- `components/AnimatedBlock.tsx` - GSAP scroll animations
-- `components/CardNav.tsx` - Card-based navigation menu
+### Route Structure
 
-### Data Files
-- `data/jobs.ts` - Job listings database (18.5KB)
-- `data/services.ts` - Service definitions (20.9KB)
-- `data/security.ts` - Security service details (3.9KB)
-- `data/portfolio.ts` - Portfolio projects
-- `data/testimonials.ts` - Client testimonials
+All pages under `app/(pages)/` route group which adds the Footer via its own `layout.tsx`. The root `layout.tsx` provides `<Header />`, `<Toaster />`, and `<ScrollbarFix />`.
+
+Key dynamic routes:
+- `offres-emploi/[jobId]` — job detail (with `not-found.tsx` fallback)
+- `services/[slug]` — service detail pages
+- `payment/success` redirects to `payment/confirmation` (configured in `next.config.ts`)
+
+### API Routes Pattern
+
+All 8 API routes in `app/api/` follow consistent patterns:
+- `NextRequest` / `NextResponse` typed handlers
+- Zod schema validation (`schema.parse(json)`)
+- `FormData` for multipart uploads (`/api/jobs/apply`)
+- Try/catch with 400 (validation) / 500 (server) error responses
+
+| Route | Purpose |
+|-------|---------|
+| `send-email` | Contact form → Resend + admin webhook |
+| `send-sms` | SMS notifications |
+| `jobs/apply` | Job applications with S3 file upload + email + SMS |
+| `cinetpay-checkout` | Payment gateway initialization |
+| `cinetpay-notification` | CinetPay webhook (HMAC signed) |
+| `cinetpay-status` | Payment status query |
+| `send-payment-notification` | Post-payment email confirmation |
+| `revalidate` | ISR revalidation endpoint |
+
+### Core Libraries (`lib/`)
+
+- `email.ts` — Nodemailer transporter (SpaceMail SMTP), admin email list from `ADMIN_EMAILS` env var
+- `emailTemplates.ts` — HTML email templates with inline CSS for job application notifications
+- `s3.ts` — S3/R2 client: upload, presigned URLs, filename sanitization
+- `sms.ts` — SMS with retry logic and West African number normalization
+- `admin-api.ts` — HMAC-signed webhook sync to external admin dashboard
+- `services.ts` — Service definitions for payment flow
+- `west-africa-countries.ts` — 131 countries for phone input selector
+- `hooks/useMediaQuery.ts` — responsive breakpoint hook
 
 ### Design System
-Colors in `tailwind.config.js`:
+
+Defined in `tailwind.config.js`:
 - Primary: `nourx-blue: #0066FF`
-- Neutrals: `nourx-black: #000000`, `nourx-white: #FFFFFF`
-- Gray scale: `nourx-gray-50` through `nourx-gray-900`
+- Neutrals: `nourx-black`, `nourx-white`, `nourx-gray-50` through `nourx-gray-900`
+- Custom screens: `xs: 475px`
+- Font: Inter
+- Custom animations: `accordion-down/up`, `marquee`
 
-Typography:
-- Headings: Inter
-- Body: Inter
+Utility classes (in `globals.css`): `section-padding`, `container`, `heading-1/2/3`, `text-body`, `btn-primary/secondary/accent`
 
-Common utility classes:
-- `section-padding`: Standard section padding
-- `container`: Max-width container with auto margins
-- `heading-1/2/3`: Typography utilities
-- `text-body`: Body text styling
-- `btn-primary/secondary/accent`: Button variants
+### Form Handling
 
-## API Integration
-
-### Complete Environment Variables
-Create `.env.local` with:
-```
-# Email Configuration
-EMAIL_HOST=mail.spacemail.com
-EMAIL_PORT=465
-EMAIL_USER=no-reply@nourx.dev
-EMAIL_PASS=[password]
-EMAIL_TO=cheickh@nourx.dev
-
-# SMS Configuration
-SMSPRO_API_TOKEN=[token]
-SMS_SENDER_ID=Nourx
-SMS_ENABLED=true
-
-# AWS S3 / Cloudflare R2
-AWS_REGION=auto
-AWS_S3_BUCKET=nourx-applications
-AWS_ACCESS_KEY_ID=[key]
-AWS_SECRET_ACCESS_KEY=[secret]
-AWS_S3_ENDPOINT=https://[account-id].r2.cloudflarestorage.com
-
-# Payment Gateway (CinetPay)
-CINETPAY_API_KEY=[key]
-CINETPAY_MERCHANT_ID=[id]
-CINETPAY_SITE_ID=[site-id]
-CINETPAY_SECRET_KEY=[secret]
-```
-
-### Job Application System
-- Multi-step form with file uploads (CV, motivation letter, certificates)
-- Files uploaded to S3/R2 with presigned URLs
-- Email notifications to HR and applicant
-- SMS confirmations for West African numbers
-- Maximum file size: 5MB per file, 20MB total
-
-### Payment Integration
-- CinetPay gateway for West African payments
-- Supports mobile money and card payments
-- Webhook notifications for payment status
-- Email confirmations on successful payment
-
-## Form Handling Pattern
-
-All forms use React Hook Form + Zod with consistent validation:
+All forms use React Hook Form + Zod with this pattern:
 ```typescript
-const formSchema = z.object({
-  name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-  email: z.string().email('Email invalide'),
-  phoneNumber: z.string().min(10, 'Le numéro de téléphone doit contenir au moins 10 chiffres'),
-  // File uploads for job applications
-  cv: z.instanceof(File).optional(),
-  motivationLetter: z.instanceof(File).optional()
-})
-
-const form = useForm<z.infer<typeof formSchema>>({
-  resolver: zodResolver(formSchema)
-})
+const schema = z.object({ /* fields */ })
+const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) })
 ```
 
-## Mobile Responsiveness
+File uploads: max 8MB per file, PDF/DOC/DOCX only, validated client + server side. Custom `phone-input` component with country code selector.
 
-Mobile-first design with specific breakpoints:
-- Hero: `text-4xl sm:heading-1` with responsive line breaks
-- Stats: Horizontal scroll on mobile
-- Grids: 2 columns mobile, 3+ desktop
-- Mobile menu: Animated with hamburger toggle
-- Forms: Full-width inputs on mobile
-- File upload: Touch-friendly dropzone
-- Footer: Compact layout on mobile
+## Environment Variables
 
-## Current Features
-
-### Functional Systems
-- Contact forms with SMS/email confirmation
-- Job listings with detailed application system
-- Multi-file upload to S3/R2
-- Payment processing with CinetPay
-- West African phone number support (16 countries)
-- HTML email templates with inline CSS
-- WhatsApp floating button
-- GSAP scroll animations
-- SMS retry logic with exponential backoff
-- Mobile-responsive design
-- Animated sections with scroll triggers
-
-### Key Pages
-- Homepage with 9+ animated sections
-- Complete job portal (listings, details, applications)
-- Payment flow with success/cancel handling
-- Service detail pages
-- Legal pages (CGV, privacy, cookies)
-- All pages use consistent design system
-
-## Known Limitations
-
-- No authentication system
-- No test suite configured
-- Static content (no CMS)
-- Google Maps integration pending
-- Contact form validation is basic (min length only for phone)
-- Placeholder images in portfolio
+Required in `.env.local` (no `.env.example` exists):
+- **Email**: `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS`, `ADMIN_EMAILS`
+- **SMS**: `SMS_API_KEY`, `SMS_SENDER_ID`, `SMS_ENABLED`
+- **S3/R2**: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `AWS_S3_BUCKET`, `AWS_S3_ENDPOINT`
+- **CinetPay**: `CINETPAY_APIKEY`, `CINETPAY_SITE_ID`, `CINETPAY_SECRET_KEY`
+- **Admin**: `ADMIN_API_URL`, `ADMIN_INGEST_SECRET`
 
 ## Development Notes
 
-- Check `.env.local` for all API credentials before testing
-- SMS supports all West African countries with automatic number normalization
-- Job applications require S3/R2 configuration for file uploads
-- Payment testing requires CinetPay sandbox credentials
-- Email templates use inline CSS for maximum compatibility
-- Forms clear on successful submission with toast notifications
-- Mobile menu state managed in Header component
-- File uploads limited to PDF, DOC, DOCX formats
-- Max upload sizes enforced both client and server side
-- Toast notifications use shadcn/ui toaster
+- Build skips external API fetches (Google fonts, admin API) — see commits `77051c7`, `c1f8fef`
+- Resend client is instantiated lazily at runtime to avoid build errors when env vars are missing
+- All content is in French — UI text, error messages, email templates
+- `lang="fr"` set on root `<html>` element
+- Documentation files are in `docs/` directory
 
 ## Additional Documentation
 
-- `IMPLEMENTATION-COMPLETE.md` - Detailed jobs module implementation
-- `JOBS-SETUP.md` - Setup guide for jobs system
-- `PAGES.md` - Page structure documentation
+- `docs/IMPLEMENTATION-COMPLETE.md` — Jobs module implementation details
+- `docs/JOBS-SETUP.md` — Setup guide for jobs system
+- `docs/PAGES.md` — Page structure documentation

@@ -3,25 +3,14 @@
 import React from 'react';
 import { Phone } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 function Hero() {
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-nourx-blue/20 relative">
-      {/* Fond hero: base blanche + texture légère + voile pour préserver le contraste */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-white" />
-        <div className="absolute inset-0 opacity-22">
-          <Image
-            src="/background.png"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[center_top] md:object-[right_top] select-none"
-          />
-        </div>
-        <div className="absolute inset-0 bg-white/78 md:bg-white/72" />
+
+      {/* Fond subtil */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-50/50 rounded-full blur-[100px] opacity-60" />
       </div>
 
       {/* --- HERO CONTENT --- */}
